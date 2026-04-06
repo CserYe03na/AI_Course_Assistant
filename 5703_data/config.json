@@ -6,12 +6,12 @@
   },
   "documents": [
     {
-      "path": "/Users/elainetao/Downloads/gen_ai_project/data/raw/01-Introduction.pdf",
+      "path": "data/raw/01-Introduction.pdf",
       "title": "Introduction",
       "source_type": "slide"
     },
     {
-      "path": "/Users/elainetao/Downloads/gen_ai_project/data/raw/02-Estimation.pdf",
+      "path": "data/raw/02-Estimation.pdf",
       "title": "Estimation",
       "source_type": "slide"
     },
@@ -46,13 +46,108 @@
       "source_type": "slide"
     },
     {
+      "path": "data/raw/08-HypothesisTests-Part2.pdf",
+      "title": "Hypothesis Tests Part 2",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/09-LikelihoodRatioTests.pdf",
+      "title": "Likelihood Ratio Tests",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/10-Normal.pdf",
+      "title": "Normal Distribution",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/11-Regression1.pdf",
+      "title": "Regression 1",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/12-Regression2.pdf",
+      "title": "Regression 2",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/13-Regression3.pdf",
+      "title": "Regression 3",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/14-HierarchicalModels.pdf",
+      "title": "Hierarchical Models",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/15-GLM.pdf",
+      "title": "GLM",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/16-GLM2.pdf",
+      "title": "GLM 2",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/17-SurvivalAnalysis.pdf",
+      "title": "Survival Analysis",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/18-MarkovChains.pdf",
+      "title": "Markov Chains",
+      "source_type": "slide"
+    },
+    {
+      "path": "data/raw/HW2-Solution-HY-1-20260406134008.pdf",
+      "title": "HW2 Solutions",
+      "source_type": "homework"
+    },
+    {
       "path": "data/raw/HW3_Solutions.pdf",
       "title": "HW3 Solutions",
       "source_type": "homework"
     },
     {
-      "path": "data/raw/HW2-Solution-HY-1-20008.pdf",
-      "title": "HW2 Solutions",
+      "path": "data/raw/Midterm-Practice-Solutions.pdf",
+      "title": "Midterm Practice Solutions",
+      "source_type": "homework"
+    },
+    {
+      "path": "data/raw/Midterm-Solutions.pdf",
+      "title": "Midterm Solutions",
+      "source_type": "homework"
+    },
+    {
+      "path": "data/raw/Recitation1-Solutions.pdf",
+      "title": "Recitation 1 Solutions",
+      "source_type": "homework"
+    },
+    {
+      "path": "data/raw/Recitation2-Solutions.pdf",
+      "title": "Recitation 2 Solutions",
+      "source_type": "homework"
+    },
+    {
+      "path": "data/raw/Recitation3-Solutions.pdf",
+      "title": "Recitation 3 Solutions",
+      "source_type": "homework"
+    },
+    {
+      "path": "data/raw/Recitation4-Solutions.pdf",
+      "title": "Recitation 4 Solutions",
+      "source_type": "homework"
+    },
+    {
+      "path": "data/raw/Recitation5-Solutions.pdf",
+      "title": "Recitation 5 Solutions",
+      "source_type": "homework"
+    },
+    {
+      "path": "data/raw/Recitation6-Solutions.pdf",
+      "title": "Recitation 6 Solutions",
       "source_type": "homework"
     }
   ]
