@@ -1,0 +1,3086 @@
+{
+  "course_id": "eods",
+  "course_name": "Elements of Data Science",
+  "documents": [
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p4_c1",
+      "content": "our python data science stack python (3.10): programming language anaconda : package maintenance and environments jupyter : ide git : source control and versioning",
+      "page": 4,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p5_c1",
+      "content": "andi- -bash 80x24 aside: the terminal and the shell the default interactive shell is now zsh to update your account to use zsh, please run chsh -s /bin/zsh' [(base) andis-mbp:~ andi$ conda activate sigma2 (sigma2) andis-mbp:~ andi$ 1s aud _cpi_m_interpolated.csv pictures applications projects chf_cpi_m _interpolated.csv public desktop tradingtechnologies documents excalibur downloads forecasts dropbox git library google-cloud-sdk movies miniconda3 music n1tk_data nzd _cpi_m_interpolated.csv opt [(sigma2) andis-mbp:~ andi$ pip install rise collecting rise downloading rise-5.7.1-py2.py3-none-any.wh1 (4.3 mb) 4.3/4.3 mb 36.3 mb/s eta 0:00:00 requirement already satisfied: notebook>=6.0 in./miniconda3/envs/sigma2/lib/pyt hon3.8/site-packages (from rise) (6.5.2) ] ] for more details, please visit https://support.apple.com/kb/ht208050 if not familiar, get aquainted",
+      "page": 5,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p6_c1",
+      "content": "aside: common shell commands cd : change directory pwd : where am i ls : list directory contents head/tail : print the beginning/end of a le cat : print entire le less : open a le in a pager rm : remove le which : path to executable ..",
+      "page": 6,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p8_c1",
+      "content": "why python? robust and active ds stack cross-platform relatively low learning curve fast to answers and prototypes many other good languages and frameworks (r, julia, etc.)",
+      "page": 8,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p9_c1",
+      "content": "why python? but isn't python slow? issues: dynamic typing the python interpreter does type checking only as code runs, and the type of a variable is allowed to change over its lifetime solutions: numpy + vectorization multiprocessing distributed processing with pyspark?",
+      "page": 9,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p10_c1",
+      "content": "the python ds stack data munging : pandas, numpy visualization : matplotlib, seaborn, plotly statistical analysis : scipy, statsmodels, patsy machine learning : scikit-learn, tensorow, pytorch reporting : jupyter+ipython, dash prototyping : ask productionizing...",
+      "page": 10,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p11_c1",
+      "content": "python 2 vs 3 we'll be using python 3.10 python 2 end of life was jan 1, 2020 need python 2 for another class? virtual environments!",
+      "page": 11,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p13_c1",
+      "content": "why anaconda? python diagram",
+      "page": 13,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p15_c1",
+      "content": "installing anaconda / anaconda navigator download via https://www.anaconda.com/products/individual select os and grab python 3.9 version install somewhere easy to navigate to /home/andi/anaconda3 c:\\users\\andi\\anaconda3 recommend letting installer run conda init to set up your shell note: base environment activated by default to turn off: conda config --set auto_activate_base false",
+      "page": 15,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p16_c1",
+      "content": "running python via terminal: python repl python command line python script ipython repl via jupyter via other ide online via google colab ...",
+      "page": 16,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p17_c1",
+      "content": "running python the default interactive shell is now zsh. diagram",
+      "page": 17,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p18_c1",
+      "content": "running python via command line via script (base) andis-mbp:~$ echo \"print('hello from the other file')\" > /tmp/say_hello.py (base) andis-mbp:~ andi$ python -c \"print('hello')\" hello (base) andis-mbp:~$ python /tmp/say_hello.py hello",
+      "page": 18,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p19_c1",
+      "content": "ipython: interactive python history ( python does this now as well) tab completion ( python does this now as well) \"magic\" commands help via ? ( python has help() as well) (see pdsh ch 1 for more info)",
+      "page": 19,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p20_c1",
+      "content": "andi  ipython: users/andi  ipython  8014 (base) andis-mbp:~ andi$ ipython hello $conda activate if (base) not activated signature: len(obj, /) docstring: return the number of items in a container type: builtin_function_or_method ] ]| ]",
+      "page": 20,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p27_c1",
+      "content": "help with magic commands get information about the %timeit magic function %timeit? get info on all magic functions %magic get list of magic functions %lsmagic",
+      "page": 27,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p28_c1",
+      "content": "ipython notebooks with jupyter jupyter: application that combines code, markup and visualizations interact via web browser notebooks are easily sharable jupyter can run other kernels as well: r, julia, c#, etc to launch via command line: launches dashboard in your default browser ctrl-c to kill server (base) andis-mbp:~ andi$ cd ~/proj (base) andis-mbp:~ andi~/proj$ jupyter notebook",
+      "page": 28,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p32_c1",
+      "content": "how to deal with version issues? virtual environments encapsulate python executable and packages allow for easy experimentation workaround versioning issues two major implementations: virtualenv and conda (we'll be using conda)",
+      "page": 32,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p33_c1",
+      "content": "virtual environments with conda example for creating a new environment called py2 with python=2.7: (base) andis-mbp:~ andi$ conda create -n py2 python = 2.7 .. (base) andis-mbp:~ andi$ conda activate py2 (py2) andis-mbp:~ andi$ which python /users/andi/miniconda3/envs/py2/bin/python",
+      "page": 33,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p34_c1",
+      "content": "(py2) andis-mbp:~ andi$ python --version python 2.7.18 :: anaconda, inc (py2) andis-mbp:~ andi$ conda deactivate (base) andis-mbp:~ andi$ which python /users/andi/miniconda3/bin/python (base) andis-mbp:~ andi$ python --version python 3.10.8",
+      "page": 34,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p35_c1",
+      "content": "managing conda enviroments conda create -n [env_name] conda create -n [env_name] [package] [package]=[version] conda env create --file [requirementsfile].yml conda activate [name] conda deactivate conda env list for more information see: https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manageenvironments.html",
+      "page": 35,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p37_c1",
+      "content": "installing new packages again, don't want to mess with system packages! 1 rst, try conda (with conda-forge): 2 next, try another channel : eg then, try pip: conda install -n [env_name] -c conda-forge [package] conda install -n [env_name] -c bioconda [package] conda activate [env_name] pip install [package]",
+      "page": 37,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p38_c1",
+      "content": "installing new packages again, don't want to mess with system packages! when you can, double check the path to your env 1 rst, try conda (with conda-forge): 2 next, try another channel : eg then, try pip: conda install -n [env_name] -c conda-forge [package] conda install -n [env_name] -c bioconda [package] conda activate [env_name] pip install [package]",
+      "page": 38,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p39_c1",
+      "content": "conda channels: default vs conda-forge channels: locations where packages are stored default: anaconda terms specify only used in non-commercial application conda-forge: where all of the good stuff is anyway conda install -n [env_name] -c conda-forge [package]",
+      "page": 39,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p40_c1",
+      "content": "conda virtual envs and jupyter kernels diagram",
+      "page": 40,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p41_c1",
+      "content": "controlling jupyter kernels to install a new kernel in jupyter: to list kernels: jupyter kernelspec list to remove kernel: jupyter kernelspec uninstall [name] (base) $ conda activate py2 (py2) $ conda install -c conda-forge ipykernel (py2) $ python -m ipykernel install --user --name py2",
+      "page": 41,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p43_c1",
+      "content": "jupyter classic vs jupyterlab qe., hiting a straight line to catal but such models can be eatended to model more complicated data behavio: in this section we wil start with a gulek intutive wait-through af the mathematies behind this well-known problem, before seeing how before moving on to see how linear modeis can be diagram",
+      "page": 43,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p45_c1",
+      "content": "git and github diagram",
+      "page": 45,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week01-data_science_tools.pdf_p48_c1",
+      "content": "getting course material can view online at: tba you'll also want to clone locally: $ cd [your projects folder] $ git clone **tba**",
+      "page": 48,
+      "lecture": "eods-week01-data_science_tools.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p2_c1",
+      "content": "review selections from pdsh chapter 2 read selections from pdsh chapter 3 skim selections from pdsh chapter 4 announcements ofce hours tuesday, 6pm-6:50pm, location: dsi conference room skype, by appointment only, mondays 6pm+ (link to be sent once oh requested)",
+      "page": 2,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p3_c1",
+      "content": "introduction to numpy understanding data types in python the basics of numpy arrays skim: computation on numpy arrays: universal functions aggregations: min, max, and everything in between skim: computation on arrays: broadcasting comparisons, masks, and boolean logic fancy indexing sorting arrays structured data: numpy's structured arrays",
+      "page": 3,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p4_c1",
+      "content": "data manipulation with pandas introducing pandas objects data indexing and selection operating on data in pandas handling missing data hierarchical indexing combining datasets: concat and append combining datasets: merge and join aggregation and grouping pivot tables skim:vectorized string operations working with time series high-performance pandas: eval() and query()",
+      "page": 4,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p12_c1",
+      "content": "python (review?) whitespace formatting dynamic typing basic data types functions string formatting exceptions and try-except truthiness comparisons and logical operators control flow assert sorting list/dict comprehensions importing modules collections module object oriented programming",
+      "page": 12,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p13_c1",
+      "content": "whitespace formatting instead of braces or brackets to delimit blocks, use whitespace # the pound sign marks the start of a comment python itself # ignores the comments, but they're helpful for anyone reading the code for i in [1, 2, 3, 4, 5]: print(i) # first line in \"for i\" block for j in [1, 2, 3, 4, 5]: print(j) # first line in \"for j\" block print(i + j) # last line in \"for j\" block print(i) # last line in \"for i\" block i \" i \" 4 space indentations are conventional style guide : pep 8 ( ) https://www.python.org/dev/peps/pep-0008/",
+      "page": 13,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p14_c1",
+      "content": "dynamic typing diagram",
+      "page": 14,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p17_c1",
+      "content": "basic python data types int (integer): 42 oat : 4.2 , 4e2 bool (boolean): true , false str (string) : 'num 42' , \"num 42\" , \"\"\"multi-line string\"\"\" none (null): none also long , complex , bytes , etc.",
+      "page": 17,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p21_c1",
+      "content": "functions reminder, also in ipython/jupyter: add_two? # show docstring add_two?? # show code as well add_two([shift+tab] # get help in a popup",
+      "page": 21,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p78_c1",
+      "content": "catching exceptions with try -except we did this on purpose, and here's what's wrong: can only concatenate str (not \"int\") to str",
+      "page": 78,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p80_c1",
+      "content": "truthiness boolean: true , false these all translate to false : none [] (empty list) {} (empty dictionary) '' (empty string) set() 0",
+      "page": 80,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p84_c1",
+      "content": "comparison operators diagram",
+      "page": 84,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p86_c1",
+      "content": "comparison operators equality: == inequality: != less than: < greater than: > '(less than/greater than) or equal to: <= , >=",
+      "page": 86,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p92_c1",
+      "content": "logical operators logical operators: and , or , not any() : at least one element is true all() : all elements are true",
+      "page": 92,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p96_c1",
+      "content": "assert use assert to test anything we know should be true simple unit test raises exception when assertion is false, otherwise nothing",
+      "page": 96,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p98_c1",
+      "content": "assert use assert to test anything we know should be true simple unit test raises exception when assertion is false, otherwise nothing ---------------------------------------------------------------------------",
+      "page": 98,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p113_c1",
+      "content": "more control flow: break and continue break : break out of current loop 10 continue : continue immediately to next iteration of loop",
+      "page": 113,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p114_c1",
+      "content": "more control flow: break and continue break : break out of current loop 10 continue : continue immediately to next iteration of loop john julia",
+      "page": 114,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p149_c1",
+      "content": "importing modules want to import a module/library? use import want to import a submodule or function from a module? use from",
+      "page": 149,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p153_c1",
+      "content": "importing modules cont want to import a module using an alias? use 'as' don't do: import * from math import * # for example, what if there is a math.print() function? # what happens when we then call print()?",
+      "page": 153,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p156_c1",
+      "content": "collections module counter : useful for counting hashable objects defaultdict : create dictionaries without checking keys ordereddict : key,value pairs returned in order added others : https://docs.python.org/3.7/library/collections.html",
+      "page": 156,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p162_c1",
+      "content": "collections module cont : defaultdict % xmode minimal 1 # reduce the amount printed when an exception is thrown 2 exception reporting mode: minimal",
+      "page": 162,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p172_c1",
+      "content": "python (review?) dynamic typing whitespace formatting basic data types functions string formatting exceptions and try-except truthiness comparisons and logical operators control flow assert sorting list/dict comprehensions importing modules collections module object oriented programming",
+      "page": 172,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p175_c1",
+      "content": "working with data want to: transform and select data quickly (numpy) manipulate datasets: load, save, group, join, etc (pandas) keep things organized (pandas)",
+      "page": 175,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p177_c1",
+      "content": "intro to numpy diagram",
+      "page": 177,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p180_c1",
+      "content": "python dynamic typing note: still *strongly* typed python is both a strongly typed and a dynamically typed language strong typing means that variables do have a type and that the type matters when performing operations on a variable dynamic typing means that the type of the variable is determined only during runtime.",
+      "page": 180,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p186_c1",
+      "content": "numpy datatypes bool_ boolean (true or false) stored as a byte int_ default integer type (same as c long; normally either int64 or int32) intc identical to c int (normally int32 or int64) intp integer used for indexing (same as c ssize_t; normally either int32 or int64) int8 byte (-128 to 127) int16 integer (-32768 to 32767) int32 integer (-2147483648 to 2147483647) int64 integer (-9223372036854775808 to 9223372036854775807) uint8 unsigned integer (0 to 255) uint16 unsigned integer (0 to 65535) uint32 unsigned integer (0 to 4294967295) uint64 unsigned integer (0 to 18446744073709551615) float_ shorthand for float64 float16 half precision float: sign bit, 5 bits exponent, 10 bits mantissa float32 single precision float: sign bit, 8 bits exponent, 23 bits mantissa float64 double precision float: sign bit, 11 bits exponent, 52 bits mantissa complex_ shorthand for complex128 complex64 complex number, represented by two 32-bit floats complex128 complex number, represented by two 64-bit floats",
+      "page": 186,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week02-python_and_numpy.pdf_p271_c1",
+      "content": "numpy random submodule provides many random sampling functions from numpy.random import .. rand : random oats randint : random integers randn : standard normal distribution permutation : random permutation",
+      "page": 271,
+      "lecture": "eods-week02-python_and_numpy.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p2_c1",
+      "content": "practical statistics for data scientists, chapter 3 ebsco an introduction to seaborn https://seaborn.pydata.org/tutorial/introduction.html (optional) data science from scratch, chapter 5,6,7 ebsco hw1 out this week, includes questions on hypothesis testing",
+      "page": 2,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p7_c1",
+      "content": "intro to pandas diagram",
+      "page": 7,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p33_c1",
+      "content": "pandas dataframe cont year semester measure_1 0 2017 fall 2.1 1 2018 fall 3.0 2 2018 spring 2.4 3 2019 fall 1.9",
+      "page": 33,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p45_c1",
+      "content": "pandas indexing/selection diagram",
+      "page": 45,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p50_c1",
+      "content": "pandas indexing/selection cont. diagram",
+      "page": 50,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p62_c1",
+      "content": "pandas slicing cont. diagram",
+      "page": 62,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p75_c1",
+      "content": "panda selection chaining diagram",
+      "page": 75,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p86_c1",
+      "content": "pandas head and tail diagram",
+      "page": 86,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p107_c1",
+      "content": "exploratory data analysis for a new set of data, would like to know: amount of data (rows, columns) range (min, max) counts of discrete values central tendencies (mean, median) dispersion or spread (variance, iqr) skew covariance and correlation ...",
+      "page": 107,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p109_c1",
+      "content": "loading datasets from csv (comma separated values) columns separated by delimiter, eg comma, tab (\\t), pipe (|) one row per record, observation often, strings quoted often, rst row contains column headings often, comment rows starting with #",
+      "page": 109,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p120_c1",
+      "content": "aside: argument unpacking with * in when calling a function unpacks an iterable, passing each value as an argument want format(2,8) instead of the format((2,8))",
+      "page": 120,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p129_c1",
+      "content": "what are the column datatypes? diagram",
+      "page": 129,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p133_c1",
+      "content": "get summary info for dataframe number of rows number of columns column names, number of lled values, datatypes number of each datatype seen size of dataset in memory",
+      "page": 133,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p136_c1",
+      "content": "variable (observation) types numeric (eg weight, temperature) usually has a zero value describes magnitude categorical (eg class, variety) usually a nite set no order",
+      "page": 136,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p137_c1",
+      "content": "variable (observation) types numeric (eg weight, temperature) usually has a zero value describes magnitude categorical (eg class, variety) usually a nite set no order ordinal (eg like scale, education level, etc.) usually a nite set has order usually missing zero difference between levels may not be the same",
+      "page": 137,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p143_c1",
+      "content": "numeric: central tendency with mean diagram",
+      "page": 143,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p148_c1",
+      "content": "numeric: central tendency with median median divides sorted dataset into two equal sizes 50% of the data is less than or equal to the median",
+      "page": 148,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p150_c1",
+      "content": "numeric: central tendency with median median divides sorted dataset into two equal sizes 50% of the data is less than or equal to the median median is robust to outliers robust: not affected by outliers",
+      "page": 150,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p152_c1",
+      "content": "numeric: quantiles/percentiles quantile: cut point for splitting distribution percentile: % of data is less than or equal to the th percentile",
+      "page": 152,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p157_c1",
+      "content": "numeric: spread with variance diagram",
+      "page": 157,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p161_c1",
+      "content": "numeric: spread with standard deviation diagram",
+      "page": 161,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p165_c1",
+      "content": "numeric: exploring spread with iqr quartiles ~25% of data is  rst quartile, 25th percentile ~50% of data is  second quartile, 50th percentile (median) ~75% of data is  third quartile, 75th percentile",
+      "page": 165,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p166_c1",
+      "content": "numeric: exploring spread with iqr quartiles ~25% of data is  rst quartile, 25th percentile ~50% of data is  second quartile, 50th percentile (median) ~75% of data is  third quartile, 75th percentile can nd quartiles with: pandas quantile or numpy percentile",
+      "page": 166,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p171_c1",
+      "content": "numeric: exploring distribution with skew skewness measures assymetry of distribution around mean indicates tail to left (neg) or right (pos) skew will lead to difference between median and mean",
+      "page": 171,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p173_c1",
+      "content": "numeric: exploring distribution with skew skewness measures assymetry of distribution around mean indicates tail to left (neg) or right (pos) skew will lead to difference between median and mean easier to understand with a plot (histogram/boxplot)...",
+      "page": 173,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p178_c1",
+      "content": "bivariate: evaluating correlation diagram",
+      "page": 178,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p180_c1",
+      "content": "calculating correlation diagram",
+      "page": 180,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p198_c1",
+      "content": "styling dataframes with style diagram",
+      "page": 198,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p200_c1",
+      "content": "plotting via pandas diagram",
+      "page": 200,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p203_c1",
+      "content": "using semi-colon to hide supress \"end of cell print\" diagram",
+      "page": 203,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p205_c1",
+      "content": "manipulating plots with matplotlib diagram",
+      "page": 205,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p213_c1",
+      "content": "matplotlib and dpi diagram",
+      "page": 213,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p215_c1",
+      "content": "matplotlib: subplots, figure and axis 300- diagram",
+      "page": 215,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p217_c1",
+      "content": "matplotlib: sharing axes diagram",
+      "page": 217,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p219_c1",
+      "content": "matplotlib: adding lines and annotations diagram",
+      "page": 219,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p221_c1",
+      "content": "plotting with seaborn diagram",
+      "page": 221,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p224_c1",
+      "content": "univariate distribution: histograms diagram",
+      "page": 224,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p228_c1",
+      "content": "eods-week03-pandas_visualization_dataexploration.pdf page 228 contains a machine learning diagram",
+      "page": 228,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p230_c1",
+      "content": "seaborn styles fare_amount diagram",
+      "page": 230,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p232_c1",
+      "content": "seaborn styles fare_amount fare_amount diagram",
+      "page": 232,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p235_c1",
+      "content": "univariate distributions: boxplot . diagram",
+      "page": 235,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p238_c1",
+      "content": "seaborn: combining plots with subplots diagram",
+      "page": 238,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p240_c1",
+      "content": "other univariate distribution visualizations diagram",
+      "page": 240,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p242_c1",
+      "content": "bivariate: scatterplot (with alpha) 60 - diagram",
+      "page": 242,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p244_c1",
+      "content": "bivariate: add regression line diagram",
+      "page": 244,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p246_c1",
+      "content": "bivariate: joint plot diagram",
+      "page": 246,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p248_c1",
+      "content": "bivariate: joint plot with kde diagram",
+      "page": 248,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p250_c1",
+      "content": "comparing multiple variables with pairplot diagram",
+      "page": 250,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p253_c1",
+      "content": "categorical variables: frequency diagram",
+      "page": 253,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p255_c1",
+      "content": "plotting numeric and categorical diagram",
+      "page": 255,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p257_c1",
+      "content": "plotting with hue diagram",
+      "page": 257,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p259_c1",
+      "content": "same axis, multiple plots with seaborn (with legend) diagram",
+      "page": 259,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p260_c1",
+      "content": "data exploration and viz review central tendencies: mean, median spread: variance, std deviation, iqr correlation: pearson correlation coefcient plotting with matplotlib and seaborn plotting real valued variables: histogram, scatter, regplot plotting categorical variables: count, bar plotting interactions: jointplot, pairplot",
+      "page": 260,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week03-pandas_visualization_dataexploration.pdf_p261_c1",
+      "content": "where to go from here additional dataframe styling with .style() ( ) https://pandas.pydata.org/docs/user_guide/style.html seaborn figure-level plots: relplot , displot , catplot ( ) https://seaborn.pydata.org/tutorial/function_overview.html interactive visuals with plotly ( ) https://plotly.com/python/plotly-fundamentals/",
+      "page": 261,
+      "lecture": "eods-week03-pandas_visualization_dataexploration.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p2_c1",
+      "content": "readings : what is machine learning and introduction to scikit-learn pdsh chap 5 pdsh chap 5 in depth: linear regression pdsh chap 5 in depth: decision trees and random forests recommended pml chap 3 optional pml chap 2 optional pdsh chap 5 in depth: support vector machines",
+      "page": 2,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "decision_tree",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p3_c1",
+      "content": "additional resources statistical rules of thumb, gerald van belle chapter 2 online on the use of p-values the asa's statement on p-values: context, process, and purpose moving to a world beyond 'p < 0.05' 'the 2019 asa guide to p-values and statistical signicance: don't say what you don't mean' (some recommendations)(ii)",
+      "page": 3,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p8_c1",
+      "content": "questions and more questions have web conversions gone up? which ad generates more sales? which headline generates more clicks? did the number of \"likes\" change?",
+      "page": 8,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p11_c1",
+      "content": "mini probability review random variable takes values from an associated probability distribution ex: trip_distance distribution describes probability of values of a random variable : probability  (  ) probability of seeing , takes value in [0,1] ex: p(trip_distance > 1) : conditional probability  (    ) probability of seeing , given some ex: p(trip_distance > 1 | is_weekend == true)",
+      "page": 11,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p12_c1",
+      "content": "population distributions and sampling \"the world\" or \"ground truth\" ex: the length of taxi rides \"a sample\" or \"our data\" ex: the length of taxi rides we saw in jan 2017",
+      "page": 12,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p13_c1",
+      "content": "population distributions and sampling population distribution: the actual distribution out in the world ex: actual distribution of taxi trip lengths random sample: our observations of the true population distrution we hope this does not differ systematically from the true distribution ex: the taxi trip lengths recorded in jan 2017 sample size (n): the number of observations, the larger the better ex: we saw 1,000 trips",
+      "page": 13,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p14_c1",
+      "content": "population dists and sampling population mean vs sample mean: ex: the true mean trip length ( ) vs the one we observed ( ) population std dev.: ex: the true spread of trip length ( ) vs the one we observed ( ) sample statistic: eg mean, median, standard deviation ex: we're interested in mean trip length sampling distribution: distribution of the sample statistic ex: how is mean trip length distributed if we were to repeat our experiment many times?",
+      "page": 14,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p15_c1",
+      "content": "things to know first diagram",
+      "page": 15,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p19_c1",
+      "content": "plot the distribution of our sample diagram",
+      "page": 19,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p25_c1",
+      "content": "generate samples and plot distribution of sample stat. diagram",
+      "page": 25,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p30_c1",
+      "content": "condence intervals typically we only have one sample from the population (experimental results, survey results, etc.) what is the spread of our sample statistic? what other values would it be reasonable to observe?",
+      "page": 30,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p32_c1",
+      "content": "plotting condence intervals with seaborn diagram",
+      "page": 32,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p35_c1",
+      "content": "generate condence intervals bootstrapping: sampling with replacement bootstrap condence interval: create condence interval using bootstrap samples draw a random sample of size from the data record the sample statistic from this random sample repeat 1 and 2 many times for an % ci, nd the trim points to remove of the data from both ends  ( 1 -) 1 2  100 those trim points are the endpoints of the the % bootstrap ci",
+      "page": 35,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p43_c1",
+      "content": "distribution of sample means? diagram",
+      "page": 43,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p49_c1",
+      "content": "plotting distribution of sample means with cis diagram",
+      "page": 49,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p50_c1",
+      "content": "interpreting cis does not tell us: \"the probability that the true value lies within that interval\" tells us: something about the variablity of this statistic tells us: how condent we should be that our parameter lies in the interval if condence intervals are constructed using a given condence level from an innite number of independent sample statistics, the proportion of those intervals that contain the true value of the parameter will be equal to the condence level.",
+      "page": 50,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p52_c1",
+      "content": "interpreting cis diagram",
+      "page": 52,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p54_c1",
+      "content": "hypothesis testing ex: is the average trip longer on weekends compared to weekdays? ex: does one advertisement lead to more sales than another? null hypothesis:  0 there are no differences between two groups alternative hypothesis:  1 there is a difference between two groups experiment: given data, do we accept or reject ?  0 ex: can we say the difference between average trip on weekdays vs weekends isn't random?",
+      "page": 54,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p55_c1",
+      "content": "errors in hypothesis tests false positive diagram",
+      "page": 55,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p56_c1",
+      "content": "errors in hypothesis tests diagram",
+      "page": 56,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p58_c1",
+      "content": "signicance and power = signicance of test or p-value (type i error)  (reject  true)  0  0 probablity of saying things aren't by chance when they are ex: saying trips on weekends are longer, when the difference is random ex: saying ad a was correlated with more sales, when the difference is random",
+      "page": 58,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p61_c1",
+      "content": "ex: trip-distance by weekday vs. weekend diagram",
+      "page": 61,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p62_c1",
+      "content": "ex: trip-distance by weekday vs weekend, dene the metric metric: the measure we're interested in ex: we're interested in a difference of means: weekday",
+      "page": 62,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p64_c1",
+      "content": "ex: trip-distance by weekday vs weekend, dene the metric metric: the measure we're interested in ex: we're interested in a difference of means: weekday weekend is this surprising? should we reject the null? assuming that is true, is this observation surprising?  0",
+      "page": 64,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p65_c1",
+      "content": "permutation test how do we generate additional samples of the difference in means? resampling! need to repeatedly split the data into two groups and take the difference in means one way to do this: combine, permute (reorder) and split",
+      "page": 65,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p66_c1",
+      "content": "permutation test combine groups together (assume is true) 2 permute (reorder) observations 3 create new groups (same sizes as original groups) 4 repeat many times  0 see where our original observation falls in the distribution of sample statistics",
+      "page": 66,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p75_c1",
+      "content": "ex: trip-distance, permutation test continued diagram",
+      "page": 75,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p78_c1",
+      "content": "aside: central limit theorem if all samples are randomly drawn from the same sample population: for reasonably large samples (usually ), the distribution of sample mean is normal regardless of the distribution of 30 the sampling distribution of becomes approximately normal as the the sample size gets large ex: = trip_distance = mean trip_distance = 50",
+      "page": 78,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p80_c1",
+      "content": "aside: what is normal? diagram",
+      "page": 80,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p81_c1",
+      "content": "aside: properties of a normal distribution diagram",
+      "page": 81,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p82_c1",
+      "content": "aside: scipy diagram",
+      "page": 82,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p85_c1",
+      "content": "aside: plotting a standard normal distribution diagram",
+      "page": 85,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p86_c1",
+      "content": "normalization: z-score diagram",
+      "page": 86,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p92_c1",
+      "content": "why use permutation tests? data can be numeric or boolean (ex temperature, conversion, etc) group sizes can be different assumptions about normally distributed data are not needed (with many permutations)",
+      "page": 92,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p93_c1",
+      "content": "a/b tests do one of two treatments produce superior results? testing two prices to determine which generates more prot testing two web headlines to determine which produces more clicks testing two advertisements to see which produces more conversions often used test statistics difference in means difference in counts",
+      "page": 93,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p94_c1",
+      "content": "ex: webpages and sales question: which webpage leads to more sales? potential issue: what if sales are large but infrequent? proxy variable: stand in for true value of interest ex: assume 'time on page' is correlated with sales",
+      "page": 94,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p97_c1",
+      "content": "ex: webpages and sales diagram",
+      "page": 97,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p98_c1",
+      "content": "ex: webpages and sales, dene the metric metric: the measure we're interested in ex: we're interested in a difference of means (page a",
+      "page": 98,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p108_c1",
+      "content": "ex: websites and sales, permutation test continued diagram",
+      "page": 108,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p114_c1",
+      "content": "how sure are we? p-value the probability of nding the observed result, or one more extreme, when the null hypothesis ( ) is true",
+      "page": 114,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p115_c1",
+      "content": "how sure are we? p-value the probability of nding the observed result, or one more extreme, when the null hypothesis ( ) is true 0 does mean :  (data   0 is true)",
+      "page": 115,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p116_c1",
+      "content": "how sure are we? p-value the probability of nding the observed result, or one more extreme, when the null hypothesis ( ) is true 0 does mean :  (data is true) 0 does not mean :  ( is not true  data) 0",
+      "page": 116,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p118_c1",
+      "content": "choosing one-tailed vs two-tailed do we have a strong reason for a one-directional question? one-tailed ex: is \"difference is less than or equal to 0\"  0 need a strong reason otherwise? two-tailed ex: is \"there is no real difference between groups\"  0 more conservative usually a better choice",
+      "page": 118,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p127_c1",
+      "content": "equation based hypothesis test: t-test based on the student-t distribution more involved to describe works for numeric data (can't use it for the next example)",
+      "page": 127,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p129_c1",
+      "content": "equation based hypothesis test: t-test based on the student-t distribution more involved to describe works for numeric data (can't use it for the next example) close to the 0.008 value we found via permutation test",
+      "page": 129,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p130_c1",
+      "content": "choosing alpha ( ): signicance level what we compare our p-value to best to choose this before calculating metrics probability of rejecting the null when it is true (type i error) common values: .1 (error 1 out of 10 times) .05 (error 1 out of 20 times) .01 (error 1 out of 100 times) should depend on how bad a type i (false positive) error is",
+      "page": 130,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p131_c1",
+      "content": "another example: price vs conversion does price a lead to higher conversions than price b? conversion: turning a visit into a sale : conversions for price a  conversions for price b  0 price a does not lead to more conversions : conversions for price a > conversions for price b  1 price a leads to more conversions",
+      "page": 131,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p136_c1",
+      "content": "another example: price vs conversion continued first: choose our : 0.05 reminder of permutation test: get group sizes combine groups together permute observations create two new groups (same sizes as originals) calculate metric repeat many times see where our original observation falls",
+      "page": 136,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p137_c1",
+      "content": "another example: price vs conversion continued what are our samples? 1 = conversion 0 = no conversion how many samples are there?",
+      "page": 137,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p143_c1",
+      "content": "another example: price vs conversion continued diagram",
+      "page": 143,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p151_c1",
+      "content": "statistically signicant? wasserstein & lazar, 09 jun 2016] the asa statement on p-values: context, process, and purpose don't base your conclusions solely on whether an association or effect was found to be 'statistically signicant' (i.e., the p-value passed some arbitrary threshold such as p < 0.05) don't believe an association/effect exists just because it was statistically signicant don't believe an association/effect is absent just because it was not stat don't believe that your p-value: gives the probability that chance alone the probability that your test hypothesis is true produced the observed association/effect or .] don't conclude anything about scientic or practical importance based on statistical signicance (or lack thereof).",
+      "page": 151,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p152_c1",
+      "content": "statistically signicant? wasserstein, schirm & lazar, 20 mar 2019 moving to a world beyond 'p < 0.05' try to avoid 'statistically signicant' ' a ccept uncertainty be t houghtful, o pen, and m odest.' remember ' atom",
+      "page": 152,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p153_c1",
+      "content": "statistically signicant? wasserstein, schirm & lazar, 20 mar 2019 moving to a world beyond 'p < 0.05' try to avoid 'statistically signicant' ' a ccept uncertainty be t houghtful, o pen, and m odest.' remember ' atom ' a: seek better measures, more sensitive designs, larger samples t: begin with clearly expressed objectives t: ask \"what are the practical implications?\" o: : be open/transparent in analysis and communication m: accept limititaions, assumptions, reproduction, recognizing differences in stakes atom",
+      "page": 153,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p154_c1",
+      "content": "issues with multiple testing p-hacking: keep trying comparisons till you nd something that works multiple tests: the more tests you run, the more likely a type 1 error one simple solution: bonferonni correction where is the number of tests",
+      "page": 154,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p155_c1",
+      "content": "comparing more than 2 groups anova need more stats than we have time for multi-armed bandit (mab) can compare many distributions don't need to make assumptions about underlying distributions can also be used for early stopping of experiment",
+      "page": 155,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p156_c1",
+      "content": "multi-armed bandit 10 '20 *50\" diagram",
+      "page": 156,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p157_c1",
+      "content": "greedy mab greedy: do something simple that heads towards the goal 1 pull arm with highest payout but what if there's a better choice, we just haven't seen it yet?",
+      "page": 157,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p158_c1",
+      "content": "exploration vs exploitation diagram",
+      "page": 158,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p160_c1",
+      "content": "-greedy mab choose a small epsilon ( ) between 0 and 1 generate random number between 0 and 1 if <  , choose arm randomly if   , choose best arm goto 1 larger -> more exploration",
+      "page": 160,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p161_c1",
+      "content": "mab example we have three ads we don't know how often each will lead to a response we need to decide which ad to add to each page request",
+      "page": 161,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf_p163_c1",
+      "content": "mab example we have three ads we don't know how often each will lead to a response we need to decide which ad to add to each page request we'll use an -greedy mab to decide which ad to show",
+      "page": 163,
+      "lecture": "eods-week04-confidence_intervals_and_hypothesis_testing.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p2_c1",
+      "content": "readings : recommended: take a look through https://scikit-learn.org/stable/supervised_learning.html reference: pml chapter chap 3 be sure to indicate on which page each question output is displayed be sure to indicate on which page each question output is displayed",
+      "page": 2,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p3_c1",
+      "content": "today intro to machine learning models various types of ml linear models next class one vs rest for multiclass/multilabel classication distance based: knn tree based: decision tree ensembles: bagging, boosting, stacking questions?",
+      "page": 3,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "knn",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p6_c1",
+      "content": "modeling and ml what is a (ml) model? specication of a mathematical (or probabilistic) relationship between different variables what is machine learning? creating and using models that learn from data.",
+      "page": 6,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p10_c1",
+      "content": "data vocabulary for ml classication: can we predict categorical target/label \"class\" from the other columns? regression : can we predict numeric target \"hue\" from the other columns? feature selection : what are the important features when predicting \"hue\"? interpretation : can a model tell us about how the features and target/label interact? clustering : do the observations group together in feature space?",
+      "page": 10,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p12_c1",
+      "content": "data vocabulary for ml diagram",
+      "page": 12,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p16_c1",
+      "content": "variations of ml tasks supervised vs unsupervised is there a target/label? regression vs classication is the target numeric or categorical? prediction vs interpretation generate predictions or understand interactions?",
+      "page": 16,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_tasks",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p17_c1",
+      "content": "variations of ml tasks supervised vs unsupervised is there a target/label? regression vs classication is the target numeric or categorical? prediction vs interpretation generate predictions or understand interactions? model families linear, tree, distance, probability, neural net, ensemble, ...",
+      "page": 17,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_tasks",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p18_c1",
+      "content": "supervised vs unsupervised vs reinforcement learning is there a target, ? yes supervised learning: data consists of pairs (  ,  ) uses: classication, regression ex: what is the relationship between length of ride and tip amount? unsupervised learning: data consists only of (  ) uses: clustering, topic modeling, etc ex: are there any clusters in length of ride? eventually? reinforcement learning after a series of predictions (path) get a reward from a reward function ex: poker player no",
+      "page": 18,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_tasks",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p20_c1",
+      "content": "other learning paradigms do we have a mix of labeled and unlabeled? semi-supervised learning can we use structure of unlabeled data along with labeled?",
+      "page": 20,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p21_c1",
+      "content": "other learning paradigms do we have a mix of labeled and unlabeled? semi-supervised learning can we use structure of unlabeled data along with labeled? will we continue getting new data? online learning is there an oracle (ground truth) we can consult? can we select which points to make predictions on?",
+      "page": 21,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p22_c1",
+      "content": "supervised learning: regression vs classication diagram",
+      "page": 22,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p23_c1",
+      "content": "prediction vs interpretation do we care more about prediction : how good are our predictions? ex: for a given taxi trip, what will the tip size likely be? ex: for a given loan, will there be a default? or, do we care more about interpretation : understanding how relates to ? ex: what happens to tip size as taxi trip length increases? ex: what is the relationship between debt and loan default?",
+      "page": 23,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p24_c1",
+      "content": "model families for supervised learning linear simple/multiple linear regression logistic regression (for classication) support vector machines perceptron tree based decision tree distance based k-nearest neighbor",
+      "page": 24,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "decision_tree",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p25_c1",
+      "content": "model families for supervised learning continued probability naive bayes bayes net ensemble random forest gradient boosted trees stacking network multi-layer perceptron deep neural-networks convolutional neural nets recurrant neural nets transformers",
+      "page": 25,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ensemble",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p27_c1",
+      "content": "example: regression with a linear model diagram",
+      "page": 27,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p29_c1",
+      "content": "aside: correlation diagram",
+      "page": 29,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p30_c1",
+      "content": "obligitory correlation vs. causation diagram",
+      "page": 30,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p31_c1",
+      "content": "spurious correlation correlation: 99.2696 (r=0.992558) diagram",
+      "page": 31,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p32_c1",
+      "content": "aside: correlation could calculate pearson correlation coefcient assumes normally distributed data! (which is not true here) on the effects of non-normality on the distribution of the sample product-moment correlation coefcient",
+      "page": 32,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p33_c1",
+      "content": "aside: correlation could calculate pearson correlation coefcient assumes normally distributed data! (which is not true here) on the effects of non-normality on the distribution of the sample product-moment correlation coefcient pearsonr : 0.64",
+      "page": 33,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p34_c1",
+      "content": "aside: correlation could calculate pearson correlation coefcient assumes normally distributed data! (which is not true here) on the effects of non-normality on the distribution of the sample product-moment correlation coefcient we know that as proline goes up alcohol goes up, but by how much? pearsonr : 0.64",
+      "page": 34,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p35_c1",
+      "content": "python modeling libraries diagram",
+      "page": 35,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p36_c1",
+      "content": "aside: mlxtend and conda-forge diagram",
+      "page": 36,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p38_c1",
+      "content": "in-class 20 multiple choice questions 5 short answers topics to concentrate on conda virtual environment assert numpy indexing list comprehension pandas series and dataframes indexing boolean indexing quantiles correlation",
+      "page": 38,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p40_c1",
+      "content": "simple linear regression diagram",
+      "page": 40,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p41_c1",
+      "content": "simple linear regression vertical offset diagram",
+      "page": 41,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p42_c1",
+      "content": "finding and with ordinary least squares  1  0 diagram",
+      "page": 42,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p43_c1",
+      "content": "aside: gradient descent want to maximize or minimize something (ex: squared error) gradient : direction, vector of partial derivatives can get complicated, often estimated gradient descent : take steps wrt the direction of the gradient maximize : in the direction of the gradient minimize : in the opposite direction of the gradient global maximum/minimum : the single best solution local maximum/minimum : the best solution in the neighborhood",
+      "page": 43,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p44_c1",
+      "content": "aside: gradient descent cont. diagram",
+      "page": 44,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p63_c1",
+      "content": "plotting the model . diagram",
+      "page": 63,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p64_c1",
+      "content": "multiple linear regression 5 diagram",
+      "page": 64,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p67_c1",
+      "content": "multiple linear regression in scikit-learn if we hold everything else constant, what effect does each variable have? if hue is held constant, a rise of 1 proline -> rise of .002 in alcohol if proline is held constant, a rise of 1 hue -> decrease of .842 in alcohol can add interaction terms to allow both to move at the same time: ex: hue * proline more complicated to interpret",
+      "page": 67,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p71_c1",
+      "content": "dealing with the intercept/bias diagram",
+      "page": 71,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p76_c1",
+      "content": "standardizing/normalizing features for interpretation 13.5 diagram",
+      "page": 76,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p79_c1",
+      "content": "standardizing/normalizing features for gradient descent diagram",
+      "page": 79,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p84_c1",
+      "content": "multiple linear regression with standardization/normalization 13.5 diagram",
+      "page": 84,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p85_c1",
+      "content": "aside: apply(axis=), rows vs columns diagram",
+      "page": 85,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p86_c1",
+      "content": "colinarity mlr assumes features are linearly independent can't rewrite one column as a weighted sum of the others ex: at a restaurant, \"proportion of people ordering pasta\" likely not related to \"table size\"? linearly dependent ex: \"number of entrees ordered\" and \"table size\" issue: with linearly dependent features, the model won't know how to estimate if we add to one and subtract from another, there will be no change in error try to remove obvious colinearity can use correlation and linear regression to detect important to consider when constructing categorical features (feature engineering)",
+      "page": 86,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p87_c1",
+      "content": "colinarity diagram",
+      "page": 87,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p88_c1",
+      "content": "aside: interpretation vs prediction interpretation: explain how observed features relate to observed target prediction: given a new observation, can we generate a prediction often asked to do one or the other, be clear which is most important in prediction, may not worry about interpreting the model! in general, there is increased attention on interpretability",
+      "page": 88,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p90_c1",
+      "content": "classication so far: regression -> predict a numeric value next: classication -> predict a discrete category/class binary classication : two categories pos/neg, cat/dog, win/lose multiclass classication : more than two categories/classes red/green/blue, ower type, integer 0-10 multilabel classication : can assign more than one label to an instance paper topics, entities in image",
+      "page": 90,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p96_c1",
+      "content": "classifying wine with a linear model diagram",
+      "page": 96,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p99_c1",
+      "content": "logistic regression diagram",
+      "page": 99,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p104_c1",
+      "content": "logistic regression with sklearn diagram",
+      "page": 104,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p106_c1",
+      "content": "adding the threshold can treat the output of the logistic function as  (  = 1 |  ) threshold at .5 (50%) to get class prediction",
+      "page": 106,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p107_c1",
+      "content": "adding the threshold diagram",
+      "page": 107,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p109_c1",
+      "content": "getting predictions from sklearn diagram",
+      "page": 109,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p114_c1",
+      "content": "getting probabilities from sklearn diagram",
+      "page": 114,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p115_c1",
+      "content": "interpreting logistic regression coecients diagram",
+      "page": 115,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p120_c1",
+      "content": "logistic regression: plot decision regions diagram",
+      "page": 120,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p122_c1",
+      "content": "linearly seperable data + diagram",
+      "page": 122,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p123_c1",
+      "content": "which boundary to choose? support vector machines (svms) x2 diagram",
+      "page": 123,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p124_c1",
+      "content": "svm hyperparameter c diagram",
+      "page": 124,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p126_c1",
+      "content": "svm with sklearn diagram",
+      "page": 126,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p127_c1",
+      "content": "non-linear boundaries with svms kernel trick diagram",
+      "page": 127,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p129_c1",
+      "content": "from perceptron to articial neural network diagram",
+      "page": 129,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p130_c1",
+      "content": "perceptron: early neuron model diagram",
+      "page": 130,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p132_c1",
+      "content": "perceptron in sklearn diagram",
+      "page": 132,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p133_c1",
+      "content": "perceptron to adaline w, diagram",
+      "page": 133,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p134_c1",
+      "content": "adaline to logistic regression predicted class label diagram",
+      "page": 134,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p135_c1",
+      "content": "components of single layer neural net weight diagram",
+      "page": 135,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p136_c1",
+      "content": "multi-layer neural network diagram",
+      "page": 136,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p137_c1",
+      "content": "complex optimization space diagram",
+      "page": 137,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p138_c1",
+      "content": "activation functions diagram",
+      "page": 138,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week05-intro_to_machine_learning_models.pdf_p140_c1",
+      "content": "multi-layer perceptron with sklearn diagram",
+      "page": 140,
+      "lecture": "eods-week05-intro_to_machine_learning_models.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p2_c1",
+      "content": "readings: pdsh 05.03 hyperparameters and model validation recommended: pml chapter 6 (except for pipelines) and sklearn model selection reference: pml chapter chap 3, 7, and sklearn",
+      "page": 2,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p3_c1",
+      "content": "today review linear models distance based: knn tree based: decision tree ensembles: bagging, boosting, stacking multiclass/multilabel and one vs rest classication model review questions?",
+      "page": 3,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "knn",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p10_c1",
+      "content": "distance based: k-nearest neighbor (knn) diagram",
+      "page": 10,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p12_c1",
+      "content": "knn in sklearn diagram",
+      "page": 12,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p14_c1",
+      "content": "eects of standardization on distance based methods diagram",
+      "page": 14,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p16_c1",
+      "content": "curse of dimensionality cont. diagram",
+      "page": 16,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p17_c1",
+      "content": "regression with knn approximates the association between independent variables and the continuous outcome by averaging the observations in the same neighbourhood.",
+      "page": 17,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "knn",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p18_c1",
+      "content": "regression with knn diagram",
+      "page": 18,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p19_c1",
+      "content": "decision tree diagram",
+      "page": 19,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p21_c1",
+      "content": "decision tree classier in sklearn diagram",
+      "page": 21,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p22_c1",
+      "content": "building a decision tree how to decide which question to choose (eg should i choose question a or b)? reduce impurity",
+      "page": 22,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "decision_tree",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p23_c1",
+      "content": "building a decision tree (40,40) diagram",
+      "page": 23,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p24_c1",
+      "content": "plot learned decision tree using sklearn diagram",
+      "page": 24,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p25_c1",
+      "content": "plot learned decision tree using sklearn value = [59, 71] diagram",
+      "page": 25,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p27_c1",
+      "content": "decision tree: increase maximum depth diagram",
+      "page": 27,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p29_c1",
+      "content": "plot learned decision tree using sklearn samples = 69 value = [2, 67] diagram",
+      "page": 29,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p31_c1",
+      "content": "regression with decision trees diagram",
+      "page": 31,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p32_c1",
+      "content": "ensemble methods \"wisdom of the crowd\" can often achieve better performance with collection of learners often use shallow trees as base learners",
+      "page": 32,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "ensemble",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p33_c1",
+      "content": "ensemble methods \"wisdom of the crowd\" can often achieve better performance with collection of learners often use shallow trees as base learners common methods for generating ensembles: bagging (bootstrap aggregation) random forest boosting gradient boosting stacking",
+      "page": 33,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "ensemble",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p34_c1",
+      "content": "random forest and gradient boosted trees freez trees diagram",
+      "page": 34,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p35_c1",
+      "content": "bagging with random forests ... diagram",
+      "page": 35,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p37_c1",
+      "content": "random forests with sklearn diagram",
+      "page": 37,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p39_c1",
+      "content": "regression with randomforests diagram",
+      "page": 39,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p40_c1",
+      "content": "gradient boosted trees diagram",
+      "page": 40,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p42_c1",
+      "content": "gradient boosted trees in sklearn diagram",
+      "page": 42,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p44_c1",
+      "content": "regression with gradient boosted trees diagram",
+      "page": 44,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p45_c1",
+      "content": "stacking diagram",
+      "page": 45,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p47_c1",
+      "content": "stacking for classication diagram",
+      "page": 47,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p49_c1",
+      "content": "stacking for regression diagram",
+      "page": 49,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p52_c1",
+      "content": "multiclass and multilabel multiclass classication : more than two categories/classes red/green/blue, ower type, integer 0-10 multilabel classication : can assign more than one category to an instance paper topics, entities in image multiclass-multilabel/multitask classication : >1 one property with >2 one categories type of fruit and color of fruit multioutput regression : more than one numeric targets temperature and humidity see sklearn docs ( https://scikit-learn.org/stable/modules/multiclass.html#)",
+      "page": 52,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p56_c1",
+      "content": "rest (ovr) classication for multiclass what about other models (eg perceptron)? can use any binary classier for multiclass classication by training multiple models: model 1 : class 1 vs (class 2 and class 3) model 2 : class 2 vs (class 1 and class 3) predict using the model with highest , or distance from boundary, or .. (  =   ) then model 3 : class 3 vs (class 1 and class 2)",
+      "page": 56,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p59_c1",
+      "content": "ovr for logistic regression diagram",
+      "page": 59,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p67_c1",
+      "content": "model review: simple/multiple linear regression diagram",
+      "page": 67,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p68_c1",
+      "content": "model review: logistic regression diagram",
+      "page": 68,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p69_c1",
+      "content": "model review: support vector machine (svm) wtx = 0 4 + diagram",
+      "page": 69,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p70_c1",
+      "content": "model review: multi-layer perceptron diagram",
+      "page": 70,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p71_c1",
+      "content": "model review: k nearest neighbor (knn) diagram",
+      "page": 71,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p72_c1",
+      "content": "model review: decision tree sunny rainy diagram",
+      "page": 72,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p73_c1",
+      "content": "model review: random forest (ensemble via bagging) diagram",
+      "page": 73,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p74_c1",
+      "content": "model review: gradient boosted trees (ensemble via boosting) diagram",
+      "page": 74,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p75_c1",
+      "content": "model review: ensemble via stacking diagram",
+      "page": 75,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p76_c1",
+      "content": "neural networks (aka deep learning) hidden layer 1 hidden layer 2 hidden layer 3 diagram",
+      "page": 76,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week06-intro_to_machine_learning_models_continued.pdf_p78_c1",
+      "content": "playing with synthetic classication datasets diagram",
+      "page": 78,
+      "lecture": "eods-week06-intro_to_machine_learning_models_continued.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p2_c1",
+      "content": "readings: pml 4.1 dealing with missing data 4.4 bringing features onto the same scale additional: pdsh chapter 5: feature engineering no class next week, nov 4",
+      "page": 2,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p5_c1",
+      "content": "model evaluation and hyperparameter tuning how well are any of our models working? how can we compare different models? how do we decide on hyperparameter settings? how can we keep our models from \"overtting\" (and what does that mean)? how do we do all this for both regression and classication?",
+      "page": 5,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p6_c1",
+      "content": "how well are our models performing? regression mean squared error (mse) and root mean squared error (rmse) or r^2 or r2  2 (adjusted we'll talk about this during feature selection)  2 classication accuracy precision/recall/f1 roc area under the curve (auc)",
+      "page": 6,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p10_c1",
+      "content": "regression with simple linear model diagram",
+      "page": 10,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p13_c1",
+      "content": "how good is this fit? mse and rmse mean squared error (mse) : ( -1        ) 2 but this is the squared error! (alcohol^2) root mean squared error (rmse) : ( -1        ) 2 **rmse** has same unit as y",
+      "page": 13,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p14_c1",
+      "content": "how good is this fit? mse and rmse mean squared error (mse) : ( -1        ) 2 lr_mse = 0.58 but this is the squared error! (alcohol^2) root mean squared error (rmse) : ( -1        ) 2 **rmse** has same unit as y",
+      "page": 14,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p15_c1",
+      "content": "is this good? need a baseline comparison what's a baseline to compare against? simple one for regression: always predict the mean of the targets",
+      "page": 15,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p17_c1",
+      "content": "comparing against the mean:  2 diagram",
+      "page": 17,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p19_c1",
+      "content": "can we do better? diagram",
+      "page": 19,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p20_c1",
+      "content": "but is this what we want? interpretation vs prediction always good to ask: do we want our model to very closely t our data for interpretation? do we want our model to predict well on new, unseen data ( generalize well )? generalization: how well will model predict on data that it hasn't seen yet? but we used all of our data to train? need to do a train/test split to create a held-aside set",
+      "page": 20,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p21_c1",
+      "content": "train/test split diagram",
+      "page": 21,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p24_c1",
+      "content": "train/test split with sklearn how big should test be? large enough to capture variance of dataset depends on the dataset and the models being trained",
+      "page": 24,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p29_c1",
+      "content": "overtting and undertting learning noise in training data not exibile enough to learn concept need to nd a balance between simplicity and complexity need to nd a balance between bias and variance",
+      "page": 29,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p30_c1",
+      "content": "bias-variance tradeo diagram",
+      "page": 30,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p32_c1",
+      "content": "bias-variance tradeo continued diagram",
+      "page": 32,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p33_c1",
+      "content": "bias-variance tradeo continued zone zone diagram",
+      "page": 33,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p34_c1",
+      "content": "overtting/undertting revisited learning noise in training data model has high variance and low bias not exibile enough to learn concept model has high bias and low variance",
+      "page": 34,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p36_c1",
+      "content": "avoiding overtting/undertting never train and evaluate on the same set of data! train test split cross-validation rule of thumb: keep the model as simple as possible (occom's razor)",
+      "page": 36,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p37_c1",
+      "content": "avoiding overtting/undertting diagram",
+      "page": 37,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p39_c1",
+      "content": "overtting? simplify the model diagram",
+      "page": 39,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p41_c1",
+      "content": "aside: hyperparameters parameter: something learned by the model itself (eg coefcient in linear model) hyperparameter: something we set by hand (eg decision tree max depth)",
+      "page": 41,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "decision_tree",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p42_c1",
+      "content": "-fold cross-validation split dataset into equal sized subsets (folds) for each subset (fold) train on the other subsets combined 1 test on this subset to get a score average across all scores",
+      "page": 42,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p43_c1",
+      "content": "-fold cross-validation split dataset into equal sized subsets (folds) for each subset (fold) train on the other subsets combined 1 test on this subset to get a score average across all scores result is a set of samples of model performance can use to set hyperparameters without overtting on train or test can also use to estimate range of generalization performance",
+      "page": 43,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p44_c1",
+      "content": "example: 10-fold cross-validation ... diagram",
+      "page": 44,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p45_c1",
+      "content": "k-fold cross-validation continued can be used for: tuning hyperparameters model selection any time we need estimate of model performance issue: each fold requires training the model training time can be an issue for large or models with long training time what values can take? min: 2 max: , the size of the dataset (aka leave-one-out cv)",
+      "page": 45,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p51_c1",
+      "content": "tuning hyperparameters with cv depth = 1 : 0.289 depth = 2 : 0.346 depth = 3 : 0.341 depth = 5 : 0.050 depth = 10 : -0.142",
+      "page": 51,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p52_c1",
+      "content": "visualize tuning: validation curve diagram",
+      "page": 52,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p58_c1",
+      "content": "validation curve in sklearn continued diagram",
+      "page": 58,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p59_c1",
+      "content": "more than one hyperparameter? grid search grid search: search over a 'grid' of hyperparameter settings example: knn \"number of neighbors\" and \"distance metric\"",
+      "page": 59,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "knn",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p64_c1",
+      "content": "review so far regression metrics mse and rmse 2 model selection comparison to baseline model undertting/overtting and bias/variance train/test split hyperparameter tuning cross-validation validation curve grid search",
+      "page": 64,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p70_c1",
+      "content": "default metric in classication: accuracy accuracy : out of all the observations, how many did i get right? but what if the cost of calling a negative a positive is different from calling a positive a negative? examples: disease testing medical product failures incarceration",
+      "page": 70,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p71_c1",
+      "content": "errors in classication diagram",
+      "page": 71,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p73_c1",
+      "content": "visualizing errors with a confusion matrix diagram",
+      "page": 73,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p76_c1",
+      "content": "plot confusion matrix with mlxtend 7 11 diagram",
+      "page": 76,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p77_c1",
+      "content": "weighing errors: precision vs. recall diagram",
+      "page": 77,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p80_c1",
+      "content": "how do we decide if something is positive or negative? diagram",
+      "page": 80,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p81_c1",
+      "content": "combining precision and recall: -score  1 diagram",
+      "page": 81,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p83_c1",
+      "content": "paying attention to true negatives: roc diagram",
+      "page": 83,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p88_c1",
+      "content": "plotting roc curves diagram",
+      "page": 88,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p91_c1",
+      "content": "roc auc but again, we'd like one number to optimize roc a rea u nder the c urve how much area falls under the roc curve?",
+      "page": 91,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p93_c1",
+      "content": "review: steps to choosing a model diagram",
+      "page": 93,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p94_c1",
+      "content": "avoiding overtting in linear models: regularization diagram",
+      "page": 94,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p95_c1",
+      "content": "regression: finding the weights diagram",
+      "page": 95,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p96_c1",
+      "content": "regularization: add a cost for large weights goal: penalize extreme weights (w) if the original cost function looks like: we can add a regularization term : arg  (  (  ,  ),  ) min arg  (  (  ,  ),  ) +  (  ) min",
+      "page": 96,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p97_c1",
+      "content": "regularization: ridge diagram",
+      "page": 97,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p98_c1",
+      "content": "regularization: lasso diagram",
+      "page": 98,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf_p99_c1",
+      "content": "regularization: elasticnet mixture of and  1  2 + (1  )  1  2 introduces a new hyperparameter or l1_ratio is lasso ( ) l1_ratio = 1  1 is ridge ( ) l1_ratio = 0  2",
+      "page": 99,
+      "lecture": "eods-week07-model_evaluation_and_hyperparameter_tuning.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p3_c1",
+      "content": "readings: pml ch4.5 : selecting meaningful features pml ch5.1 : unsupervised dimensionality reduction via principal component analysis [recommended] pandas: merge, join, concatenate and compare [additional] pdsh 5.9 : pca [optional] : nice roc visualization ( ) http://www.navan.name/roc/",
+      "page": 3,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "ml_tasks",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p4_c1",
+      "content": "precision & recall and roc visualizations diagram",
+      "page": 4,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p6_c1",
+      "content": "today data cleaning duplicates missing data dummy variables rescaling dealing with skew removing outliers feature engineering binning one-hot encoding derived string functions datetime functions",
+      "page": 6,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p10_c1",
+      "content": "data cleaning why do we need clean data? to remove duplicates want one row per observation to remove/ll missing most models cannot handle missing data to engineer features most models require xed length feature vectors different models require different types of data (transformation) linear models : real valued features with similar scale distance based : real valued features with similar scale tree based : can handle unscaled real and categorical",
+      "page": 10,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p13_c1",
+      "content": "duplicated data only drop duplicates if you know data should be unique example: if there is a unique id per row",
+      "page": 13,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p25_c1",
+      "content": "missing data reasons for missing data sensor error (random?) data entry error (random?) survey-subject decisions (non-random?) etc dealing with missing data drop rows impute from data in the same column infer from other features fill with adjacent data",
+      "page": 25,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p29_c1",
+      "content": "missing data in pandas: np.nan missing values represented by np.nan : not a number == operator compares the values of both the operands and checks for value equality is operator , on the other hand, checks whether both the operands refer to the same object or not ieee 754 standard: the standard specically dictates that nan should not be equal to anything, including itself this design choice is based on the idea that if you have two unknown or invalid values, you cannot denitively say they are the same.",
+      "page": 29,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p30_c1",
+      "content": "missing data in pandas: np.nan missing values represented by np.nan : not a number false == operator compares the values of both the operands and checks for value equality is operator , on the other hand, checks whether both the operands refer to the same object or not ieee 754 standard: the standard specically dictates that nan should not be equal to anything, including itself this design choice is based on the idea that if you have two unknown or invalid values, you cannot denitively say they are the same.",
+      "page": 30,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p54_c1",
+      "content": "missing data: impute impute: ll with value infered from existing values in that column use .llna() or sklearn methods common ller values: mean median \"most frequent\" aka mode",
+      "page": 54,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p70_c1",
+      "content": "missing data: infer predict values of missing features using a model ex: can we predict price based on any of the other features? additional feature engineering may be needed prior to this",
+      "page": 70,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p73_c1",
+      "content": "missing data: adjacent data use .fillna() with method: fll: propagate last valid observation forward to next valid bll: use next valid observation to ll gap backwards use when there is reason to believe data not i.i.d",
+      "page": 73,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p88_c1",
+      "content": "dealing with skew many models expect \"normal\", symmetric data (ex: linear models) highly skewed: tail has larger effect on model (outliers?) transform with log or sqrt",
+      "page": 88,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p89_c1",
+      "content": "dealing with skew 300 diagram",
+      "page": 89,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p90_c1",
+      "content": "outliers diagram",
+      "page": 90,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p91_c1",
+      "content": "outliers why worry about them? can give misleading results can indicate issues in data/measurement detecting outliers understand your data! visualizations 1.5*iqr z-scores etc..",
+      "page": 91,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p93_c1",
+      "content": "detecting outliers diagram",
+      "page": 93,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p97_c1",
+      "content": "detecting outliers with z-score 25 diagram",
+      "page": 97,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p98_c1",
+      "content": "other outlier detection methods many more parametric and non-parametric methods standardized residuals dbscan elipticenvelope isolationforest other anomoly detection techniques see sklearn docs on outlier detection for more details",
+      "page": 98,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p109_c1",
+      "content": "one-hot encoding encode categorical features for models that can't handle categorical (eg linear) one column per category, '1' in only one column per row use pd.get_dummies() or sklearn.preprocessing.onehotencoder",
+      "page": 109,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p124_c1",
+      "content": "dealing with ordinal variables color size price classlabel 0 green m 10.1 class2 1 red l 13.5 class1 2 blue xl 15.3 class2",
+      "page": 124,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p126_c1",
+      "content": "dealing with ordinal variables cont. diagram",
+      "page": 126,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p127_c1",
+      "content": "dealing with ordinal variables cont color size price classlabel 0 green m 10.1 class2 1 red l 13.5 class1 2 blue xl 15.3 class2",
+      "page": 127,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p128_c1",
+      "content": "derived features anything that is a transformation of our data this is where the money is! examples: \"is a high demand pickup location\" \"is a problem house sale\" \"high-performing job candidate\"",
+      "page": 128,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week08-data_cleaning_and_feature_engineering.pdf_p151_c1",
+      "content": "transforming with train/test split diagram",
+      "page": 151,
+      "lecture": "eods-week08-data_cleaning_and_feature_engineering.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p3_c1",
+      "content": "today joining datasets dimensionality reduction feature selection linear model with lasso tree based models feature importance univariate tests recursive feature selection aside: adjusted  2 feature extraction pca example: image recognition using pca",
+      "page": 3,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p10_c1",
+      "content": "joing datasets on index diagram",
+      "page": 10,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p11_c1",
+      "content": "joing datasets on index easiest way to join pandas dataframes is on row index label may need to set the index from a column using .set_index()",
+      "page": 11,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p16_c1",
+      "content": "joining datasets in pandas on index using df.join() name ower_id 1001 iris 1002 rose price ower_id 1002 3.99 1003 2.25 by default, this is a 'left join'",
+      "page": 16,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "tools",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p17_c1",
+      "content": "join types: left join diagram",
+      "page": 17,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p20_c1",
+      "content": "join types: right join diagram",
+      "page": 20,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p23_c1",
+      "content": "join types: inner join diagram",
+      "page": 23,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p26_c1",
+      "content": "join types: outer join diagram",
+      "page": 26,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p38_c1",
+      "content": "join on columns instead of index using pd.merge() to do more complicated joins, use pd.merge() ower_id name price 0 1002 rose 3.99",
+      "page": 38,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p41_c1",
+      "content": "recall: methods for avoiding overtting collect additional examples use a simple model regularization reduce the dimensions of our data: dimensionality reduction",
+      "page": 41,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p42_c1",
+      "content": "dimensionality reduction reasons to reduce the number of features: improve model performance (reduce complexity to reduce chance of overtting) improve speed performance (reduce number of calculations) interpretation (which features are most important?) feature selection choose a subset of original features feature extraction combine/transform features to generate a new feature space",
+      "page": 42,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p51_c1",
+      "content": "recall: predicting vs transforming with train/test split diagram",
+      "page": 51,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p54_c1",
+      "content": "feature selection select a subset of features based on how much they contribute to predicting the target 'y' from a model linear model with lasso regularization tree based models feature importance univariate tests recursive feature selection",
+      "page": 54,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p61_c1",
+      "content": "feature selection: tree based model feature importance trees choose questions based on removing impurity we can rank the feature based on how much impurity they remove",
+      "page": 61,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p65_c1",
+      "content": "feature selection: tree based model feature importance total_phenols diagram",
+      "page": 65,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p76_c1",
+      "content": "feature selection: univariate tests perform statistical test on each feature independent of all others rank and select top k features sklearn: selectkbest requires a scoring function example: f_classif f-test estimates the degree of linear dependency between feature x and target y",
+      "page": 76,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p78_c1",
+      "content": "feature selection: recursive feature elimination would like to test all possible combinations of features likely prohibitively expensive/time-consuming instead recursively select smaller subsets of features requires a model that assigns weights or importance to features",
+      "page": 78,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "ml_concepts",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p80_c1",
+      "content": "feature selection: other methods by variance eliminate columns where all rows have the same (or almost all the same) value sequential feature selection greedy algorithm similar to recursive feature elimination uses performance metric (eg accuracy) instead of weights, importances via mlxtend exaustive feature selection evaluate all possible feature combinations uses performance metric (eg accuracy) instead of weights, importances via mlxtend other univariate tests f_regression , f-test for regression task mutual_info_classif and _regression chi2 , for classication, requires non-negative values",
+      "page": 80,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "regression",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p83_c1",
+      "content": "when changing number of features: use adjusted  2 adding features guarantees an increase in  2 describes the proportion of explained variance  2 additional features explain more variance",
+      "page": 83,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p84_c1",
+      "content": "when changing number of features: use adjusted  2 diagram",
+      "page": 84,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p94_c1",
+      "content": "feature extraction transform original features into new feature space can be thought of as compression while maintaining relevant information often used for: visualization (multi-dimensional to 2-d) compression (storage) dimensionality reduction popular methods: principal component analysis: unsupervised data compression linear discriminant analysis: supervised method to maximize class separation kernel pca, etc.",
+      "page": 94,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "ml_tasks",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p95_c1",
+      "content": "principal component analysis (pca) unsupervised learning method (ignores label) idea: directions of high variance in the data contain important information colinear features can be combined find directions of maximum variance project onto subspace with same or fewer dimensions",
+      "page": 95,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "ml_tasks",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p96_c1",
+      "content": "principal component analysis (pca) how it works: rst center the data (subtract the means) extract rst component: direction (combination of features) explains maximum variance extract next component: direction, orthogonal to the rst (linearly independent) explains max remaining variance 3 repeat: max number of possible components equals number of original dimensions",
+      "page": 96,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "formula",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p98_c1",
+      "content": "pca example diagram",
+      "page": 98,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p100_c1",
+      "content": "pca example cont. diagram",
+      "page": 100,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p107_c1",
+      "content": "pca: explained variance diagram",
+      "page": 107,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p109_c1",
+      "content": "dimensionality reduction with pca diagram",
+      "page": 109,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p111_c1",
+      "content": "pca and image recognition generally, an image is represented by a grid of pixels each pixel is a square that takes a value representing a shade (usually a value between 0 and 255) 1024 x 1024 pixels = 1,048,576 pixels = 1 megapixel iphone x11 pro : 12 megapixels color images contain three layers: red, green, blue ~36 million pixel values a very high dimensional space! image classication using pca? example based on faces recognition example using eigenfaces and svms",
+      "page": 111,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "other",
+      "has_image": false
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p114_c1",
+      "content": "example dataset: labeled faces in th wild (lfw) diagram",
+      "page": 114,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p116_c1",
+      "content": "example pixel values diagram",
+      "page": 116,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p126_c1",
+      "content": "variance explained by pca diagram",
+      "page": 126,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p134_c1",
+      "content": "eigenfaces diagram",
+      "page": 134,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p141_c1",
+      "content": "prediction examples diagram",
+      "page": 141,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p146_c1",
+      "content": "other image recognition methods diagram",
+      "page": 146,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p147_c1",
+      "content": "other image recognition methods: deep neural networks diagram",
+      "page": 147,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    },
+    {
+      "chunk_id": "eods-week09-joining_data_and_dimensionality_reduction.pdf_p148_c1",
+      "content": "other image recognition methods: deep neural networks - van diagram",
+      "page": 148,
+      "lecture": "eods-week09-joining_data_and_dimensionality_reduction.pdf",
+      "topic": "diagram",
+      "has_image": true
+    }
+  ]
+}

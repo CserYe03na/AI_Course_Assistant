@@ -278,7 +278,12 @@ def extract_document(
     save_docling_json: bool,
 ) -> DocumentData:
     doc_slug = slugify(pdf_path.stem)
-    doc_id = f"{course_id}_{doc_slug}"
+
+    # REMOVE duplicate prefix
+    if doc_slug.startswith(course_id):
+        doc_id = doc_slug
+    else:
+        doc_id = f"{course_id}_{doc_slug}"
     doc_output_dir = output_dir / doc_id
 
     print(f"Start extracting {pdf_path.name}")
@@ -288,8 +293,8 @@ def extract_document(
     document = conv_res.document
 
 
-    conv_res = converter.convert(pdf_path)
-    document = conv_res.document
+    #conv_res = converter.convert(pdf_path)
+    #document = conv_res.document
 
     if save_docling_json:
         doc_output_dir.mkdir(parents=True, exist_ok=True)
@@ -355,10 +360,12 @@ def extract_document(
                 blocks=blocks,
             )
         )
-
+    clean_title = re.sub(
+    rf"^{course_id}[-_]*", "", pdf_path.stem, flags=re.IGNORECASE
+    )
     return DocumentData(
         doc_id=doc_id,
-        title=pdf_path.stem,
+        title=clean_title,
         source_file=str(pdf_path.as_posix()),
         page_count=len(document.pages),
         pages=pages,
@@ -381,13 +388,14 @@ def write_course_json(
     }
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / "document.json"
+    output_path = output_dir / f"{course_id}_document.json"
     output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False))
     return output_path
 
 
-def load_existing_documents(output_dir: Path) -> List[DocumentData]:
-    output_path = output_dir / "document.json"
+def load_existing_documents(output_dir: Path, course_id: str) -> List[DocumentData]:
+    output_path = output_dir / f"{course_id}_document.json"
+
     if not output_path.exists():
         return []
 
@@ -395,8 +403,8 @@ def load_existing_documents(output_dir: Path) -> List[DocumentData]:
     return [document_from_dict(document) for document in payload.get("documents", [])]
 
 
-def resolve_input_pdfs() -> List[Path]:
-    return sorted(Path("data/raw/adl").glob("*.pdf"))
+def resolve_input_pdfs(course_id: str) -> List[Path]:
+    return sorted(Path(f"data/raw/{course_id}").rglob("*.pdf"))
 
 
 def should_skip_pdf(pdf_path: Path) -> bool:
@@ -411,19 +419,26 @@ def should_enrich_formula(pdf_path: Path, default_enrich_formula: bool) -> bool:
 
 def main() -> None:
     args = parse_args()
-    output_dir = Path(args.output_dir)
-    pdf_paths = resolve_input_pdfs()
+    output_dir = Path(args.output_dir) / args.course_id
+    pdf_paths = resolve_input_pdfs(args.course_id)
     if not pdf_paths:
         raise SystemExit("No PDF files found for extraction.")
 
-    documents = load_existing_documents(output_dir)
+    documents = load_existing_documents(output_dir, args.course_id)
     completed_doc_ids = {document.doc_id for document in documents}
-    pending_pdf_paths = [
-        pdf_path
-        for pdf_path in pdf_paths
-        if f"{args.course_id}_{slugify(pdf_path.stem)}" not in completed_doc_ids
-        and not should_skip_pdf(pdf_path)
-    ]
+    pending_pdf_paths = []
+
+    for pdf_path in pdf_paths:
+        doc_slug = slugify(pdf_path.stem)
+
+        
+        if doc_slug.startswith(args.course_id):
+            expected_doc_id = doc_slug
+        else:
+            expected_doc_id = f"{args.course_id}_{doc_slug}"
+
+        if expected_doc_id not in completed_doc_ids and not should_skip_pdf(pdf_path):
+            pending_pdf_paths.append(pdf_path)
 
     if not pending_pdf_paths:
         print("All PDFs have already been extracted.")
