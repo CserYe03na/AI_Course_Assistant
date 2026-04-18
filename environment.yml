@@ -7,3 +7,6 @@ dependencies:
   - pip:
       - docling
       - pillow
+      - openai
+      - paddleocr
+      - paddlepaddle

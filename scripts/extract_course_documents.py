@@ -90,19 +90,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--render-scale",
         type=float,
-        default=2.0,
-        help="Scale factor used when rendering page and figure images.",
+        default=4.0,
+        help="Scale factor used when rendering page and figure images. Higher values improve crop clarity but use more time and memory.",
     )
     parser.add_argument(
         "--save-docling-json",
         action="store_true",
-        default=True,
+        default=False,
         help="Also save Docling's native JSON beside the normalized output.",
     )
     parser.add_argument(
         "--enrich-formula",
         action="store_true",
-        default=True,
+        default=False,
         help="Enable Docling formula enrichment to improve formula text extraction.",
     )
     return parser.parse_args()
@@ -444,15 +444,20 @@ def main() -> None:
         print("All PDFs have already been extracted.")
         return
 
+    converters: dict[bool, DocumentConverter] = {}
+
     for pdf_path in pending_pdf_paths:
         enrich_formula = should_enrich_formula(
             pdf_path=pdf_path,
             default_enrich_formula=args.enrich_formula,
         )
-        converter = build_converter(
-            render_scale=args.render_scale,
-            enrich_formula=enrich_formula,
-        )
+        converter = converters.get(enrich_formula)
+        if converter is None:
+            converter = build_converter(
+                render_scale=args.render_scale,
+                enrich_formula=enrich_formula,
+            )
+            converters[enrich_formula] = converter
         if not enrich_formula:
             print(f"{pdf_path.name}: formula enrichment disabled")
         document = extract_document(
