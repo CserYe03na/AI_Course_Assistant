@@ -17,29 +17,6 @@ from typing import Any, Dict, List
 INPUT_PATH = Path("data/processed/adl/adl_document.json")
 OUTPUT_PATH = Path("data/processed/adl/adl_processed.json")
 
-COMMON_ENGLISH_WORDS = {
-    "a", "about", "access", "account", "after", "all", "allow", "an", "and", "answer",
-    "are", "as", "at", "author", "base", "be", "because", "before", "better", "between",
-    "billing", "can", "classes", "compare", "comprehension", "compute", "computation",
-    "confidence", "content", "context", "did", "dimension", "do", "does", "english",
-    "example", "examples", "few", "figure", "for", "french", "from", "full", "generation",
-    "get", "goal", "have", "hidden", "how", "hugging", "i", "if", "in", "input", "is",
-    "json", "label", "last", "learning", "lm", "main", "maximize", "mobile", "model",
-    "multiple", "not", "of", "on", "one", "optimization", "optimizations", "order", "other",
-    "output", "parameters", "partial", "performance", "phone", "prediction", "probability",
-    "question", "questions", "random", "reading", "replace", "same", "scoring", "sentence",
-    "shot", "similar", "since", "small", "specifically", "summarization", "task", "tasks",
-    "test", "than", "that", "the", "then", "there", "this", "time", "tl", "to", "train",
-    "translation", "true", "use", "version", "very", "was", "website", "what", "when",
-    "where", "which", "who", "why", "with", "without", "zero",
-}
-
-FUNCTION_WORDS = {
-    "a", "an", "and", "as", "at", "by", "for", "from", "in", "is", "it", "of", "on",
-    "or", "that", "the", "to", "was", "with",
-}
-
-
 def load_json(path: Path) -> Dict[str, Any]:
     return json.loads(path.read_text())
 
@@ -84,64 +61,6 @@ def clean_general_text(text: str) -> str:
     text = text.replace("\u00a0", " ")
     text = re.sub(r"\s+", " ", text).strip()
     return text
-
-
-def is_garbled_token(token: str) -> bool:
-    stripped = re.sub(r"^[^A-Za-z]+|[^A-Za-z]+$", "", token).lower()
-    if len(stripped) < 3:
-        return False
-    if stripped in COMMON_ENGLISH_WORDS:
-        return False
-    if re.search(r"(.)\1\1", stripped):
-        return True
-    if not re.search(r"[aeiouy]", stripped):
-        return True
-    vowel_groups = re.findall(r"[aeiouy]+", stripped)
-    consonant_groups = re.findall(r"[^aeiouy]+", stripped)
-    if any(len(group) >= 5 for group in consonant_groups):
-        return True
-    if len(vowel_groups) == 1 and len(stripped) >= 7:
-        return True
-    rare_patterns = ("nk", "tk", "cg", "dt", "tl", "mw", "msci", "doenk", "cank", "coglish")
-    if any(pattern in stripped for pattern in rare_patterns):
-        return True
-    return False
-
-
-def is_garbled_short_sentence(text: str) -> bool:
-    stripped = text.strip()
-    if not stripped:
-        return False
-
-    words = re.findall(r"[A-Za-z']+", stripped)
-    word_count = len(words)
-    if word_count == 0 or word_count > 8:
-        return False
-
-    alpha_words = [word.lower() for word in words if re.search(r"[A-Za-z]", word)]
-    unknown_words = [word for word in alpha_words if word not in COMMON_ENGLISH_WORDS]
-    garbled_words = [word for word in alpha_words if is_garbled_token(word)]
-    function_word_count = sum(1 for word in alpha_words if word in FUNCTION_WORDS)
-    unknown_ratio = len(unknown_words) / max(1, len(alpha_words))
-    garbled_ratio = len(garbled_words) / max(1, len(alpha_words))
-
-    if len(garbled_words) >= 2:
-        return True
-    if len(unknown_words) >= 3 and function_word_count == 0:
-        return True
-    if len(alpha_words) >= 4 and function_word_count == 0 and len(garbled_words) >= 1:
-        return True
-    if len(alpha_words) <= 6 and len(garbled_words) >= 1 and unknown_ratio >= 0.5:
-        return True
-    if len(alpha_words) <= 8 and len(garbled_words) >= 2 and function_word_count <= 2:
-        return True
-    if len(alpha_words) >= 4 and unknown_ratio >= 0.6 and function_word_count <= 2:
-        return True
-    if len(alpha_words) <= 8 and unknown_ratio >= 0.5 and function_word_count <= 3:
-        return True
-    if len(alpha_words) >= 5 and garbled_ratio >= 0.4:
-        return True
-    return False
 
 
 def classify_formula_quality(text: str) -> str:
@@ -258,6 +177,28 @@ def bbox_horizontal_overlap_ratio(a: List[float], b: List[float]) -> float:
     if base <= 0:
         return 0.0
     return overlap / base
+
+
+def bbox_height(bbox: List[float]) -> float:
+    return max(0.0, bbox[3] - bbox[1])
+
+
+def bbox_vertical_overlap_ratio(a: List[float], b: List[float]) -> float:
+    overlap = min(a[3], b[3]) - max(a[1], b[1])
+    if overlap <= 0:
+        return 0.0
+    base = min(bbox_height(a), bbox_height(b))
+    if base <= 0:
+        return 0.0
+    return overlap / base
+
+
+def is_large_figure(page: Dict[str, Any], block: Dict[str, Any]) -> bool:
+    page_width = float(page.get("width") or 0.0)
+    page_height = float(page.get("height") or 0.0)
+    page_area = max(1.0, page_width * page_height)
+    figure_area = bbox_area(block.get("bbox") or [0.0, 0.0, 0.0, 0.0])
+    return figure_area / page_area >= 0.12
 
 
 def is_caption_or_table_note(text: str) -> bool:
@@ -381,9 +322,6 @@ def is_obvious_noise_text_block(block: Dict[str, Any]) -> bool:
         return True
     if isolated_token and not looks_like_sentence:
         return True
-    if is_garbled_short_sentence(text):
-        return True
-
     return False
 
 
@@ -410,8 +348,8 @@ def is_near_figure_fragment_text(block: Dict[str, Any]) -> bool:
     )
 
     short_label = (
-        word_count <= 6
-        and char_count <= 48
+        word_count <= 4
+        and char_count <= 42
         and not normalized.endswith((".", "?", "!"))
     )
     qa_item = bool(
@@ -504,6 +442,83 @@ def is_embedded_figure_text_block(block: Dict[str, Any], figure_bbox: List[float
         or center_inside
         or figure_coverage_ratio >= 0.12
     )
+
+
+def collect_figure_embedded_text_cluster_ids(
+    page: Dict[str, Any],
+    figure_blocks: List[Dict[str, Any]],
+) -> set[str]:
+    cluster_ids: set[str] = set()
+    blocks = page.get("blocks", [])
+
+    for figure in figure_blocks:
+        if not is_large_figure(page, figure):
+            continue
+
+        figure_bbox = figure.get("bbox") or [0.0, 0.0, 0.0, 0.0]
+        expanded_bbox = [
+            figure_bbox[0] - 56.0,
+            figure_bbox[1] - 28.0,
+            figure_bbox[2] + 56.0,
+            figure_bbox[3] + 28.0,
+        ]
+
+        candidates: List[Dict[str, Any]] = []
+        for block in blocks:
+            if block.get("type") != "text":
+                continue
+
+            text = (block.get("text") or "").strip()
+            if len(text.split()) < 12:
+                continue
+
+            bbox = block.get("bbox") or [0.0, 0.0, 0.0, 0.0]
+            vertical_overlap = bbox_vertical_overlap_ratio(bbox, figure_bbox)
+            horizontal_overlap = bbox_horizontal_overlap_ratio(bbox, figure_bbox)
+            _, center_y = bbox_center(bbox)
+            center_in_vertical_band = figure_bbox[1] - 18.0 <= center_y <= figure_bbox[3] + 18.0
+
+            if not bbox_intersects(bbox, expanded_bbox) and not center_in_vertical_band:
+                continue
+
+            if vertical_overlap >= 0.55 or (center_in_vertical_band and horizontal_overlap >= 0.2):
+                candidates.append(block)
+
+        if len(candidates) < 4:
+            continue
+
+        x_centers = sorted(
+            (
+                bbox_center(block.get("bbox") or [0.0, 0.0, 0.0, 0.0])[0],
+                block.get("block_id", ""),
+                block,
+            )
+            for block in candidates
+        )
+        column_groups: List[List[Dict[str, Any]]] = []
+        current_group: List[Dict[str, Any]] = []
+        previous_x = None
+        for x_center, _, block in x_centers:
+            if previous_x is None or abs(x_center - previous_x) <= 90.0:
+                current_group.append(block)
+            else:
+                column_groups.append(current_group)
+                current_group = [block]
+            previous_x = x_center
+        if current_group:
+            column_groups.append(current_group)
+
+        strong_groups = [group for group in column_groups if len(group) >= 2]
+        if not strong_groups or len(strong_groups) > 2:
+            continue
+
+        for group in strong_groups:
+            for block in group:
+                block_id = block.get("block_id")
+                if block_id:
+                    cluster_ids.add(block_id)
+
+    return cluster_ids
 
 
 def is_near_region(
@@ -643,6 +658,7 @@ def post_process_page(page: Dict[str, Any]) -> None:
     table_blocks = [block for block in blocks if block.get("type") == "table"]
     has_table = bool(table_blocks)
     has_table_or_figure = bool(figure_blocks)
+    figure_embedded_cluster_ids = collect_figure_embedded_text_cluster_ids(page, figure_blocks)
 
     processed_blocks: List[Dict[str, Any]] = []
     for block in blocks:
@@ -653,6 +669,9 @@ def post_process_page(page: Dict[str, Any]) -> None:
             and first_title_order > 1
             and block.get("reading_order", 10**9) < first_title_order
         ):
+            continue
+
+        if block.get("block_id") in figure_embedded_cluster_ids:
             continue
 
         if block_type == "table":
