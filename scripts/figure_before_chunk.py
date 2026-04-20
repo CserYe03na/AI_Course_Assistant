@@ -97,13 +97,6 @@ def save_json(path: Path, payload: Dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False))
 
 
-# def write_jsonl(path: Path, records: Iterable[Dict[str, Any]]) -> None:
-#     path.parent.mkdir(parents=True, exist_ok=True)
-#     with path.open("w", encoding="utf-8") as handle:
-#         for record in records:
-#             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
-
-
 def resolve_input_path(course_id: str, explicit_path: Optional[str]) -> Path:
     if explicit_path:
         return Path(explicit_path)
@@ -299,27 +292,88 @@ def get_section_title(
     return latest_title or title_history.get(int(page.get("page_no", 0)))
 
 
-def extract_keywords(*texts: Optional[str]) -> List[str]:
+def normalize_keyword(phrase: Optional[str]) -> Optional[str]:
+    phrase = clean_text(phrase)
+    if not phrase:
+        return None
+
+    phrase = phrase.strip(" ,.;:()[]{}")
+    if not phrase:
+        return None
+
+    lowered = phrase.lower()
+    lowered = re.sub(r"\s+", " ", lowered).strip()
+    if not lowered:
+        return None
+
+    tokens = re.findall(r"[A-Za-z][A-Za-z0-9_\-]*", lowered)
+    if not tokens:
+        return None
+    if len(tokens) > 5:
+        return None
+    if all(token in STOPWORDS for token in tokens):
+        return None
+    return phrase
+
+
+def sanitize_keywords(keywords: List[str], *, min_keywords: int = 5, max_keywords: int = 10) -> List[str]:
+    normalized: List[str] = []
+    seen: set[str] = set()
+
+    for item in keywords:
+        candidate = normalize_keyword(item)
+        if not candidate:
+            continue
+        lowered = candidate.lower()
+        if lowered in seen:
+            continue
+        seen.add(lowered)
+        normalized.append(candidate)
+
+    if len(normalized) < min_keywords:
+        return normalized
+    return normalized[:max_keywords]
+
+
+def extract_keywords(*texts: Optional[str], max_keywords: int = 10) -> List[str]:
     phrases: List[str] = []
     seen: set[str] = set()
-    banned_substrings = {"this figure", "figure appears", "nearby text", "section", "context", "about"}
+    banned_substrings = {
+        "this figure",
+        "figure appears",
+        "nearby text",
+        "section",
+        "context",
+        "about",
+        "lecture content",
+        "surrounding",
+    }
 
     for text in texts:
         if not text:
             continue
-        for raw_phrase in re.findall(r"\b[A-Za-z][A-Za-z0-9_\-]{2,}(?:\s+[A-Za-z0-9_\-]{2,}){0,2}\b", text):
-            phrase = raw_phrase.strip().lower()
-            if phrase in seen:
+        for raw_phrase in re.findall(r"\b[A-Za-z][A-Za-z0-9_\-]{1,}(?:\s+[A-Za-z0-9_\-]{1,}){0,4}\b", text):
+            phrase = clean_text(raw_phrase)
+            if not phrase:
                 continue
-            if any(part in phrase for part in banned_substrings):
+            lowered = phrase.lower()
+            tokens = re.findall(r"[A-Za-z][A-Za-z0-9_\-]*", lowered)
+            if not tokens:
                 continue
-            if all(token in STOPWORDS for token in phrase.split()):
+            if any(part in lowered for part in banned_substrings):
                 continue
-            if len(phrase) <= 2:
+            if len(tokens) == 1 and tokens[0] in STOPWORDS:
                 continue
-            seen.add(phrase)
-            phrases.append(raw_phrase.strip())
-    return phrases[:10]
+            if all(token in STOPWORDS for token in tokens):
+                continue
+            if len(tokens) >= 2 and sum(token not in STOPWORDS for token in tokens) < 2:
+                continue
+            if lowered in seen:
+                continue
+            seen.add(lowered)
+            phrases.append(phrase)
+
+    return phrases[:max_keywords]
 
 
 def build_visual_description(
@@ -400,8 +454,9 @@ def vlm_enrich_figure(
             "Generate visual_description, figure_focus, keywords, and overall_quality.",
             "visual_description should be 2 to 3 sentences. Describe only the semantic content of the image: concepts, entities, processes, relations, comparisons, examples, or trends. Start directly with the content, not with a wrapper phrase. Avoid mentioning layout unless layout itself is semantically important. Avoid low-information words such as 'diagram', 'figure', 'image', 'panel' unless they are necessary for disambiguation.",
             "figure_focus should be a short phrase of about 5 to 15 words.",
-            "keywords should contain 4 to 6 high-specificity terms or short phrases. Derive them primarily from the figure_focus, then refine or expand them using the visual_description and nearby context when needed. Prefer concept-level retrieval anchors such as core methods, functions, losses, mechanisms, tasks, or phenomena. Use variable names or symbol-level phrases only if they are themselves central concepts, not just local inputs or components. Avoid broad generic words, incidental example details, and low-information labels unless they are truly central. Do not include overly local phrases such as individual inputs, parameter lists, or minor visual elements unless they are essential to the main topic.",
-            "overall_quality must be one of clean, usable, noisy, broken.",
+            "keywords should contain up to 4 terms or short phrases, and may contain fewer when the image supports only a small number of clearly grounded keywords. Prefer a smaller set of precise keywords, and do not add extra terms just to fill the list. Derive them from the image semantics first, using figure_focus as the anchor and visual_description or section_title as other reference. Prefer technical terms, noun phrases, salient labels visible in the image, key variables, module names, legends, axis names, node names in the field of deep learning, AI, machine learning, data science, math, and statistics, or short formulas when they are central and clearly readable. Remove stopwords and overly generic words. Do not pad the list with broad labels, nearby prose fragments, or speculative details.",
+            "overall_quality must be one of clean, usable, noisy, broken. Assign it primarily from the image itself: whether the crop is complete, whether the figure contains a clear and meaningful semantic object, whether its main meaning can be recovered reliably enough for indexing, and whether it provides clear retrieval value as a figure. Also check whether the main meaning of the image is broadly consistent with the section_title. Use nearby text only as weak auxiliary context. Do not assign clean when the image is clearly unrelated to the section_title. Use clean for complete and semantically clear figures whose main meaning can be recovered reliably from the image itself, that provide clear retrieval value, and that are relevant to the section_title, even if some page context is still helpful. Use usable for figures with real semantic value but only partial self-contained meaning, substantial context dependence, mild ambiguity, mild noise, or only weak relevance to the section_title. Use noisy for figures with weak retrieval value, unstable semantics, heavy noise, or little meaningful connection to the section_title. Use broken for blank, severely miscropped, badly damaged, or unrecoverable figures.",
+            "Do not use clean for images that are mainly decorative or that provide little recoverable semantic content.",
             "Do not guess unreadable small text.",
             "Return JSON with keys: visual_description, figure_focus, keywords, overall_quality.",
         ],
@@ -439,8 +494,6 @@ def vlm_enrich_figure(
     keywords = payload.get("keywords") or []
     if not isinstance(keywords, list):
         keywords = []
-    keywords = [clean_text(str(item)) for item in keywords]
-    keywords = [item for item in keywords if item][:10]
 
     overall_quality = clean_text(payload.get("overall_quality"))
     if overall_quality not in QUALITY_VALUES:
@@ -452,28 +505,6 @@ def vlm_enrich_figure(
         "keywords": keywords,
         "overall_quality": overall_quality,
     }
-
-
-def assess_quality(
-    *,
-    image_path: Optional[str],
-    nearby_text_before: Optional[str],
-    nearby_text_after: Optional[str],
-    visual_description: Optional[str],
-    figure_focus: Optional[str],
-    keywords: List[str],
-) -> str:
-    if not image_path:
-        return "broken"
-
-    nearby = clean_text(" ".join(part for part in [nearby_text_before, nearby_text_after] if part))
-    if visual_description and figure_focus and len(keywords) >= 4:
-        return "clean"
-    if visual_description and (figure_focus or nearby):
-        return "usable"
-    if visual_description or nearby:
-        return "noisy"
-    return "broken"
 
 
 def count_document_figures(document: Dict[str, Any]) -> int:
@@ -523,7 +554,6 @@ def build_output_payload(
 def persist_progress(
     *,
     output_json: Path,
-    #output_jsonl: Path,
     payload: Dict[str, Any],
     input_path: Path,
     course_id: str,
@@ -538,7 +568,6 @@ def persist_progress(
         per_document_counts=per_document_counts,
     )
     save_json(output_json, output_payload)
-    #write_jsonl(output_jsonl, all_figures)
 
 
 def enrich_figure_block(
@@ -573,19 +602,11 @@ def enrich_figure_block(
         section_title=section_title,
     )
     keywords = (vlm_result or {}).get("keywords") or extract_keywords(
+        figure_focus,
         visual_description,
-        nearby_text_before,
-        nearby_text_after,
         section_title,
     )
-    overall_quality = (vlm_result or {}).get("overall_quality") or assess_quality(
-        image_path=figure_block.get("image_path"),
-        nearby_text_before=nearby_text_before,
-        nearby_text_after=nearby_text_after,
-        visual_description=visual_description,
-        figure_focus=figure_focus,
-        keywords=keywords,
-    )
+    overall_quality = (vlm_result or {}).get("overall_quality")
 
     return FigureRecord(
         block_id=str(figure_block.get("block_id")),
@@ -618,7 +639,6 @@ def enrich_document_figures(
     input_path: Path,
     course_id: str,
     output_json: Path,
-    #output_jsonl: Path,
     all_figures: List[Dict[str, Any]],
     per_document_counts: Dict[str, int],
 ) -> List[FigureRecord]:
@@ -669,7 +689,6 @@ def enrich_document_figures(
             per_document_counts[doc_id] = len(figures)
             persist_progress(
                 output_json=output_json,
-                #output_jsonl=output_jsonl,
                 payload=payload,
                 input_path=input_path,
                 course_id=course_id,
@@ -691,7 +710,6 @@ def main() -> None:
     input_path = resolve_input_path(args.course_id, args.input_path)
     output_dir = Path(args.output_dir) if args.output_dir else Path("data/processed") / args.course_id
     output_json = output_dir / f"{args.course_id}_figures_cleaned.json"
-    #output_jsonl = output_dir / f"{args.course_id}_figures_cleaned.jsonl"
     payload = load_json(input_path)
     llm_client = init_openai_client(args.disable_llm)
     existing_figures = load_existing_records(output_json)
@@ -730,7 +748,6 @@ def main() -> None:
             input_path=input_path,
             course_id=args.course_id,
             output_json=output_json,
-            #output_jsonl=output_jsonl,
             all_figures=all_figures,
             per_document_counts=per_document_counts,
         )
@@ -739,7 +756,6 @@ def main() -> None:
 
     persist_progress(
         output_json=output_json,
-        #output_jsonl=output_jsonl,
         payload=payload,
         input_path=input_path,
         course_id=args.course_id,
