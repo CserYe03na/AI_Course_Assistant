@@ -275,20 +275,10 @@ def parse_args() -> argparse.Namespace:
         help="LLM model used for formula semantic enhancement.",
     )
     parser.add_argument(
-        "--disable-llm",
-        action="store_true",
-        help="Disable LLM semantic enhancement even if API access is configured.",
-    )
-    parser.add_argument(
         "--workspace-root",
         type=Path,
         default=WORKSPACE_ROOT,
         help="Workspace root used to resolve local formula image paths.",
-    )
-    parser.add_argument(
-        "--disable-pix2tex",
-        action="store_true",
-        help="Disable pix2tex and use the OCR text fallback only.",
     )
     return parser.parse_args()
 
@@ -326,13 +316,10 @@ def resolve_output_path(
     return base_dir / f"{course_id}_formula_cleaned.json"
 
 
-def init_openai_client(disable_llm: bool) -> Optional[Any]:
-    if disable_llm or OpenAI is None or not os.getenv("OPENAI_API_KEY"):
-        return None
-    try:
-        return OpenAI()
-    except Exception:
-        return None
+def init_openai_client() -> Any:
+    if OpenAI is None or not os.getenv("OPENAI_API_KEY"):
+        raise RuntimeError("OpenAI client is not available")
+    return OpenAI()
 
 
 def clean_line(text: str) -> str:
@@ -959,6 +946,76 @@ def select_formula_output_fields(record: Dict[str, Any]) -> Dict[str, Any]:
     return {field: record.get(field) for field in CORE_RECORD_FIELDS}
 
 
+def count_formula_blocks(document: Dict[str, Any]) -> int:
+    return sum(
+        1
+        for page in document.get("pages", [])
+        for block in page.get("blocks", [])
+        if block.get("type") == "formula"
+    )
+
+
+def load_existing_formula_records(path: Path) -> List[Dict[str, Any]]:
+    if not path.exists():
+        return []
+
+    try:
+        payload = load_json(path)
+    except json.JSONDecodeError:
+        return []
+
+    records = payload.get("records")
+    if not isinstance(records, list):
+        return []
+    return records
+
+
+def build_formula_output_payload(
+    *,
+    payload: Dict[str, Any],
+    input_path: Path,
+    workspace_root: Path,
+    llm_model: str,
+    all_records: List[Dict[str, Any]],
+    per_document_counts: Dict[str, int],
+) -> Dict[str, Any]:
+    return {
+        "course_id": payload.get("course_id"),
+        "course_name": payload.get("course_name"),
+        "source_type": payload.get("source_type"),
+        "source_document_path": str(input_path.as_posix()),
+        "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "workspace_root": str(workspace_root),
+        "llm_model": llm_model,
+        "formula_count": len(all_records),
+        "documents": per_document_counts,
+        "records": all_records,
+    }
+
+
+def persist_formula_progress(
+    *,
+    output_path: Path,
+    payload: Dict[str, Any],
+    input_path: Path,
+    workspace_root: Path,
+    llm_model: str,
+    all_records: List[Dict[str, Any]],
+    per_document_counts: Dict[str, int],
+) -> None:
+    save_json(
+        output_path,
+        build_formula_output_payload(
+            payload=payload,
+            input_path=input_path,
+            workspace_root=workspace_root,
+            llm_model=llm_model,
+            all_records=all_records,
+            per_document_counts=per_document_counts,
+        ),
+    )
+
+
 def build_formula_record(
     doc: Dict[str, Any],
     pages: List[Dict[str, Any]],
@@ -1055,50 +1112,100 @@ def build_formula_payload(
     payload: Dict[str, Any],
     doc_id: Optional[str],
     workspace_root: Path,
-    pix2tex_enabled: bool,
-    llm_client: Optional[Any],
+    llm_client: Any,
     llm_model: str,
     input_path: Path,
+    output_path: Path,
 ) -> Dict[str, Any]:
-    records: List[Dict[str, Any]] = []
     image_index = build_image_index(workspace_root)
+    documents = [
+        document
+        for document in payload.get("documents", [])
+        if not doc_id or document.get("doc_id") == doc_id
+    ]
+    total_docs = len(documents)
+    total_formulas = sum(count_formula_blocks(document) for document in documents)
+    processed_formulas = 0
+    existing_records = load_existing_formula_records(output_path)
+    formula_records_by_id = {
+        str(record.get("block_id")): record
+        for record in existing_records
+        if record.get("block_id")
+    }
+    completed_block_ids = set(formula_records_by_id.keys())
+    all_records: List[Dict[str, Any]] = list(formula_records_by_id.values())
+    per_document_counts: Dict[str, int] = {}
+    for record in all_records:
+        existing_doc_id = str(record.get("doc_id"))
+        per_document_counts[existing_doc_id] = per_document_counts.get(existing_doc_id, 0) + 1
 
-    for document in payload.get("documents", []):
-        if doc_id and document.get("doc_id") != doc_id:
-            continue
-
+    for doc_index, document in enumerate(documents, start=1):
+        doc_formula_count = count_formula_blocks(document)
+        doc_processed = 0
+        doc_id_value = str(document.get("doc_id"))
+        print(
+            f"[{doc_index}/{total_docs}] Processing document {doc_id_value} "
+            f"with {doc_formula_count} formulas",
+            flush=True,
+        )
         pages = document.get("pages", [])
         for page_index, page in enumerate(pages):
             for block_index, block in enumerate(page.get("blocks", [])):
                 if block.get("type") != "formula":
                     continue
-                records.append(
-                    build_formula_record(
-                        document,
-                        pages,
-                        page_index,
-                        block_index,
-                        workspace_root=workspace_root,
-                        image_index=image_index,
-                        pix2tex_enabled=pix2tex_enabled,
-                        llm_client=llm_client,
-                        llm_model=llm_model,
-                    )
+                processed_formulas += 1
+                doc_processed += 1
+                print(
+                    f"  [{doc_processed}/{doc_formula_count}] global "
+                    f"[{processed_formulas}/{total_formulas}] "
+                    f"page {page.get('page_no')} block {block.get('block_id')}",
+                    flush=True,
                 )
+                block_id = str(block.get("block_id"))
+                if block_id in completed_block_ids:
+                    print("    resumed from existing output", flush=True)
+                    continue
 
-    return {
-        "course_id": payload.get("course_id"),
-        "course_name": payload.get("course_name"),
-        "source_type": payload.get("source_type"),
-        "source_document_path": str(input_path.as_posix()),
-        "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "workspace_root": str(workspace_root),
-        "pix2tex_enabled": pix2tex_enabled,
-        "llm_enabled": llm_client is not None,
-        "llm_model": llm_model if llm_client is not None else None,
-        "formula_count": len(records),
-        "records": records,
-    }
+                record = build_formula_record(
+                    document,
+                    pages,
+                    page_index,
+                    block_index,
+                    workspace_root=workspace_root,
+                    image_index=image_index,
+                    pix2tex_enabled=True,
+                    llm_client=llm_client,
+                    llm_model=llm_model,
+                )
+                formula_records_by_id[block_id] = record
+                completed_block_ids.add(block_id)
+                all_records[:] = list(formula_records_by_id.values())
+                per_document_counts[doc_id_value] = sum(
+                    1 for item in all_records if str(item.get("doc_id")) == doc_id_value
+                )
+                persist_formula_progress(
+                    output_path=output_path,
+                    payload=payload,
+                    input_path=input_path,
+                    workspace_root=workspace_root,
+                    llm_model=llm_model,
+                    all_records=all_records,
+                    per_document_counts=per_document_counts,
+                )
+                print("    saved progress", flush=True)
+        print(
+            f"[{doc_index}/{total_docs}] Finished document {doc_id_value}",
+            flush=True,
+        )
+
+    return build_formula_output_payload(
+        payload=payload,
+        input_path=input_path,
+        workspace_root=workspace_root,
+        llm_model=llm_model,
+        all_records=all_records,
+        per_document_counts=per_document_counts,
+    )
 
 
 def main() -> None:
@@ -1112,21 +1219,38 @@ def main() -> None:
     )
 
     payload = load_json(input_path)
-    llm_client = init_openai_client(args.disable_llm)
+    llm_client = init_openai_client()
+    documents = [
+        document
+        for document in payload.get("documents", [])
+        if not args.doc_id or document.get("doc_id") == args.doc_id
+    ]
+    total_docs = len(documents)
+    total_formulas = sum(count_formula_blocks(document) for document in documents)
+    print(f"Loading formulas from {input_path}", flush=True)
+    print(
+        f"Found {total_docs} documents and {total_formulas} formulas to process",
+        flush=True,
+    )
+    existing_records = load_existing_formula_records(output_path)
+    if existing_records:
+        print(
+            f"Resuming from existing output with {len(existing_records)} completed formulas",
+            flush=True,
+        )
     formula_payload = build_formula_payload(
         payload,
         args.doc_id,
         workspace_root=workspace_root,
-        pix2tex_enabled=not args.disable_pix2tex,
         llm_client=llm_client,
         llm_model=args.llm_model,
         input_path=input_path,
+        output_path=output_path,
     )
     save_json(output_path, formula_payload)
-    print(f"Loading formulas from {input_path}")
     print(
-        f"Wrote {formula_payload['formula_count']} formula records to {output_path} "
-        f"(llm_enabled={formula_payload['llm_enabled']}, pix2tex_enabled={formula_payload['pix2tex_enabled']})"
+        f"Wrote {formula_payload['formula_count']} formula records to {output_path}",
+        flush=True,
     )
 
 

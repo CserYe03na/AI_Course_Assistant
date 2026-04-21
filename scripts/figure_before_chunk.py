@@ -23,6 +23,7 @@ TITLE_TYPES = {"title"}
 TEXT_TYPES = {"text", "title", "formula"}
 CAPTION_TYPES = {"text", "title"}
 QUALITY_VALUES = {"clean", "usable", "noisy", "broken"}
+DEFAULT_COURSE_ID = "adl"
 STOPWORDS = {
     "a",
     "an",
@@ -69,7 +70,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Clean and enrich extracted figure blocks before chunking."
     )
-    parser.add_argument("--course-id", required=True, help="Course identifier, for example adl or eods.")
+    parser.add_argument(
+        "--course-id",
+        default=DEFAULT_COURSE_ID,
+        help="Course identifier, for example adl or eods.",
+    )
     parser.add_argument("--input-path", help="Optional explicit path to the processed document JSON.")
     parser.add_argument(
         "--output-dir",
@@ -79,11 +84,6 @@ def parse_args() -> argparse.Namespace:
         "--llm-model",
         default="gpt-5.4-mini",
         help="VLM model used for figure semantic enhancement.",
-    )
-    parser.add_argument(
-        "--disable-llm",
-        action="store_true",
-        help="Disable VLM semantic enhancement even if API access is configured.",
     )
     return parser.parse_args()
 
@@ -412,13 +412,10 @@ def build_figure_focus(*, visual_description: Optional[str], section_title: Opti
     return None
 
 
-def init_openai_client(disable_llm: bool) -> Optional[Any]:
-    if disable_llm or OpenAI is None or not os.getenv("OPENAI_API_KEY"):
-        return None
-    try:
-        return OpenAI()
-    except Exception:
-        return None
+def init_openai_client() -> Any:
+    if OpenAI is None or not os.getenv("OPENAI_API_KEY"):
+        raise RuntimeError("OpenAI client is not available")
+    return OpenAI()
 
 
 def image_to_data_url(image_path: str) -> Optional[str]:
@@ -651,7 +648,8 @@ def enrich_document_figures(
 
     print(
         f"[{doc_index}/{total_docs}] Processing document {doc_id} "
-        f"with {total_figures} figures"
+        f"with {total_figures} figures",
+        flush=True,
     )
 
     for page in document.get("pages", []):
@@ -662,14 +660,15 @@ def enrich_document_figures(
             block_id = str(block.get("block_id"))
             print(
                 f"  [{processed_figures}/{total_figures}] "
-                f"page {page.get('page_no')} block {block_id}"
+                f"page {page.get('page_no')} block {block_id}",
+                flush=True,
             )
             if block_id in completed_block_ids:
                 reused_figures += 1
                 existing_record = figure_records_by_id.get(block_id)
                 if existing_record is not None:
                     figures.append(FigureRecord(**existing_record))
-                print("    resumed from existing output")
+                print("    resumed from existing output", flush=True)
                 continue
 
             figures.append(
@@ -695,11 +694,12 @@ def enrich_document_figures(
                 all_figures=all_figures,
                 per_document_counts=per_document_counts,
             )
-            print("    saved progress")
+            print("    saved progress", flush=True)
 
     print(
         f"[{doc_index}/{total_docs}] Finished document {doc_id} "
-        f"(reused {reused_figures}, processed {total_figures - reused_figures})"
+        f"(reused {reused_figures}, processed {total_figures - reused_figures})",
+        flush=True,
     )
     return figures
 
@@ -711,7 +711,7 @@ def main() -> None:
     output_dir = Path(args.output_dir) if args.output_dir else Path("data/processed") / args.course_id
     output_json = output_dir / f"{args.course_id}_figures_cleaned.json"
     payload = load_json(input_path)
-    llm_client = init_openai_client(args.disable_llm)
+    llm_client = init_openai_client()
     existing_figures = load_existing_records(output_json)
     figure_records_by_id = {
         str(record.get("block_id")): record
@@ -723,10 +723,13 @@ def main() -> None:
     total_docs = len(documents)
     total_figures = sum(count_document_figures(document) for document in documents)
 
-    print(f"Loading figures from {input_path}")
-    print(f"Found {total_docs} documents and {total_figures} figures to process")
+    print(f"Loading figures from {input_path}", flush=True)
+    print(f"Found {total_docs} documents and {total_figures} figures to process", flush=True)
     if completed_block_ids:
-        print(f"Resuming from existing output with {len(completed_block_ids)} completed figures")
+        print(
+            f"Resuming from existing output with {len(completed_block_ids)} completed figures",
+            flush=True,
+        )
 
     all_figures: List[Dict[str, Any]] = list(figure_records_by_id.values())
     per_document_counts: Dict[str, int] = {}
@@ -765,9 +768,10 @@ def main() -> None:
 
     print(
         f"Completed figure cleaning: {len(all_figures)} records, "
-        f"{sum(1 for item in all_figures if item.get('indexable'))} indexable"
+        f"{sum(1 for item in all_figures if item.get('indexable'))} indexable",
+        flush=True,
     )
-    print(f"Wrote {len(all_figures)} figure records to {output_json}")
+    print(f"Wrote {len(all_figures)} figure records to {output_json}", flush=True)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,11 @@
 GenAI Project Proposal.md
 validate_figure_ocr_llm.py
+validate_formula_ocr_llm.py
+validate_text_llm.py
 figure_cleaning_operating_doc.md
+formula_cleaning_operating_doc.md
+text_cleaning_operating_doc.md
+lecture1_formula_preview.md
 document.json
 __pycache__/
 *.pyc
