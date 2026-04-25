@@ -3,7 +3,7 @@
   "course_name": "Applied Deep Learning",
   "source_type": "lecture_pdf",
   "source_document_path": "data/processed/adl/adl_processed.json",
-  "generated_at": "2026-04-20T18:15:39-04:00",
+  "generated_at": "2026-04-25T18:57:26-04:00",
   "workspace_root": "/Users/serenacyn03/AI_Course_Assistant",
   "llm_model": "gpt-5.4-mini",
   "formula_count": 284,

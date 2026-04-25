@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from datetime import datetime
@@ -14,6 +15,7 @@ from typing import Any, Dict, List, Tuple
 
 DEFAULT_COURSE_ID = "adl"
 SCRIPT_DIR = Path(__file__).resolve().parent
+EXTRACTION_DIR = SCRIPT_DIR / "extraction"
 
 
 def parse_args() -> argparse.Namespace:
@@ -44,22 +46,22 @@ def parse_args() -> argparse.Namespace:
         "--workspace-root",
         type=Path,
         default=Path.cwd(),
-        help="Workspace root passed to formula_before_chunk.py.",
+        help="Workspace root passed to extraction/formula_before_chunk.py.",
     )
     parser.add_argument(
         "--skip-figure",
         action="store_true",
-        help="Skip figure_before_chunk.py.",
+        help="Skip extraction/figure_before_chunk.py.",
     )
     parser.add_argument(
         "--skip-formula",
         action="store_true",
-        help="Skip formula_before_chunk.py.",
+        help="Skip extraction/formula_before_chunk.py.",
     )
     parser.add_argument(
         "--skip-text",
         action="store_true",
-        help="Skip text_before_chunk.py.",
+        help="Skip extraction/text_before_chunk.py.",
     )
     parser.add_argument(
         "--skip-merge",
@@ -76,6 +78,22 @@ def load_json(path: Path) -> Dict[str, Any]:
 def save_json(path: Path, payload: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False))
+
+
+def strip_control_chars(text: str) -> str:
+    cleaned = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return cleaned
+
+
+def sanitize_nested_strings(value: Any) -> Any:
+    if isinstance(value, str):
+        return strip_control_chars(value)
+    if isinstance(value, list):
+        return [sanitize_nested_strings(item) for item in value]
+    if isinstance(value, dict):
+        return {key: sanitize_nested_strings(item) for key, item in value.items()}
+    return value
 
 
 def resolve_input_path(course_id: str, explicit_path: str | None) -> Path:
@@ -97,7 +115,7 @@ def resolve_cleaned_paths(course_id: str, output_dir: Path) -> Dict[str, Path]:
         "figure": output_dir / f"{course_id}_figures_cleaned.json",
         "formula": output_dir / f"{course_id}_formula_cleaned.json",
         "text": output_dir / f"{course_id}_text_inline_math_cleaned.json",
-        "merged": output_dir / f"{course_id}_before_chunk_merged.json",
+        "merged": output_dir / f"{course_id}_merged.json",
     }
 
 
@@ -142,6 +160,8 @@ def load_cleaned_record_maps(paths: Dict[str, Path]) -> Dict[str, Dict[str, Dict
 def merge_block(
     original_block: Dict[str, Any],
     *,
+    doc_id: str,
+    page_no: int,
     figure_records: Dict[str, Dict[str, Any]],
     formula_records: Dict[str, Dict[str, Any]],
     text_records: Dict[str, Dict[str, Any]],
@@ -150,6 +170,8 @@ def merge_block(
     block_type = original_block.get("type")
 
     merged_block = dict(original_block)
+    merged_block["doc_id"] = doc_id
+    merged_block["page_no"] = page_no
     source = "original"
 
     if block_type == "figure" and block_id in figure_records:
@@ -162,7 +184,7 @@ def merge_block(
         merged_block.update(text_records[block_id])
         source = "text_inline_math_cleaned"
 
-    return merged_block, source
+    return sanitize_nested_strings(merged_block), source
 
 
 def merge_cleaned_outputs(
@@ -173,7 +195,7 @@ def merge_cleaned_outputs(
     merged_output_path: Path,
     doc_id: str | None,
 ) -> Dict[str, Any]:
-    merged_documents: List[Dict[str, Any]] = []
+    merged_blocks: List[Dict[str, Any]] = []
     merged_counts = {
         "figure_cleaned": 0,
         "formula_cleaned": 0,
@@ -186,14 +208,16 @@ def merge_cleaned_outputs(
         if doc_id and document.get("doc_id") != doc_id:
             continue
 
-        merged_pages: List[Dict[str, Any]] = []
+        doc_id_value = str(document.get("doc_id"))
         for page in document.get("pages", []):
-            merged_blocks: List[Dict[str, Any]] = []
+            page_no = int(page.get("page_no", 0))
             for block in page.get("blocks", []):
                 if block.get("type") == "table":
                     continue
                 merged_block, source = merge_block(
                     block,
+                    doc_id=doc_id_value,
+                    page_no=page_no,
                     figure_records=cleaned_maps["figure"],
                     formula_records=cleaned_maps["formula"],
                     text_records=cleaned_maps["text"],
@@ -202,25 +226,22 @@ def merge_cleaned_outputs(
                 merged_counts[source] += 1
                 total_blocks += 1
 
-            merged_page = dict(page)
-            merged_page["blocks"] = merged_blocks
-            merged_pages.append(merged_page)
-
-        merged_document = dict(document)
-        merged_document["pages"] = merged_pages
-        merged_documents.append(merged_document)
-
     merged_payload = {
         "course_id": original_payload.get("course_id"),
         "course_name": original_payload.get("course_name"),
         "source_type": original_payload.get("source_type"),
         "source_document_path": str(input_path.as_posix()),
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "document_count": len(merged_documents),
+        "document_count": sum(
+            1
+            for document in original_payload.get("documents", [])
+            if not doc_id or document.get("doc_id") == doc_id
+        ),
         "block_count": total_blocks,
         "merge_summary": merged_counts,
-        "documents": merged_documents,
+        "blocks": merged_blocks,
     }
+    merged_payload = sanitize_nested_strings(merged_payload)
     save_json(merged_output_path, merged_payload)
     return merged_payload
 
@@ -237,7 +258,7 @@ def main() -> None:
         steps.append(
             (
                 "figure_before_chunk.py",
-                [sys.executable, str(SCRIPT_DIR / "figure_before_chunk.py"), *shared_args],
+                [sys.executable, str(EXTRACTION_DIR / "figure_before_chunk.py"), *shared_args],
             )
         )
     if not args.skip_formula:
@@ -246,7 +267,7 @@ def main() -> None:
                 "formula_before_chunk.py",
                 [
                     sys.executable,
-                    str(SCRIPT_DIR / "formula_before_chunk.py"),
+                    str(EXTRACTION_DIR / "formula_before_chunk.py"),
                     *shared_args,
                     "--workspace-root",
                     str(args.workspace_root.resolve()),
@@ -257,12 +278,13 @@ def main() -> None:
         steps.append(
             (
                 "text_before_chunk.py",
-                [sys.executable, str(SCRIPT_DIR / "text_before_chunk.py"), *shared_args],
+                [sys.executable, str(EXTRACTION_DIR / "text_before_chunk.py"), *shared_args],
             )
         )
 
     print(f"Using Python: {sys.executable}", flush=True)
     print(f"Scripts directory: {SCRIPT_DIR}", flush=True)
+    print(f"Extraction directory: {EXTRACTION_DIR}", flush=True)
     print(f"Input path: {input_path}", flush=True)
     print(f"Output directory: {output_dir}", flush=True)
 
