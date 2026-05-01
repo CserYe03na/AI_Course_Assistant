@@ -63,7 +63,7 @@ class FigureRecord:
     figure_focus: Optional[str]
     keywords: List[str]
     overall_quality: str
-    indexable: bool
+    indexable: Optional[bool] = None
 
 
 def parse_args() -> argparse.Namespace:
@@ -646,7 +646,7 @@ def enrich_figure_block(
         figure_focus=figure_focus,
         keywords=keywords,
         overall_quality=overall_quality,
-        indexable=overall_quality == "good",
+        # indexable=overall_quality == "good",
     )
 
 

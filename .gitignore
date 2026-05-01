@@ -7,5 +7,8 @@ formula_cleaning_operating_doc.md
 text_cleaning_operating_doc.md
 lecture1_formula_preview.md
 document.json
+chunk.md
 __pycache__/
 *.pyc
+*_embeddings.json
+*_embeddings.json

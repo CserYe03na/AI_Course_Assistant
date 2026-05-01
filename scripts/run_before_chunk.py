@@ -16,6 +16,8 @@ from typing import Any, Dict, List, Tuple
 DEFAULT_COURSE_ID = "adl"
 SCRIPT_DIR = Path(__file__).resolve().parent
 EXTRACTION_DIR = SCRIPT_DIR / "extraction"
+TITLE_TYPES = {"title"}
+TEXT_TYPES = {"text", "title"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -145,6 +147,107 @@ def index_records(records: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
     }
 
 
+def clean_text(text: str | None) -> str | None:
+    if text is None:
+        return None
+    text = re.sub(r"\s+", " ", text).strip()
+    return text or None
+
+
+def sort_blocks(blocks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    return sorted(blocks, key=lambda block: int(block.get("reading_order", 10**9)))
+
+
+def get_document_title_block_id(document: Dict[str, Any]) -> str | None:
+    for page in document.get("pages", []):
+        for block in sort_blocks(page.get("blocks", [])):
+            if block.get("type") not in TITLE_TYPES:
+                continue
+            candidate = clean_text(block.get("text"))
+            if candidate:
+                return str(block.get("block_id"))
+    return None
+
+
+def get_title_history(document: Dict[str, Any], *, document_title_block_id: str | None) -> Dict[int, str | None]:
+    latest_title: str | None = None
+    history: Dict[int, str | None] = {}
+    for page in document.get("pages", []):
+        page_no = int(page.get("page_no", 0))
+        history[page_no] = latest_title
+        for block in sort_blocks(page.get("blocks", [])):
+            if block.get("type") not in TITLE_TYPES:
+                continue
+            if str(block.get("block_id")) == document_title_block_id:
+                continue
+            candidate = clean_text(block.get("text"))
+            if candidate:
+                latest_title = candidate
+    return history
+
+
+def get_section_title(
+    title_history: Dict[int, str | None],
+    page: Dict[str, Any],
+    block: Dict[str, Any],
+    *,
+    document_title_block_id: str | None,
+) -> str | None:
+    block_order = int(block.get("reading_order", 0))
+    latest_title: str | None = None
+
+    for candidate_block in sort_blocks(page.get("blocks", [])):
+        if int(candidate_block.get("reading_order", 0)) >= block_order:
+            break
+        if candidate_block.get("type") not in TITLE_TYPES:
+            continue
+        if str(candidate_block.get("block_id")) == document_title_block_id:
+            continue
+        candidate = clean_text(candidate_block.get("text"))
+        if candidate:
+            latest_title = candidate
+
+    return latest_title or title_history.get(int(page.get("page_no", 0)))
+
+
+def collect_nearby_text(
+    page: Dict[str, Any],
+    text_block: Dict[str, Any],
+    *,
+    direction: str,
+    limit: int = 3,
+) -> str | None:
+    target_order = int(text_block.get("reading_order", 0))
+    selected: List[str] = []
+
+    blocks = sort_blocks(page.get("blocks", []))
+    iterable = reversed(blocks) if direction == "before" else blocks
+
+    for block in iterable:
+        reading_order = int(block.get("reading_order", 0))
+        if direction == "before":
+            if reading_order >= target_order:
+                continue
+        elif reading_order <= target_order:
+            continue
+
+        if block.get("type") not in TEXT_TYPES:
+            continue
+
+        text = clean_text(block.get("text"))
+        if not text or len(text) < 16:
+            continue
+        selected.append(text)
+        if len(selected) >= limit:
+            break
+
+    if direction == "before":
+        selected = list(reversed(selected))
+    if not selected:
+        return None
+    return clean_text(" ".join(selected))
+
+
 def load_cleaned_record_maps(paths: Dict[str, Path]) -> Dict[str, Dict[str, Dict[str, Any]]]:
     figure_payload = load_json(paths["figure"]) if paths["figure"].exists() else {}
     formula_payload = load_json(paths["formula"]) if paths["formula"].exists() else {}
@@ -162,6 +265,9 @@ def merge_block(
     *,
     doc_id: str,
     page_no: int,
+    page: Dict[str, Any],
+    title_history: Dict[int, str | None],
+    document_title_block_id: str | None,
     figure_records: Dict[str, Dict[str, Any]],
     formula_records: Dict[str, Dict[str, Any]],
     text_records: Dict[str, Dict[str, Any]],
@@ -172,6 +278,25 @@ def merge_block(
     merged_block = dict(original_block)
     merged_block["doc_id"] = doc_id
     merged_block["page_no"] = page_no
+    if block_type == "text" and "section_title" not in merged_block:
+        merged_block["section_title"] = get_section_title(
+            title_history,
+            page,
+            original_block,
+            document_title_block_id=document_title_block_id,
+        )
+    if block_type == "text" and "nearby_text_before" not in merged_block:
+        merged_block["nearby_text_before"] = collect_nearby_text(
+            page,
+            original_block,
+            direction="before",
+        )
+    if block_type == "text" and "nearby_text_after" not in merged_block:
+        merged_block["nearby_text_after"] = collect_nearby_text(
+            page,
+            original_block,
+            direction="after",
+        )
     source = "original"
 
     if block_type == "figure" and block_id in figure_records:
@@ -209,6 +334,11 @@ def merge_cleaned_outputs(
             continue
 
         doc_id_value = str(document.get("doc_id"))
+        document_title_block_id = get_document_title_block_id(document)
+        title_history = get_title_history(
+            document,
+            document_title_block_id=document_title_block_id,
+        )
         for page in document.get("pages", []):
             page_no = int(page.get("page_no", 0))
             for block in page.get("blocks", []):
@@ -218,6 +348,9 @@ def merge_cleaned_outputs(
                     block,
                     doc_id=doc_id_value,
                     page_no=page_no,
+                    page=page,
+                    title_history=title_history,
+                    document_title_block_id=document_title_block_id,
                     figure_records=cleaned_maps["figure"],
                     formula_records=cleaned_maps["formula"],
                     text_records=cleaned_maps["text"],
