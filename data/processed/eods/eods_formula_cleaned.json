@@ -1,0 +1,839 @@
+{
+  "course_id": "eods",
+  "course_name": "Elements of Data Science",
+  "source_type": "lecture_pdf",
+  "source_document_path": "data/processed/eods/eods_processed.json",
+  "generated_at": "2026-05-02T01:00:20-04:00",
+  "workspace_root": "/Users/xuefei/Desktop/AI_Course_Assistant",
+  "llm_model": "gpt-5.4-mini",
+  "formula_count": 41,
+  "documents": {
+    "eods_week03_pandas_visualization_dataexploration": 10,
+    "eods_week04_confidence_intervals_and_hypothesis_testing": 4,
+    "eods_week05_intro_to_machine_learning_models": 15,
+    "eods_week07_model_evaluation_and_hyperparameter_tuning": 10,
+    "eods_week09_joining_data_and_dimensionality_reduction": 2
+  },
+  "records": [
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p143_b3",
+      "type": "formula",
+      "page_no": 143,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        606.67,
+        200.81,
+        848.61,
+        264.53
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p143_b3.png",
+      "nearby_text_before": "Numeric: Central Tendency with Mean",
+      "nearby_text_after": null,
+      "section_title": "Numeric: Central Tendency with Mean",
+      "formula_latex": "\\bar{x}=\\frac{1}{n}\\sum x_i",
+      "formula_focus": "Sample mean formula",
+      "formula_explanation": "This formula defines the average value \\(\\bar{x}\\) as the sum of the sample values \\(x_i\\) divided by the number of values \\(n\\). It is the standard mean used for central tendency.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p144_b4",
+      "type": "formula",
+      "page_no": 144,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        606.67,
+        200.81,
+        848.61,
+        264.53
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p144_b4.png",
+      "nearby_text_before": "Numeric: Central Tendency with Mean",
+      "nearby_text_after": null,
+      "section_title": "Numeric: Central Tendency with Mean",
+      "formula_latex": "\\bar{x}=\\frac{1}{n}\\sum x_i",
+      "formula_focus": "sample mean formula",
+      "formula_explanation": "This shows the sample mean \\(\\bar{x}\\) equals one over \\(n\\) times the sum of the data values \\(x_i\\). It is the average of the observations.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p145_b3",
+      "type": "formula",
+      "page_no": 145,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        606.67,
+        200.81,
+        848.61,
+        264.53
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p145_b3.png",
+      "nearby_text_before": "Numeric: Central Tendency with Mean",
+      "nearby_text_after": null,
+      "section_title": "Numeric: Central Tendency with Mean",
+      "formula_latex": "\\bar{x} = \\frac{1}{n}\\sum x_i",
+      "formula_focus": "Mean formula",
+      "formula_explanation": "This shows the sample mean \\(\\bar{x}\\) as one over \\(n\\) times the sum of the values \\(x_i\\). It is the standard average of a set of observations.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p146_b4",
+      "type": "formula",
+      "page_no": 146,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        606.67,
+        200.81,
+        848.61,
+        264.53
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p146_b4.png",
+      "nearby_text_before": "Numeric: Central Tendency with Mean",
+      "nearby_text_after": "Mean is sensitive to outliers Outlier: a data point that differs signicantly from other observations effect of heavy tailed distribution?",
+      "section_title": "Numeric: Central Tendency with Mean",
+      "formula_latex": "\\bar{x} = \\frac{1}{n}\\sum x_i",
+      "formula_focus": "Sample mean formula",
+      "formula_explanation": "The visible formula defines the sample mean \\(\\bar{x}\\) as one over \\(n\\) times the sum of the data values \\(x_i\\). It expresses the average of a set of observations.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p157_b3",
+      "type": "formula",
+      "page_no": 157,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        179.12,
+        306.05,
+        439.8,
+        393.58
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p157_b3.png",
+      "nearby_text_before": "Numeric: Spread with Variance Sample Variance",
+      "nearby_text_after": null,
+      "section_title": "Numeric: Spread with Variance",
+      "formula_latex": "s^2=\\frac{\\sum (x-\\bar{x})^2}{n-1}",
+      "formula_focus": "Sample variance formula",
+      "formula_explanation": "This shows the sample variance \\(s^2\\) as the sum of squared deviations from the mean \\(\\bar{x}\\), divided by \\(n-1\\). It is the standard unbiased variance formula for a sample.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p158_b3",
+      "type": "formula",
+      "page_no": 158,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        179.12,
+        306.05,
+        439.8,
+        393.58
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p158_b3.png",
+      "nearby_text_before": "Numeric: Spread with Variance Sample Variance",
+      "nearby_text_after": null,
+      "section_title": "Numeric: Spread with Variance",
+      "formula_latex": "s^2 = \\frac{\\sum (x-\\bar{x})^2}{n-1}",
+      "formula_focus": "Sample variance formula",
+      "formula_explanation": "This gives the sample variance \\(s^2\\) as the sum of squared deviations from the sample mean \\(\\bar{x}\\), divided by \\(n-1\\). It measures spread in the data using the usual degrees-of-freedom correction.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p159_b3",
+      "type": "formula",
+      "page_no": 159,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        179.12,
+        305.86,
+        439.8,
+        393.58
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p159_b3.png",
+      "nearby_text_before": "Numeric: Spread with Variance Sample Variance",
+      "nearby_text_after": "but this is in ! dollars 2",
+      "section_title": "Numeric: Spread with Variance",
+      "formula_latex": "s^2 = \\frac{\\sum (x-\\bar{x})^2}{n-1}",
+      "formula_focus": "Sample variance formula",
+      "formula_explanation": "This gives the sample variance \\(s^2\\). It is the sum of squared deviations from the sample mean \\(\\bar{x}\\), divided by \\(n-1\\).",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p161_b3",
+      "type": "formula",
+      "page_no": 161,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        184.75,
+        290.99,
+        492.96,
+        392.72
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p161_b3.png",
+      "nearby_text_before": "Numeric: Spread with Standard Deviation Sample Standard Deviation",
+      "nearby_text_after": null,
+      "section_title": "Numeric: Spread with Standard Deviation",
+      "formula_latex": "s = \\sqrt{\\frac{\\sum (x-\\bar{x})^2}{n-1}}",
+      "formula_focus": "Sample standard deviation",
+      "formula_explanation": "This formula gives the sample standard deviation s. It is the square root of the average squared deviation from the sample mean, using n-1 in the denominator.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p162_b3",
+      "type": "formula",
+      "page_no": 162,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        184.75,
+        290.99,
+        492.96,
+        392.72
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p162_b3.png",
+      "nearby_text_before": "Numeric: Spread with Standard Deviation Sample Standard Deviation",
+      "nearby_text_after": null,
+      "section_title": "Numeric: Spread with Standard Deviation",
+      "formula_latex": "s=\\sqrt{\\frac{\\sum (x-\\bar{x})^2}{n-1}}",
+      "formula_focus": "sample standard deviation",
+      "formula_explanation": "This formula computes the sample standard deviation s. It takes the square root of the sum of squared deviations from the mean, divided by n-1.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week03_pandas_visualization_dataexploration_p163_b3",
+      "type": "formula",
+      "page_no": 163,
+      "doc_id": "eods_week03_pandas_visualization_dataexploration",
+      "bbox": [
+        184.75,
+        290.99,
+        492.96,
+        392.72
+      ],
+      "formula_path": "data/processed/eods/eods_week03_pandas_visualization_dataexploration/formulas/eods_week03_pandas_visualization_dataexploration_p163_b3.png",
+      "nearby_text_before": "Numeric: Spread with Standard Deviation Sample Standard Deviation",
+      "nearby_text_after": "Back in original scale of dollars Sensitive to outliers",
+      "section_title": "Numeric: Spread with Standard Deviation",
+      "formula_latex": "s = \\sqrt{\\frac{\\sum (x-\\bar{x})^2}{n-1}}",
+      "formula_focus": "Sample standard deviation",
+      "formula_explanation": "This formula gives the sample standard deviation, measuring spread around the sample mean \\(\\bar{x}\\). It is the square root of the average squared deviation, using \\(n-1\\) in the denominator.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week04_confidence_intervals_and_hypothesis_testing_p80_b3",
+      "type": "formula",
+      "page_no": 80,
+      "doc_id": "eods_week04_confidence_intervals_and_hypothesis_testing",
+      "bbox": [
+        98.5,
+        332.31,
+        426.67,
+        402.68
+      ],
+      "formula_path": "data/processed/eods/eods_week04_confidence_intervals_and_hypothesis_testing/formulas/eods_week04_confidence_intervals_and_hypothesis_testing_p80_b3.png",
+      "nearby_text_before": "Aside: What is Normal? distribution dened by mean ( ) and standard deviation ( ) 𝜇 𝜎",
+      "nearby_text_after": "PDF (Probability Density Function) function of a continuous random variable that provides a relative likelihood of seeing a particular sample of a random variable",
+      "section_title": "Aside: What is Normal?",
+      "formula_latex": "N(x;\\mu,\\sigma)=\\frac{1}{\\sqrt{2\\pi\\sigma}}e^{-\\frac{(x-\\mu)^2}{2\\sigma}}",
+      "formula_focus": "Normal distribution density",
+      "formula_explanation": "This gives the normal distribution density in terms of the mean \\(\\mu\\) and standard deviation \\(\\sigma\\). It shows how the value at \\(x\\) decays exponentially away from \\(\\mu\\).",
+      "overall_quality": "poor"
+    },
+    {
+      "block_id": "eods_week04_confidence_intervals_and_hypothesis_testing_p86_b5",
+      "type": "formula",
+      "page_no": 86,
+      "doc_id": "eods_week04_confidence_intervals_and_hypothesis_testing",
+      "bbox": [
+        639.47,
+        330.33,
+        810.28,
+        391.39
+      ],
+      "formula_path": "data/processed/eods/eods_week04_confidence_intervals_and_hypothesis_testing/formulas/eods_week04_confidence_intervals_and_hypothesis_testing_p86_b5.png",
+      "nearby_text_before": "Convert our distribution to an approximation of standard normal shift mean to 0 transform to standard deviation of 1",
+      "nearby_text_after": null,
+      "section_title": "Normalization: z-score",
+      "formula_latex": "z = \\frac{x-\\bar{x}}{s}",
+      "formula_focus": "z-score normalization",
+      "formula_explanation": "This formula defines the standardized value z as the deviation of x from the sample mean \\bar{x}, divided by the standard deviation s. It converts a value into units of standard deviations from the mean.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week04_confidence_intervals_and_hypothesis_testing_p87_b5",
+      "type": "formula",
+      "page_no": 87,
+      "doc_id": "eods_week04_confidence_intervals_and_hypothesis_testing",
+      "bbox": [
+        639.47,
+        330.33,
+        810.28,
+        391.39
+      ],
+      "formula_path": "data/processed/eods/eods_week04_confidence_intervals_and_hypothesis_testing/formulas/eods_week04_confidence_intervals_and_hypothesis_testing_p87_b5.png",
+      "nearby_text_before": "Convert our distribution to an approximation of standard normal shift mean to 0 transform to standard deviation of 1",
+      "nearby_text_after": null,
+      "section_title": "Normalization: z-score",
+      "formula_latex": "z = \\frac{x-\\bar{x}}{s}",
+      "formula_focus": "z-score normalization",
+      "formula_explanation": "This formula defines the standardized value z as the deviation of x from the sample mean \\(\\bar{x}\\), divided by the sample standard deviation \\(s\\). It converts a value to a normalized scale with mean 0 and standard deviation 1.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week04_confidence_intervals_and_hypothesis_testing_p88_b5",
+      "type": "formula",
+      "page_no": 88,
+      "doc_id": "eods_week04_confidence_intervals_and_hypothesis_testing",
+      "bbox": [
+        639.47,
+        330.33,
+        810.28,
+        391.39
+      ],
+      "formula_path": "data/processed/eods/eods_week04_confidence_intervals_and_hypothesis_testing/formulas/eods_week04_confidence_intervals_and_hypothesis_testing_p88_b5.png",
+      "nearby_text_before": "Convert our distribution to an approximation of standard normal shift mean to 0 transform to standard deviation of 1",
+      "nearby_text_after": null,
+      "section_title": "Normalization: z-score",
+      "formula_latex": "z = \\frac{x-\\bar{x}}{s}",
+      "formula_focus": "z-score normalization",
+      "formula_explanation": "This formula defines the z-score of a value x by subtracting the sample mean \\(\\bar{x}\\) and dividing by the standard deviation \\(s\\). It rescales the value to a standardized units scale.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p40_b2",
+      "type": "formula",
+      "page_no": 40,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        98.5,
+        179.88,
+        541.31,
+        234.13
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p40_b2.png",
+      "nearby_text_before": "Simple Linear Regression",
+      "nearby_text_after": ": dependent/endogenous/response target, label (Ex: alcohol ) 𝑦𝑖 : independent/exogenous/explanatory feature, attribute (Ex: proline ) 𝑥𝑖 : coefcient, slope 𝑤 1",
+      "section_title": "Simple Linear Regression",
+      "formula_latex": "y_i = w_1 x_i + w_0 + \u001b_ i",
+      "formula_focus": "Simple linear regression model",
+      "formula_explanation": "The visible equation expresses the target value y_i as a linear function of x_i with slope w_1 and intercept w_0, plus an error term. The last term is intended to be a noise symbol, but the OCR rendering is unreliable there.",
+      "overall_quality": "poor"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p42_b5",
+      "type": "formula",
+      "page_no": 42,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        481.35,
+        328.54,
+        673.4,
+        377.04
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p42_b5.png",
+      "nearby_text_before": "prediction : = 𝑓 ( ) = + 𝑦 ̂ 𝑖 𝑥𝑖 𝑤 1 𝑥𝑖 𝑤 0 error : 𝑒𝑟𝑟𝑜𝑟 ( , ) = -𝑦𝑖 𝑦 ̂ 𝑖 𝑦𝑖 𝑦 ̂ 𝑖 sum of squared errors : ∑ ( -) 𝑦𝑖 𝑦 ̂",
+      "nearby_text_after": "least squares : make the sum of squared errors as small as possible gradient descent : minimize error by following the gradient wrt , 𝑤 1 𝑤 0 can sometimes be optimized in closed form",
+      "section_title": "Finding and with Ordinary Least Squares 𝑤 1 𝑤 0",
+      "formula_latex": null,
+      "formula_focus": "squared prediction error term",
+      "formula_explanation": "The visible expression is a squared difference between a value and its prediction, shown as \\((y_i-\\hat{y}_i)^2\\). The left edge appears cropped, so only this local error term is reliably visible.",
+      "overall_quality": "broken"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p64_b20",
+      "type": "formula",
+      "page_no": 64,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        433.22,
+        246.44,
+        1023.63,
+        279.47
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p64_b20.png",
+      "nearby_text_before": "Multiple Linear Regression 5 Including multiple independent variables 2",
+      "nearby_text_after": "Objective: Find a plane that falls as close to our points as possible",
+      "section_title": "Multiple Linear Regression 5",
+      "formula_latex": "= + + + … + + 𝑦𝑖 𝑤 0 𝑤 1 𝑥𝑖 1 𝑤 2 𝑥𝑖 2 𝑤𝑚𝑥𝑖𝑚 𝜀𝑖",
+      "formula_focus": "multiple linear regression model",
+      "formula_explanation": "This equation expresses the output $y_i$ as a weighted sum of multiple input variables for the $i$th example, plus an error term $\\varepsilon_i$. The weights $w_0, w_1, \\ldots, w_m$ define the fitted plane or linear predictor.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p64_b21",
+      "type": "formula",
+      "page_no": 64,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        445.7,
+        358.19,
+        1011.7,
+        392.43
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p64_b21.png",
+      "nearby_text_before": "Multiple Linear Regression 5 Including multiple independent variables 2",
+      "nearby_text_after": "Objective: Find a plane that falls as close to our points as possible",
+      "section_title": "Multiple Linear Regression 5",
+      "formula_latex": "\\mathrm{alcohol}_i = w_0 + w_{\\mathrm{proline}}\\,\\mathrm{proline}_i + w_{\\mathrm{hue}}\\,\\mathrm{hue}_i",
+      "formula_focus": "Multiple linear regression equation",
+      "formula_explanation": "The formula predicts alcohol for sample i as a linear combination of proline and hue with an intercept term. It shows the response variable on the left and weighted input features on the right.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p71_b4",
+      "type": "formula",
+      "page_no": 71,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        262.87,
+        306.67,
+        672.42,
+        334.91
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p71_b4.png",
+      "nearby_text_before": "Dealing With the Intercept/Bias Two ways of keeping track of the bias term Keep it as a separate parameter (sklearn)",
+      "nearby_text_after": "𝑦 = + 𝑤 0 ∑ 𝑖 =1 𝑤𝑖𝑥𝑖",
+      "section_title": "Dealing With the Intercept/Bias",
+      "formula_latex": "𝑦 = + + + … + 𝑤 𝑤 𝑥 𝑤 𝑥",
+      "formula_focus": "Linear model with intercept",
+      "formula_explanation": "This is a linear prediction formula with an intercept term and weighted input features. The visible expression shows the bias term and the first few feature-weight products, but it is cropped before the sum is completed.",
+      "overall_quality": "poor"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p71_b6",
+      "type": "formula",
+      "page_no": 71,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        345.43,
+        309.08,
+        758.02,
+        360.45
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p71_b6.png",
+      "nearby_text_before": "Two ways of keeping track of the bias term Keep it as a separate parameter (sklearn) 𝑦 = + 𝑤 0 ∑ 𝑖 =1 𝑤𝑖𝑥𝑖",
+      "nearby_text_after": null,
+      "section_title": "Dealing With the Intercept/Bias",
+      "formula_latex": "0 1 1 2 2 𝑤𝑚𝑥𝑚 𝑚",
+      "formula_focus": "Linear combination with bias term",
+      "formula_explanation": "The visible formula shows a bias term 0 followed by a sum of weighted features: w_1x_1, w_2x_2, ..., w_mx_m. It represents the linear part of a model output written as an explicit expansion rather than summation notation.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p72_b6",
+      "type": "formula",
+      "page_no": 72,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        345.43,
+        309.08,
+        758.02,
+        360.45
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p72_b6.png",
+      "nearby_text_before": "Keep it as a separate parameter (sklearn) 𝑦 = + + + … + 𝑤 𝑤 𝑥 𝑤 𝑥 𝑦 = + 𝑤 0 ∑ 𝑖 =1 𝑤𝑖𝑥𝑖",
+      "nearby_text_after": "Append a constant of so and are the same length (statsmodels) : = 1 𝑥 0 𝑥 𝑤 𝑦 = + + + … + 𝑤 0 𝑥 0 𝑤 1 𝑥 1 𝑤 2 𝑥 2 𝑦 = ∑ 𝑖 =0 𝑤𝑖𝑥𝑖",
+      "section_title": "Dealing With the Intercept/Bias",
+      "formula_latex": "0 1 1 2 2 𝑤𝑚𝑥𝑚 𝑚",
+      "formula_focus": "Linear model with zero intercept",
+      "formula_explanation": "This is a weighted sum of features with the constant term set to 0. It shows the linear prediction written without an explicit bias/intercept parameter.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p72_b10",
+      "type": "formula",
+      "page_no": 72,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        349.28,
+        511.58,
+        788.82,
+        563.7
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p72_b10.png",
+      "nearby_text_before": "Append a constant of so and are the same length (statsmodels) : = 1 𝑥 0 𝑥 𝑤 𝑦 = + + + … + 𝑤 0 𝑥 0 𝑤 1 𝑥 1 𝑤 2 𝑥 2 𝑦 = ∑ 𝑖 =0 𝑤𝑖𝑥𝑖",
+      "nearby_text_after": null,
+      "section_title": "Dealing With the Intercept/Bias",
+      "formula_latex": "𝑤𝑚𝑥𝑚 𝑚",
+      "formula_focus": "Weighted linear combination",
+      "formula_explanation": "This is a sum of weighted input terms, with each feature $x_i$ multiplied by its coefficient $w_i$. It represents the linear part of a model, including the intercept term if $x_0=1$ and $w_0$ is the bias.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p73_b6",
+      "type": "formula",
+      "page_no": 73,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        345.43,
+        309.08,
+        758.02,
+        360.45
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p73_b6.png",
+      "nearby_text_before": "Keep it as a separate parameter (sklearn) 𝑦 = + + + … + 𝑤 𝑤 𝑥 𝑤 𝑥 𝑦 = + 𝑤 0 ∑ 𝑖 =1 𝑤𝑖𝑥𝑖",
+      "nearby_text_after": "Append a constant of so and are the same length (statsmodels) : = 1 𝑥 0 𝑥 𝑤 𝑦 = + + + … + 𝑤 𝑥 𝑤 𝑥 𝑤 𝑥 𝑦 = ∑ 𝑖 =0 𝑤𝑖𝑥𝑖",
+      "section_title": "Dealing With the Intercept/Bias",
+      "formula_latex": "0 1 1 2 2 𝑤𝑚𝑥𝑚 𝑚",
+      "formula_focus": "Linear model with intercept",
+      "formula_explanation": "This is a weighted sum of input features with an intercept term 0 shown at the start. It represents the main linear part of a model before adding the bias in a separate parameterization.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p73_b10",
+      "type": "formula",
+      "page_no": 73,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        345.43,
+        511.58,
+        788.82,
+        563.7
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p73_b10.png",
+      "nearby_text_before": "Append a constant of so and are the same length (statsmodels) : = 1 𝑥 0 𝑥 𝑤 𝑦 = + + + … + 𝑤 𝑥 𝑤 𝑥 𝑤 𝑥 𝑦 = ∑ 𝑖 =0 𝑤𝑖𝑥𝑖",
+      "nearby_text_after": null,
+      "section_title": "Dealing With the Intercept/Bias",
+      "formula_latex": "0 0 1 1 2 2 𝑤𝑚𝑥𝑚 𝑚",
+      "formula_focus": "Weighted linear sum",
+      "formula_explanation": "The visible expression is a weighted sum of feature terms, with each input x_i multiplied by a corresponding weight w_i. It shows the linear combination including the x_0 intercept term with coefficient 0 in the cropped view.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p79_b2",
+      "type": "formula",
+      "page_no": 79,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        639.47,
+        241.83,
+        810.28,
+        302.89
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p79_b2.png",
+      "nearby_text_before": "Standardizing/Normalizing Features for Gradient Descent",
+      "nearby_text_after": null,
+      "section_title": "Standardizing/Normalizing Features for Gradient Descent",
+      "formula_latex": "z = \\frac{x - \\bar{x}}{s}",
+      "formula_focus": "Standardized z-score formula",
+      "formula_explanation": "The visible formula defines z as the value x centered by subtracting the mean \\bar{x}, then divided by the standard deviation s. It converts a feature into a standardized scale.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p80_b6",
+      "type": "formula",
+      "page_no": 80,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        639.47,
+        241.83,
+        810.28,
+        302.89
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p80_b6.png",
+      "nearby_text_before": "Global cost minimum Zero mean and unit variance Standardizing/Normalizing Features for Gradient Descent",
+      "nearby_text_after": null,
+      "section_title": "Standardizing/Normalizing Features for Gradient Descent",
+      "formula_latex": "z = \\frac{x-\\bar{x}}{s}",
+      "formula_focus": "Standardized feature value",
+      "formula_explanation": "The formula defines a standardized variable z by subtracting the mean \\(\\bar{x}\\) from \\(x\\) and dividing by the standard deviation \\(s\\). It rescales the feature to have zero mean and unit variance.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p99_b2",
+      "type": "formula",
+      "page_no": 99,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        518.67,
+        148.31,
+        931.66,
+        222.28
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p99_b2.png",
+      "nearby_text_before": "Logistic Regression",
+      "nearby_text_after": null,
+      "section_title": "Logistic Regression",
+      "formula_latex": "\\operatorname{logistic}(x)=\\frac{1}{1+e^{-x}}",
+      "formula_focus": "Logistic function definition",
+      "formula_explanation": "This defines the logistic function of x. It maps x to the sigmoid value 1/(1+e^{-x}).",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p100_b10",
+      "type": "formula",
+      "page_no": 100,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        518.67,
+        148.31,
+        931.66,
+        222.28
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p100_b10.png",
+      "nearby_text_before": "Logistic Regression",
+      "nearby_text_after": null,
+      "section_title": "Logistic Regression",
+      "formula_latex": "\\operatorname{logistic}(x)=\\frac{1}{1+e^{-x}}",
+      "formula_focus": "Logistic function definition",
+      "formula_explanation": "This defines the logistic function as a fraction with numerator 1 and denominator \\(1+e^{-x}\\). It maps a real input \\(x\\) to a value between 0 and 1.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week05_intro_to_machine_learning_models_p115_b3",
+      "type": "formula",
+      "page_no": 115,
+      "doc_id": "eods_week05_intro_to_machine_learning_models",
+      "bbox": [
+        564.27,
+        252.46,
+        892.02,
+        312.03
+      ],
+      "formula_path": "data/processed/eods/eods_week05_intro_to_machine_learning_models/formulas/eods_week05_intro_to_machine_learning_models_p115_b3.png",
+      "nearby_text_before": "Interpreting Logistic Regression Coecients After some math",
+      "nearby_text_after": "this is the log odds ratio of 𝑝 ( 𝑦 =1) 𝑝 ( 𝑦 =0) odds range from 0 to positive innity odds(5) -> 5/1 -> 5 out of 6 times -> .83",
+      "section_title": "Interpreting Logistic Regression Coecients",
+      "formula_latex": "\\\\log\\left(\\frac{y_i}{1-y_i}\\right)=w_0+w_1x_{i1}",
+      "formula_focus": "Log-odds linear model",
+      "formula_explanation": "This formula expresses the log odds of the outcome as a linear function of the input feature. The right-hand side is an intercept term plus a weight times the feature value.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p17_b3",
+      "type": "formula",
+      "page_no": 17,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        528.27,
+        257.3,
+        917.61,
+        358.54
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p17_b3.png",
+      "nearby_text_before": "Comparing against the mean: 𝑅 2 the proportion of variance explained by the model",
+      "nearby_text_after": "maximum value of 1 a value below 0 means the model is predicting worse than just predicting the mean sklearn uses as the default for regression scoring 𝑅 2",
+      "section_title": "Comparing against the mean: 𝑅 2",
+      "formula_latex": "R^2 = 1 - \\frac{\\sum (y_i - \\hat{y}_i)^2}{\\sum (y_i - \\bar{y})^2}",
+      "formula_focus": "R-squared definition",
+      "formula_explanation": "This defines $R^2$ as one minus the ratio of squared prediction errors to the total squared variation around the mean. It measures how much variance the model explains compared with predicting the mean.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p77_b4",
+      "type": "formula",
+      "page_no": 77,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        565.07,
+        364.06,
+        885.22,
+        418.29
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p77_b4.png",
+      "nearby_text_before": "Weighing Errors: Precision vs. Recall Out of the observations I predicted positive (TP+FP), how many are truly positive (TP)?",
+      "nearby_text_after": "Out of the truly positive (TP+FN), how many obsersevations did I predict positive (TP)?",
+      "section_title": "Precision",
+      "formula_latex": "precision = \\frac{TP}{TP+FP}",
+      "formula_focus": "Precision definition",
+      "formula_explanation": "The formula defines precision as the fraction of predicted positives that are truly positive. It is TP divided by TP+FP.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p77_b6",
+      "type": "formula",
+      "page_no": 77,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        592.27,
+        610.81,
+        858.92,
+        665.79
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p77_b6.png",
+      "nearby_text_before": "Weighing Errors: Precision vs. Recall Out of the observations I predicted positive (TP+FP), how many are truly positive (TP)? Out of the truly positive (TP+FN), how many obsersevations did I predict positive (TP)?",
+      "nearby_text_after": null,
+      "section_title": "Precision",
+      "formula_latex": "recall = \\frac{TP}{TP+FN}",
+      "formula_focus": "Recall formula",
+      "formula_explanation": "The formula defines recall as true positives divided by all truly positive cases, including false negatives. It measures how many actual positives were correctly identified.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p80_b3",
+      "type": "formula",
+      "page_no": 80,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        472.58,
+        283.71,
+        980.29,
+        395.1
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p80_b3.png",
+      "nearby_text_before": "How do we decide if something is positive or negative? Usually set a threshold",
+      "nearby_text_after": "What happens if we change it? High threshold High Precision, Low Recall → Low threshold High Recall, Low Precision →",
+      "section_title": "How do we decide if something is positive or negative?",
+      "formula_latex": "\\hat{y}_i = \\begin{cases}1 & \\text{if } P(y_i = 1 \\mid x_i) > \\text{threshold},\\\\0 & \\text{o.w.}\\end{cases}",
+      "formula_focus": "Thresholded binary prediction",
+      "formula_explanation": "This piecewise rule sets the predicted label \\(\\hat{y}_i\\) to 1 when the conditional probability \\(P(y_i=1\\mid x_i)\\) exceeds a threshold, and 0 otherwise. It is the standard way to turn a probability score into a binary classification decision.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p81_b6",
+      "type": "formula",
+      "page_no": 81,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        555.14,
+        381.44,
+        898.73,
+        456.28
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p81_b6.png",
+      "nearby_text_before": "Usually, we just want one number to optimize -score: harmonic mean of precision and recall eg. weighted average of the precision and recall",
+      "nearby_text_after": "Note that ignores True Negatives! 𝐹 1",
+      "section_title": "Combining Precision and Recall: -score 𝐹 1",
+      "formula_latex": "F_1 = 2 \\cdot \\frac{\\text{precision} \\cdot \\text{recall}}{\\text{precision} + \\text{recall}}",
+      "formula_focus": "F1 harmonic mean",
+      "formula_explanation": "This formula defines the F1 score as twice the product of precision and recall divided by their sum. It combines the two measures into a single number, emphasizing balance between them.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p82_b5",
+      "type": "formula",
+      "page_no": 82,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        555.14,
+        381.44,
+        898.73,
+        456.28
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p82_b5.png",
+      "nearby_text_before": "Usually, we just want one number to optimize -score: harmonic mean of precision and recall 𝐹 1 eg. weighted average of the precision and recall",
+      "nearby_text_after": "Note that ignores True Negatives! 𝐹 1",
+      "section_title": "Combining Precision and Recall: -score 𝐹 1",
+      "formula_latex": "F_1 = 2 \\cdot \\frac{\\text{precision} \\cdot \\text{recall}}{\\text{precision} + \\text{recall}}",
+      "formula_focus": "F1 harmonic mean formula",
+      "formula_explanation": "This defines the F1 score as twice the product of precision and recall divided by their sum. It combines the two measures into one number.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p83_b4",
+      "type": "formula",
+      "page_no": 83,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        98.5,
+        285.64,
+        745.47,
+        338.74
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p83_b4.png",
+      "nearby_text_before": "Paying attention to True Negatives: ROC R eceiver O perating C haracteristic displays FPR vs TPR",
+      "nearby_text_after": "How do these change as we move our threshold?",
+      "section_title": "Paying attention to True Negatives: ROC",
+      "formula_latex": "\\text{False Positive Rate (FPR)} = \\frac{FP}{FP+TN} = \\frac{\\text{negatives we got wrong}}{\\text{all negatives}}",
+      "formula_focus": "False positive rate definition",
+      "formula_explanation": "This formula defines the false positive rate as FP divided by FP+TN. It also expresses the same quantity as the fraction of all negatives that were incorrectly classified as positive.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p83_b5",
+      "type": "formula",
+      "page_no": 83,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        98.5,
+        368.14,
+        818.04,
+        421.72
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p83_b5.png",
+      "nearby_text_before": "Paying attention to True Negatives: ROC R eceiver O perating C haracteristic displays FPR vs TPR",
+      "nearby_text_after": "How do these change as we move our threshold?",
+      "section_title": "Paying attention to True Negatives: ROC",
+      "formula_latex": "\\mathrm{True\\ Positive\\ Rate\\ (TPR)} = \\mathrm{Recall} = \\frac{TP}{TP+FN} = \\frac{\\text{positives we got right}}{\\text{all positives}}",
+      "formula_focus": "True positive rate definition",
+      "formula_explanation": "The formula defines true positive rate (recall) as TP divided by TP+FN. It also states this as the fraction of all actual positives that were correctly identified.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p84_b4",
+      "type": "formula",
+      "page_no": 84,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        98.5,
+        285.64,
+        745.47,
+        338.74
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p84_b4.png",
+      "nearby_text_before": "Paying attention to True Negatives: ROC R eceiver O perating C haracteristic displays FPR vs TPR",
+      "nearby_text_after": "How do these change as we move our threshold?",
+      "section_title": "Paying attention to True Negatives: ROC",
+      "formula_latex": "\\text{False Positive Rate (FPR)} = \\frac{FP}{FP+TN} = \\frac{\\text{negatives we got wrong}}{\\text{all negatives}}",
+      "formula_focus": "False positive rate formula",
+      "formula_explanation": "This formula defines the false positive rate as the fraction of negative cases that were incorrectly predicted as positive. It is written equivalently as FP divided by FP plus TN, or as the number of negatives we got wrong over all negatives.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p84_b5",
+      "type": "formula",
+      "page_no": 84,
+      "doc_id": "eods_week07_model_evaluation_and_hyperparameter_tuning",
+      "bbox": [
+        98.5,
+        368.14,
+        818.04,
+        421.72
+      ],
+      "formula_path": "data/processed/eods/eods_week07_model_evaluation_and_hyperparameter_tuning/formulas/eods_week07_model_evaluation_and_hyperparameter_tuning_p84_b5.png",
+      "nearby_text_before": "Paying attention to True Negatives: ROC R eceiver O perating C haracteristic displays FPR vs TPR",
+      "nearby_text_after": "How do these change as we move our threshold?",
+      "section_title": "Paying attention to True Negatives: ROC",
+      "formula_latex": "\\text{True Positive Rate (TPR)} = \\text{Recall} = \\frac{TP}{TP+FN} = \\frac{\\text{positives we got right}}{\\text{all positives}}",
+      "formula_focus": "True positive rate / recall",
+      "formula_explanation": "This formula defines true positive rate, also called recall, as the fraction of actual positives that are correctly identified. It is shown as TP divided by TP+FN, or equivalently “positives we got right” over “all positives.”",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week09_joining_data_and_dimensionality_reduction_p84_b5",
+      "type": "formula",
+      "page_no": 84,
+      "doc_id": "eods_week09_joining_data_and_dimensionality_reduction",
+      "bbox": [
+        524.41,
+        406.42,
+        929.34,
+        478.56
+      ],
+      "formula_path": "data/processed/eods/eods_week09_joining_data_and_dimensionality_reduction/formulas/eods_week09_joining_data_and_dimensionality_reduction_p84_b5.png",
+      "nearby_text_before": "Adding features guarantees an increase in 𝑅 2 describes the proportion of explained variance 𝑅 2 Additional features explain more variance",
+      "nearby_text_after": "where is the number of observations, is the number of features 𝑛 𝑚",
+      "section_title": "When changing number of features: Use Adjusted 𝑅 2",
+      "formula_latex": "R^2_{adj}=1-(1-R^2)\\frac{n-1}{n-m-1}",
+      "formula_focus": "Adjusted R-squared formula",
+      "formula_explanation": "This formula defines adjusted $R^2$ in terms of ordinary $R^2$ and the sample size and feature count. It penalizes adding more features by scaling the unexplained variance term.",
+      "overall_quality": "good"
+    },
+    {
+      "block_id": "eods_week09_joining_data_and_dimensionality_reduction_p85_b5",
+      "type": "formula",
+      "page_no": 85,
+      "doc_id": "eods_week09_joining_data_and_dimensionality_reduction",
+      "bbox": [
+        524.41,
+        406.42,
+        929.34,
+        478.56
+      ],
+      "formula_path": "data/processed/eods/eods_week09_joining_data_and_dimensionality_reduction/formulas/eods_week09_joining_data_and_dimensionality_reduction_p85_b5.png",
+      "nearby_text_before": "Adding features guarantees an increase in 𝑅 2 describes the proportion of explained variance 𝑅 2 Additional features explain more variance",
+      "nearby_text_after": "where is the number of observations, is the number of features 𝑛 𝑚",
+      "section_title": "When changing number of features: Use Adjusted 𝑅 2",
+      "formula_latex": "R^2_{adj} = 1 - (1 - R^2)^{\\frac{n-1}{n-m-1}}",
+      "formula_focus": "Adjusted R-squared formula",
+      "formula_explanation": "This gives adjusted $R^2$ in terms of ordinary $R^2$ and a correction factor involving $n$ and $m$. It penalizes adding features by accounting for sample size and number of predictors.",
+      "overall_quality": "good"
+    }
+  ]
+}

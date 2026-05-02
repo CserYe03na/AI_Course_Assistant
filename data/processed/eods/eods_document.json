@@ -2,7 +2,7 @@
   "course_id": "eods",
   "course_name": "Elements of Data Science",
   "source_type": "lecture_pdf",
-  "created_at": "2026-04-09T02:09:15-04:00",
+  "created_at": "2026-04-26T13:51:15-04:00",
   "documents": [
     {
       "doc_id": "eods_week01_data_science_tools",
@@ -27306,7 +27306,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p143_b3",
               "type": "formula",
-              "text": "\\bar { x } = \\frac { 1 } { n } \\sum x _ { i }",
+              "text": "= ∑ 𝑥 ¯ 1 𝑛 𝑥𝑖",
               "bbox": [
                 606.67,
                 200.81,
@@ -27369,7 +27369,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p144_b4",
               "type": "formula",
-              "text": "\\bar { x } = \\frac { 1 } { n } \\sum x _ { i }",
+              "text": "= ∑ 𝑥 ¯ 1 𝑛 𝑥𝑖",
               "bbox": [
                 606.67,
                 200.81,
@@ -27418,7 +27418,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p145_b3",
               "type": "formula",
-              "text": "\\bar { x } = \\frac { 1 } { n } \\sum x _ { i }",
+              "text": "= ∑ 𝑥 ¯ 1 𝑛 𝑥𝑖",
               "bbox": [
                 606.67,
                 200.81,
@@ -27509,7 +27509,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p146_b4",
               "type": "formula",
-              "text": "\\bar { x } = \\frac { 1 } { n } \\sum x _ { i }",
+              "text": "= ∑ 𝑥 ¯ 1 𝑛 𝑥𝑖",
               "bbox": [
                 606.67,
                 200.81,
@@ -28202,7 +28202,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p157_b3",
               "type": "formula",
-              "text": "s ^ { 2 } = \\frac { \\sum ( x - \\bar { x } ) ^ { 2 } } { n - 1 }",
+              "text": "= 𝑠 2 ∑ ( 𝑥 -𝑥 ¯) 2 𝑛 - 1",
               "bbox": [
                 179.12,
                 306.05,
@@ -28251,7 +28251,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p158_b3",
               "type": "formula",
-              "text": "s ^ { 2 } = \\frac { \\sum ( x - \\bar { x } ) ^ { 2 } } { n - 1 }",
+              "text": "= 𝑠 2 ∑ ( 𝑥 -𝑥 ¯) 2 𝑛 - 1",
               "bbox": [
                 179.12,
                 306.05,
@@ -28328,7 +28328,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p159_b3",
               "type": "formula",
-              "text": "s ^ { 2 } = \\frac { \\sum ( x - \\bar { x } ) ^ { 2 } } { n - 1 }",
+              "text": "= 𝑠 2 ∑ ( 𝑥 -𝑥 ¯) 2 𝑛 - 1",
               "bbox": [
                 179.12,
                 305.86,
@@ -28426,7 +28426,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p161_b3",
               "type": "formula",
-              "text": "s = \\sqrt { \\frac { \\sum ( x - \\bar { x } ) ^ { 2 } } { n - 1 } }",
+              "text": "𝑠 = ∑ ( 𝑥 -𝑥 ¯) 2 𝑛 - 1 ⎯ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ √",
               "bbox": [
                 184.75,
                 290.99,
@@ -28475,7 +28475,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p162_b3",
               "type": "formula",
-              "text": "s = \\sqrt { \\frac { \\sum ( x - \\bar { x } ) ^ { 2 } } { n - 1 } }",
+              "text": "𝑠 = ∑ ( 𝑥 -𝑥 ¯) 2 𝑛 - 1 ⎯ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ √",
               "bbox": [
                 184.75,
                 290.99,
@@ -28538,7 +28538,7 @@
             {
               "block_id": "eods_week03_pandas_visualization_dataexploration_p163_b3",
               "type": "formula",
-              "text": "s = \\sqrt { \\frac { \\sum ( x - \\bar { x } ) ^ { 2 } } { n - 1 } }",
+              "text": "𝑠 = ∑ ( 𝑥 -𝑥 ¯) 2 𝑛 - 1 ⎯ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ √",
               "bbox": [
                 184.75,
                 290.99,
@@ -46641,7 +46641,7 @@
             {
               "block_id": "eods_week04_confidence_intervals_and_hypothesis_testing_p80_b3",
               "type": "formula",
-              "text": "N ( x ; \\mu , \\sigma ) = \\frac { 1 } { \\sqrt { 2 \\pi } \\sigma } e ^ { - \\frac { ( x - \\mu ) ^ { 2 } } { 2 \\sigma } }",
+              "text": "𝑁 ( 𝑥 ; 𝜇 , 𝜎 ) = 1 𝜎 2 𝜋 √ 𝑒 -( 𝑥 -𝜇 ) 2 2 𝜎",
               "bbox": [
                 98.5,
                 332.31,
@@ -47495,7 +47495,7 @@
             {
               "block_id": "eods_week04_confidence_intervals_and_hypothesis_testing_p86_b5",
               "type": "formula",
-              "text": "z = { \\frac { x - \\bar { x } } { s } }",
+              "text": "𝑧 = 𝑥 -𝑥 ¯ 𝑠",
               "bbox": [
                 639.47,
                 330.33,
@@ -47572,7 +47572,7 @@
             {
               "block_id": "eods_week04_confidence_intervals_and_hypothesis_testing_p87_b5",
               "type": "formula",
-              "text": "z = { \\frac { x - \\bar { x } } { s } }",
+              "text": "𝑧 = 𝑥 -𝑥 ¯ 𝑠",
               "bbox": [
                 639.47,
                 330.33,
@@ -47663,7 +47663,7 @@
             {
               "block_id": "eods_week04_confidence_intervals_and_hypothesis_testing_p88_b5",
               "type": "formula",
-              "text": "z = { \\frac { x - \\bar { x } } { s } }",
+              "text": "𝑧 = 𝑥 -𝑥 ¯ 𝑠",
               "bbox": [
                 639.47,
                 330.33,
@@ -60334,7 +60334,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p40_b2",
               "type": "formula",
-              "text": "y _ { i } = w _ { 1 } x _ { i } + w _ { 0 } + \\varepsilon _ { i }",
+              "text": "= + + 𝑦 𝑖 𝑤 1 𝑥𝑖 𝑤 0 𝜀𝑖",
               "bbox": [
                 98.5,
                 179.88,
@@ -60712,7 +60712,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p42_b5",
               "type": "formula",
-              "text": "\\sum \\nolimits _ { i = 1 \\colon n } \\left ( y _ { i } - \\hat { y } _ { i } \\right ) ^ { 2 }",
+              "text": "𝑖 =1: 𝑛 𝑖 2",
               "bbox": [
                 481.35,
                 328.54,
@@ -62392,7 +62392,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p64_b20",
               "type": "formula",
-              "text": "y _ { i } = w _ { 0 } + w _ { 1 } x _ { i 1 } + w _ { 2 } x _ { i 2 } + \\dots + w _ { m } x _ { i m } + \\varepsilon _ { i }",
+              "text": "= + + + … + + 𝑦𝑖 𝑤 0 𝑤 1 𝑥𝑖 1 𝑤 2 𝑥𝑖 2 𝑤𝑚𝑥𝑖𝑚 𝜀𝑖",
               "bbox": [
                 433.22,
                 246.44,
@@ -62406,7 +62406,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p64_b21",
               "type": "formula",
-              "text": "a l c o h o l _ { i } = w _ { 0 } + w _ { p r o i n e } p r o i n e _ { i } + w _ { h u e } h u e _ { i }",
+              "text": "= + + alcohol 𝑖 𝑤 0 𝑤 prolineproline 𝑖 𝑤 huehue 𝑖",
               "bbox": [
                 445.7,
                 358.19,
@@ -62805,7 +62805,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p71_b4",
               "type": "formula",
-              "text": "\\bullet y = w _ { 0 } + w _ { 1 } x _ { 1 } + w _ { 2 } x _ { 2 } + \\dots + w _ { m } x _ { m }",
+              "text": "𝑦 = + + + … + 𝑤 𝑤 𝑥 𝑤 𝑥",
               "bbox": [
                 262.87,
                 306.67,
@@ -62833,7 +62833,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p71_b6",
               "type": "formula",
-              "text": "\\begin{array} { l } v = w _ { 0 } + w _ { 1 } x _ { 1 } + w _ { 2 } x _ { 2 } + \\dots + w _ { m } x _ { m } \\\\ v = w _ { 0 } + \\sum _ { i = 1 } ^ { m } w _ { i } x _ { i } \\end{array}",
+              "text": "0 1 1 2 2 𝑤𝑚𝑥𝑚 𝑚",
               "bbox": [
                 345.43,
                 309.08,
@@ -62924,7 +62924,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p72_b6",
               "type": "formula",
-              "text": "\\begin{array} { l } v = w _ { 0 } + w _ { 1 } x _ { 1 } + w _ { 2 } x _ { 2 } + \\dots + w _ { m } x _ { m } \\\\ v = w _ { 0 } + \\sum _ { i = 1 } ^ { m } w _ { i } x _ { i } \\end{array}",
+              "text": "0 1 1 2 2 𝑤𝑚𝑥𝑚 𝑚",
               "bbox": [
                 345.43,
                 309.08,
@@ -62980,7 +62980,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p72_b10",
               "type": "formula",
-              "text": "\\begin{array} { l } v = w _ { 0 } x _ { 0 } + w _ { 1 } x _ { 1 } + w _ { 2 } x _ { 2 } + \\dots + w _ { m } x _ { m } \\\\ v = \\sum _ { i = 0 } ^ { m } w _ { i } x _ { i } \\end{array}",
+              "text": "𝑤𝑚𝑥𝑚 𝑚",
               "bbox": [
                 349.28,
                 511.58,
@@ -63071,7 +63071,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p73_b6",
               "type": "formula",
-              "text": "\\begin{array} { l } v = w _ { 0 } + w _ { 1 } x _ { 1 } + w _ { 2 } x _ { 2 } + \\dots + w _ { m } x _ { m } \\\\ v = w _ { 0 } + \\sum _ { i = 1 } ^ { m } w _ { i } x _ { i } \\end{array}",
+              "text": "0 1 1 2 2 𝑤𝑚𝑥𝑚 𝑚",
               "bbox": [
                 345.43,
                 309.08,
@@ -63127,7 +63127,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p73_b10",
               "type": "formula",
-              "text": "\\begin{array} { l } y = w _ { 0 } x _ { 0 } + w _ { 1 } x _ { 1 } + w _ { 2 } x _ { 2 } + \\dots + w _ { m } x _ { m } \\\\ v = \\sum _ { i = 0 } ^ { m } w _ { i } x _ { i } \\end{array}",
+              "text": "0 0 1 1 2 2 𝑤𝑚𝑥𝑚 𝑚",
               "bbox": [
                 345.43,
                 511.58,
@@ -63799,7 +63799,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p79_b2",
               "type": "formula",
-              "text": "z = { \\frac { x - \\bar { x } } { s } }",
+              "text": "𝑧 = 𝑥 -𝑥 ¯ 𝑠",
               "bbox": [
                 639.47,
                 241.83,
@@ -63890,7 +63890,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p80_b6",
               "type": "formula",
-              "text": "z = { \\frac { x - \\bar { x } } { s } }",
+              "text": "𝑧 = 𝑥 -𝑥 ¯ 𝑠",
               "bbox": [
                 639.47,
                 241.83,
@@ -66193,7 +66193,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p99_b2",
               "type": "formula",
-              "text": "l o g i s t i c ( x ) = \\frac { 1 } { 1 + e ^ { ( - x ) } }",
+              "text": "𝑙𝑜𝑔𝑖𝑠𝑡𝑖𝑐 ( 𝑥 ) = 1 1+ 𝑒 ( -𝑥 )",
               "bbox": [
                 518.67,
                 148.31,
@@ -66340,7 +66340,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p100_b10",
               "type": "formula",
-              "text": "l o g i s t i c ( x ) = \\frac { 1 } { 1 + e ^ { ( - x ) } }",
+              "text": "𝑙𝑜𝑔𝑖𝑠𝑡𝑖𝑐 ( 𝑥 ) = 1 1+ 𝑒 ( -𝑥 )",
               "bbox": [
                 518.67,
                 148.31,
@@ -68027,7 +68027,7 @@
             {
               "block_id": "eods_week05_intro_to_machine_learning_models_p115_b3",
               "type": "formula",
-              "text": "\\log \\left ( \\frac { y _ { i } } { 1 - y _ { i } } \\right ) = w _ { 0 } + w _ { 1 } x _ { i 1 }",
+              "text": "log ( ) = + 𝑦 𝑖 1 𝑦 𝑖 𝑤 0 𝑤 1 𝑥𝑖 1",
               "bbox": [
                 564.27,
                 252.46,
@@ -74919,7 +74919,7 @@
               "text": null,
               "bbox": [
                 84.62,
-                126.1,
+                126.09,
                 1379.07,
                 802.31
               ],
@@ -85494,7 +85494,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p17_b3",
               "type": "formula",
-              "text": "R ^ { 2 } = 1 - \\frac { \\sum { ( y _ { i } - \\hat { y } _ { i } ) ^ { 2 } } } { \\sum { ( y _ { i } - \\bar { y } ) ^ { 2 } } }",
+              "text": "= 1 𝑅 2 ∑ ( -𝑦𝑖 𝑦 ̂ 𝑖 ) 2 ∑ ( -𝑦𝑖 𝑦 ¯) 2",
               "bbox": [
                 528.27,
                 257.3,
@@ -91178,7 +91178,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p77_b4",
               "type": "formula",
-              "text": "p r e c i s i o n = \\frac { T P } { T P + F P }",
+              "text": "𝑝𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 = TP TP+FP",
               "bbox": [
                 565.07,
                 364.06,
@@ -91206,7 +91206,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p77_b6",
               "type": "formula",
-              "text": "r e c a l l = \\frac { T P } { T P + F N }",
+              "text": "𝑟𝑒𝑐𝑎𝑙𝑙 = TP TP+FN",
               "bbox": [
                 592.27,
                 610.81,
@@ -91325,7 +91325,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p80_b3",
               "type": "formula",
-              "text": "\\hat { y } _ { i } = \\begin{cases} 1 & \\text {if } P ( y _ { i } = 1 | x _ { i } ) > \\text {threshold} , \\\\ \\\\ 0 & \\text {o.w.} \\end{cases}",
+              "text": "= 𝑦 ̂ 𝑖      1 0 if 𝑃 ( = 1 | ) > threshold, 𝑦𝑖 𝑥𝑖 o.w.",
               "bbox": [
                 472.58,
                 283.71,
@@ -91472,7 +91472,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p81_b6",
               "type": "formula",
-              "text": "F _ { 1 } = 2 \\cdot \\frac { \\text {precision} \\cdot \\text {recall} } { \\text {precision} + \\text {recall} }",
+              "text": "= 2 ⋅ 𝐹 1 precision ⋅ recall precision + recall",
               "bbox": [
                 555.14,
                 381.44,
@@ -91563,7 +91563,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p82_b5",
               "type": "formula",
-              "text": "F _ { 1 } = 2 \\cdot \\frac { \\text {precision} \\cdot \\text {recall} } { \\text {precision} + \\text {recall} }",
+              "text": "= 2 ⋅ 𝐹 1 precision ⋅ recall precision + recall",
               "bbox": [
                 555.14,
                 381.44,
@@ -91654,7 +91654,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p83_b4",
               "type": "formula",
-              "text": "\\text {False Positive Rate} \\left ( F \\text {PR} \\right ) = \\frac { \\text {FP} } { F P + T N } = \\frac { \\text {negatives we got wrong} } { \\text {all negatives} }",
+              "text": "False Positive Rate (FPR) = = FP FP+TN negatives we got wrong all negatives",
               "bbox": [
                 98.5,
                 285.64,
@@ -91668,7 +91668,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p83_b5",
               "type": "formula",
-              "text": "True \\, \\text {Positive Rate} \\, ( T P R ) = \\text {Recall} \\, = \\frac { T P } { T P + F N } \\, = \\frac { \\text {positives} \\, \\text {we got right} } { \\text {all positives} }",
+              "text": "True Positive Rate (TPR) = Recall = = TP TP+FN positives we got right all positives",
               "bbox": [
                 98.5,
                 368.14,
@@ -91745,7 +91745,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p84_b4",
               "type": "formula",
-              "text": "\\text {False Positive Rate} \\left ( F \\text {PR} \\right ) = \\frac { \\text {FP} } { F P + T N } = \\frac { \\text {negatives we got wrong} } { \\text {all negatives} }",
+              "text": "False Positive Rate (FPR) = = FP FP+TN negatives we got wrong all negatives",
               "bbox": [
                 98.5,
                 285.64,
@@ -91759,7 +91759,7 @@
             {
               "block_id": "eods_week07_model_evaluation_and_hyperparameter_tuning_p84_b5",
               "type": "formula",
-              "text": "True \\, \\text {Positive Rate} \\, ( T P R ) = \\text {Recall} \\, = \\frac { T P } { T P + F N } \\, = \\frac { \\text {positives} \\, \\text {we got right} } { \\text {all positives} }",
+              "text": "True Positive Rate (TPR) = Recall = = TP TP+FN positives we got right all positives",
               "bbox": [
                 98.5,
                 368.14,
@@ -110332,7 +110332,7 @@
             {
               "block_id": "eods_week09_joining_data_and_dimensionality_reduction_p84_b5",
               "type": "formula",
-              "text": "R _ { a d j } ^ { 2 } = 1 - ( 1 - R ^ { 2 } ) \\frac { n - 1 } { n - m - 1 }",
+              "text": "= 1 - (1 -) 𝑅 2 𝑎𝑑𝑗 𝑅 2 𝑛 - 1 𝑛 -𝑚 - 1",
               "bbox": [
                 524.41,
                 406.42,
@@ -110423,7 +110423,7 @@
             {
               "block_id": "eods_week09_joining_data_and_dimensionality_reduction_p85_b5",
               "type": "formula",
-              "text": "R _ { a d j } ^ { 2 } = 1 - ( 1 - R ^ { 2 } ) \\frac { n - 1 } { n - m - 1 }",
+              "text": "= 1 - (1 -) 𝑅 2 𝑎𝑑𝑗 𝑅 2 𝑛 - 1 𝑛 -𝑚 - 1",
               "bbox": [
                 524.41,
                 406.42,
