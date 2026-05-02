@@ -12,3 +12,4 @@ __pycache__/
 *.pyc
 *_embeddings.json
 *_embeddings.json
+data/chunk/*_embeddings.json
