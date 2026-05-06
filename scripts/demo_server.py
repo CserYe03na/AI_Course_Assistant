@@ -17,7 +17,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Dict, List
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 from openai import OpenAI
 
@@ -133,9 +133,9 @@ def build_config(index_dir: Path) -> Dict[str, Any]:
         "defaults": {
             "courseId": default_course_id(courses),
             "target": "both",
-            "topK": 5,
-            "contextK": 3,
-            "candidateK": 4,
+            "topK": 8,
+            "contextK": 6,
+            "candidateK": 30,
             "embeddingModel": DEFAULT_EMBEDDING_MODEL,
             "generationModel": DEFAULT_GENERATION_MODEL,
             "retrievalMethod": DEFAULT_RETRIEVAL_METHOD,
@@ -153,6 +153,8 @@ def build_config(index_dir: Path) -> Dict[str, Any]:
 def build_sources(results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     sources: List[Dict[str, Any]] = []
     for index, result in enumerate(results, start=1):
+        metadata = result.get("metadata") or {}
+        image_path = clean_text(metadata.get("image_path"))
         sources.append(
             {
                 "label": f"S{index}",
@@ -161,6 +163,10 @@ def build_sources(results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 "chunkType": result.get("chunk_type"),
                 "preview": source_preview_text(result),
                 "score": result.get("combined_score"),
+                "imageUrl": f"/api/source-image?path={quote(image_path)}" if image_path else "",
+                "imagePath": image_path,
+                "pageNo": result.get("page_no"),
+                "bbox": metadata.get("bbox"),
             }
         )
     return sources
@@ -611,6 +617,23 @@ class DemoHandler(BaseHTTPRequestHandler):
             json_response(self, HTTPStatus.OK, job)
             return
 
+        if path == "/api/source-image":
+            query = parse_qs(parsed.query)
+            raw_path = clean_text((query.get("path") or [""])[0])
+            if not raw_path:
+                json_response(self, HTTPStatus.BAD_REQUEST, {"error": "Image path is required"})
+                return
+            requested_path = Path(raw_path)
+            image_path = requested_path if requested_path.is_absolute() else (ROOT_DIR / requested_path)
+            image_path = image_path.resolve()
+            try:
+                image_path.relative_to(ROOT_DIR.resolve())
+            except ValueError:
+                json_response(self, HTTPStatus.FORBIDDEN, {"error": "Invalid image path"})
+                return
+            serve_file(self, image_path)
+            return
+
         if path == "/" or path == "/index.html":
             serve_file(self, self.server.static_dir / "index.html")
             return
@@ -649,7 +672,7 @@ class DemoHandler(BaseHTTPRequestHandler):
             target = str(payload.get("target") or "both")
             top_k = int(payload.get("topK") or 8)
             context_k = int(payload.get("contextK") or 6)
-            candidate_k = int(payload.get("candidateK") or 4)
+            candidate_k = int(payload.get("candidateK") or 30)
             rrf_k = int(payload.get("rrfK") or 60)
             faiss_weight = float(payload.get("faissWeight") or 1.0)
             bm25_weight = float(payload.get("bm25Weight") or 1.0)
@@ -688,7 +711,7 @@ class DemoHandler(BaseHTTPRequestHandler):
                 dense_rerank_dense_weight=dense_rerank_dense_weight,
                 dense_rerank_bm25_weight=dense_rerank_bm25_weight,
             )
-            context_results = select_context_results(retrieved_results, context_k)
+            context_results = select_context_results(retrieved_results, context_k, retrieval_query)
             answer = generate_answer(
                 client=client,
                 model=generation_model,

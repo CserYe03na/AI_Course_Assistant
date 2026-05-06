@@ -22,6 +22,7 @@ const conversationState = {
   summary: "",
   recentTurns: [],
   currentTopic: "",
+  latestSources: [],
 };
 
 let courseOptions = [];
@@ -103,6 +104,14 @@ function normalizeInlineMath(text) {
     .replace(/\\\((.*?)\\\)/g, "$1")
     .replace(/\\\[(.*?)\\\]/g, "$1")
     .replace(/\\_/g, "_")
+    .replace(/\\theta/g, "theta")
+    .replace(/\\alpha/g, "alpha")
+    .replace(/\\beta/g, "beta")
+    .replace(/\\sigma/g, "sigma")
+    .replace(/\\ell/g, "ell")
+    .replace(/\\mid/g, "|")
+    .replace(/\\prod/g, "∏")
+    .replace(/\\sum/g, "∑")
     .replace(/\bH_0\b/g, "H0")
     .replace(/\bH₀\b/g, "H0");
 }
@@ -127,8 +136,22 @@ function escapeHtml(text) {
     .replaceAll("'", "&#39;");
 }
 
+function applyMathMarkup(text) {
+  return String(text)
+    .replace(/\btheta\^T\b/g, "θᵀ")
+    .replace(/\balpha\b/g, "α")
+    .replace(/\bbeta\b/g, "β")
+    .replace(/\btheta\b/g, "θ")
+    .replace(/\bsigma(?=\s*\()/g, "σ")
+    .replace(/\bell\b/g, "ℓ")
+    .replace(/\^\(([^)]+)\)/g, "<sup>($1)</sup>")
+    .replace(/\^([A-Za-z0-9]+)/g, "<sup>$1</sup>")
+    .replace(/_(\d+)/g, "<sub>$1</sub>")
+    .replace(/([θA-Za-z0-9])ᵀ/g, "$1ᵀ");
+}
+
 function formatInline(text) {
-  return escapeHtml(softenOverBold(normalizeInlineMath(text)))
+  return applyMathMarkup(escapeHtml(softenOverBold(normalizeInlineMath(text))))
     .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/__(.+?)__/g, "<strong>$1</strong>")
@@ -198,7 +221,11 @@ function normalizeAnswerMarkdown(text) {
     }
   }
 
-  return mergedLines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  return mergedLines
+    .join("\n")
+    .replace(/([A-Za-z0-9)])\n\n([a-z][a-z-]{1,20})\n\n([a-z])/g, "$1 $2 $3")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 function renderList(lines, ordered) {
@@ -271,7 +298,7 @@ function renderBlock(block) {
     return renderList(lines, true);
   }
 
-  if (lines.length === 1 && /^[A-Za-z][A-Za-z\s]{0,40}$/.test(lines[0])) {
+  if (lines.length === 1 && /^[A-Z][A-Za-z\s]{0,40}$/.test(lines[0])) {
     return `<h4>${formatInline(lines[0])}</h4>`;
   }
 
@@ -347,12 +374,57 @@ function renderSources(sources) {
             </div>
             <div class="source-meta">${sourceMeta}</div>
           </div>
+          ${
+            source.imageUrl
+              ? `
+          <div class="source-visual">
+            <img
+              src="${escapeHtml(source.imageUrl)}"
+              alt="${escapeHtml(`${source.label} visual source`)}"
+              loading="lazy"
+            >
+          </div>
+          `
+              : ""
+          }
           <div class="source-preview">${escapeHtml(source.preview || "No preview available.")}</div>
         </article>
       `
       }
     )
     .join("");
+}
+
+function renderConversationVisuals(sources) {
+  const visualSources = (sources || []).filter((source) => source.imageUrl);
+  if (!visualSources.length) {
+    return "";
+  }
+
+  return `
+    <div class="chat-visuals">
+      <div class="chat-visuals-label">Relevant Visuals</div>
+      <div class="chat-visual-grid">
+        ${visualSources
+          .map(
+            (source) => `
+          <figure class="chat-visual-card">
+            <img
+              src="${escapeHtml(source.imageUrl)}"
+              alt="${escapeHtml(`${source.label} visual source`)}"
+              loading="lazy"
+            >
+            <figcaption>
+              <span class="pill">${escapeHtml(source.label)}</span>
+              <span>${escapeHtml(source.location)}</span>
+            </figcaption>
+          </figure>
+        `
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
 }
 
 function renderConversation() {
@@ -379,12 +451,16 @@ function renderConversation() {
     `);
   }
 
-  turns.forEach((turn) => {
+  turns.forEach((turn, index) => {
     const role = turn.role === "user" ? "You" : "Assistant";
     const roleClass = turn.role === "user" ? "user-turn" : "assistant-turn";
+    const visuals =
+      turn.role === "assistant" && index === turns.length - 1
+        ? renderConversationVisuals(conversationState.latestSources || [])
+        : "";
     const content =
       turn.role === "assistant"
-        ? `<div class="rich-answer">${renderAnswer(turn.content)}</div>`
+        ? `<div class="rich-answer">${renderAnswer(turn.content)}</div>${visuals}`
         : `<p>${escapeHtml(turn.content)}</p>`;
     parts.push(`
       <article class="chat-turn ${roleClass}">
@@ -402,6 +478,7 @@ function resetConversationState() {
   conversationState.summary = "";
   conversationState.recentTurns = [];
   conversationState.currentTopic = "";
+  conversationState.latestSources = [];
   fields.query.value = "";
   retrievalText.textContent = "Context snippets used for generation";
   setSourcesEmpty("No source results yet.");
@@ -665,6 +742,7 @@ form.addEventListener("submit", async (event) => {
     conversationState.summary = data.conversationSummary || "";
     conversationState.recentTurns = data.recentTurns || [];
     conversationState.currentTopic = data.currentTopic || "";
+    conversationState.latestSources = data.sources || [];
     renderConversation();
     fields.query.value = "";
   } catch (error) {

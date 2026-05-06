@@ -136,9 +136,67 @@ def source_key(result: Dict[str, Any]) -> tuple[Any, Any, Any, Any]:
     )
 
 
-def select_context_results(results: List[Dict[str, Any]], max_sources: int) -> List[Dict[str, Any]]:
+def query_alignment_score(result: Dict[str, Any], query: str) -> float:
+    normalized_query = clean_text(query).lower()
+    text = clean_text(result.get("text")) or ""
+    normalized_text = text.lower()
+    score = float(result.get("combined_score") or 0.0)
+
+    if not normalized_query:
+        return score
+
+    if normalized_query in normalized_text:
+        score += 1.0
+
+    query_tokens = set(normalized_query.replace(":", " ").split())
+    text_tokens = set(normalized_text.replace(":", " ").split())
+    overlap = len(query_tokens & text_tokens)
+    score += 0.05 * overlap
+
+    if "regularized" not in normalized_query and "regularized" in normalized_text:
+        score -= 0.5
+    if "longer" not in normalized_query and "longer" in normalized_text:
+        score -= 0.35
+
+    return score
+
+
+def select_context_results(results: List[Dict[str, Any]], max_sources: int, query: str = "") -> List[Dict[str, Any]]:
     selected: List[Dict[str, Any]] = []
     seen: set[tuple[Any, Any, Any, Any]] = set()
+    prefs = retrieval.query_preferences(query) if query else {"prefer_formula": False, "prefer_figure": False}
+
+    def add_result(result: Dict[str, Any]) -> bool:
+        key = source_key(result)
+        if key in seen:
+            return False
+        selected.append(result)
+        seen.add(key)
+        return True
+
+    prioritized_atomic: List[Dict[str, Any]] = []
+    prioritized_limit = 1
+    if prefs["prefer_figure"]:
+        prioritized_limit = 2
+        prioritized_atomic.extend(
+            result
+            for result in results
+            if result.get("level") == "atomic" and result.get("chunk_type") == "figure"
+        )
+    if prefs["prefer_formula"]:
+        prioritized_atomic.extend(
+            result
+            for result in results
+            if result.get("level") == "atomic" and result.get("chunk_type") in {"formula", "text_inline_math"}
+        )
+
+    prioritized_atomic.sort(key=lambda item: -query_alignment_score(item, query))
+    prioritized_added = 0
+    for result in prioritized_atomic:
+        if add_result(result):
+            prioritized_added += 1
+        if prioritized_added >= prioritized_limit:
+            break
 
     semantic_first = sorted(
         results,
@@ -149,15 +207,14 @@ def select_context_results(results: List[Dict[str, Any]], max_sources: int) -> L
     )
 
     for result in semantic_first:
+        if len(selected) >= max_sources:
+            break
         key = source_key(result)
         if key in seen:
             continue
         if is_low_value_result(result) and len(selected) >= max(2, max_sources // 2):
             continue
-        selected.append(result)
-        seen.add(key)
-        if len(selected) >= max_sources:
-            break
+        add_result(result)
 
     if not selected:
         return results[:max_sources]
@@ -270,6 +327,10 @@ Rules:
 - Only use **bold** for a few key terms, not for whole sentences or whole paragraphs.
 - Do not use LaTeX notation such as \\( ... \\), \\[ ... \\], subscripts, or escaped symbols.
 - If you need a symbol like H0, write it in plain text as H0.
+- If the answer includes a formula, write it in clean Unicode-style math, for example:
+  p(y = 1 | x; θ) = σ(θᵀx)
+  p(y | x; θ) = σ(θᵀx)^y (1 - σ(θᵀx))^(1 - y)
+- Do not spell formulas out as "product over i from 1 to N ..." unless the course text only gives a verbal description.
 - Keep the answer visually scannable, not just one long block of text.
 - Use the conversation history only to resolve follow-up references.
 - Still ground the answer in the course context below, not in earlier assistant claims.
@@ -374,7 +435,7 @@ def main() -> None:
         dense_rerank_dense_weight=args.dense_rerank_dense_weight,
         dense_rerank_bm25_weight=args.dense_rerank_bm25_weight,
     )
-    context_results = select_context_results(retrieved_results, args.context_k)
+    context_results = select_context_results(retrieved_results, args.context_k, args.query)
     answer = generate_answer(
         client=OpenAI(),
         model=args.generation_model,

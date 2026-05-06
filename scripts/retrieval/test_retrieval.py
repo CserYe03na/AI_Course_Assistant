@@ -328,6 +328,42 @@ def combine_results(
     return final_results[:top_k]
 
 
+def merge_candidate_results(
+    *,
+    dense_results: List[Dict[str, Any]],
+    bm25_results: List[Dict[str, Any]],
+    rrf_k: int,
+    dense_weight: float,
+    bm25_weight: float,
+) -> List[Dict[str, Any]]:
+    merged: Dict[str, Dict[str, Any]] = {}
+    for result in dense_results:
+        add_result(
+            merged,
+            source="dense",
+            result=result,
+            rrf_k=rrf_k,
+            source_weight=dense_weight,
+        )
+    for result in bm25_results:
+        add_result(
+            merged,
+            source="bm25",
+            result=result,
+            rrf_k=rrf_k,
+            source_weight=bm25_weight,
+        )
+    final_results = list(merged.values())
+    final_results.sort(
+        key=lambda item: (
+            -(item.get("combined_score") or 0.0),
+            item.get("dense_rank") is None,
+            item.get("bm25_rank") is None,
+        )
+    )
+    return final_results
+
+
 def format_output_result(result: Dict[str, Any]) -> Dict[str, Any]:
     item = result.get("item") or {}
     metadata = item.get("metadata") or {}
@@ -399,6 +435,75 @@ def normalize_score_map(score_map: Dict[str, float]) -> Dict[str, float]:
     }
 
 
+def normalize_whitespace(text: Any) -> str:
+    return " ".join(str(text or "").split())
+
+
+def low_information_text_penalty(item: Dict[str, Any], prefs: Dict[str, bool]) -> float:
+    metadata = item.get("metadata") or {}
+    chunk_type = str(metadata.get("chunk_type") or "")
+    if chunk_type != "text":
+        return 0.0
+
+    document = item.get("document") or {}
+    content = document.get("content_for_generation") or {}
+    text = normalize_whitespace(content.get("text") or content.get("text_cleaned") or document.get("text"))
+    section_title = normalize_whitespace(content.get("section_title"))
+    lowered = text.lower()
+
+    penalty = 0.0
+    generic_prefixes = (
+        "outline.",
+        "outline",
+        "we have",
+        "this means",
+        "for example",
+        "back to",
+        "note:",
+        "similarly,",
+        "and",
+        "or",
+    )
+
+    if len(text.split()) <= 3:
+        penalty += 0.16
+    elif len(text.split()) <= 6:
+        penalty += 0.08
+
+    if any(lowered.startswith(prefix) for prefix in generic_prefixes):
+        penalty += 0.14
+
+    if section_title:
+        section_lower = section_title.lower()
+        if lowered == section_lower:
+            penalty += 0.18
+        elif lowered.startswith(section_lower):
+            remainder = normalize_whitespace(text[len(section_title):])
+            if len(remainder.split()) <= 4:
+                penalty += 0.12
+
+    if prefs["prefer_formula"] or prefs["prefer_figure"]:
+        if len(text.split()) <= 8:
+            penalty += 0.08
+
+    return penalty
+
+
+def query_mismatch_penalty(item: Dict[str, Any], query: str, prefs: Dict[str, bool]) -> float:
+    normalized_query = query.lower()
+    document = item.get("document") or {}
+    text = normalize_whitespace(document.get("text")).lower()
+    if not text:
+        return 0.0
+
+    penalty = 0.0
+    if prefs["prefer_figure"] and "regularized" not in normalized_query and "regularized" in text:
+        penalty += 0.18
+    if prefs["prefer_formula"] and "regularized" not in normalized_query and "regularized" in text:
+        penalty += 0.12
+    return penalty
+
+
 def query_preferences(query: str) -> Dict[str, bool]:
     normalized = query.lower()
     formula_tokens = {
@@ -407,6 +512,12 @@ def query_preferences(query: str) -> Dict[str, bool]:
         "objective",
         "loss",
         "cost",
+        "likelihood",
+        "log-likelihood",
+        "log likelihood",
+        "sigmoid",
+        "probability",
+        "probabilities",
         "compute",
         "complexity",
         "defined",
@@ -423,11 +534,18 @@ def query_preferences(query: str) -> Dict[str, bool]:
     figure_tokens = {
         "figure",
         "diagram",
+        "graph",
+        "computational graph",
         "architecture",
         "illustrated",
         "shown",
         "visual",
         "pipeline",
+        "flow",
+        "flow of data",
+        "network",
+        "chart",
+        "plot",
         "left part",
         "right part",
     }
@@ -461,7 +579,7 @@ def diversity_rerank(
     same_page_penalty: float,
 ) -> List[Dict[str, Any]]:
     dense_score_map = {
-        str(result["item"].get("id")): float(result.get("score", 0.0))
+        str(result["item"].get("id")): float(result.get("dense_score", result.get("score", 0.0)) or 0.0)
         for result in dense_candidates
         if result.get("item", {}).get("id")
     }
@@ -496,15 +614,20 @@ def diversity_rerank(
                 if "atomic" not in seen_levels and level == "atomic":
                     score += atomic_bonus
 
-            if prefs["prefer_formula"] and chunk_type in {"formula", "text_inline_math"}:
-                score += formula_bonus
+            if prefs["prefer_formula"] and chunk_type == "formula":
+                score += formula_bonus + 0.16
+            elif prefs["prefer_formula"] and chunk_type == "text_inline_math":
+                score += formula_bonus + 0.08
             if prefs["prefer_figure"] and chunk_type == "figure":
-                score += figure_bonus
+                score += figure_bonus + 0.20
 
             if chunk_type == "text":
                 score += text_bonus
             if level == "semantic":
                 score += 0.02
+
+            score -= low_information_text_penalty(item, prefs)
+            score -= query_mismatch_penalty(item, query, prefs)
 
             signature = page_signature(format_output_result(result))
             if signature in seen_pages:
@@ -527,11 +650,12 @@ def diversity_rerank(
             {
                 "level": result["level"],
                 "item": result["item"],
-                "score": float(result.get("score", 0.0)),
+                "score": float(result.get("dense_score", result.get("score", 0.0)) or 0.0),
                 "rank": rank,
-                "dense_rank": result.get("rank"),
-                "dense_score": float(result.get("score", 0.0)),
-                "bm25_score": bm25_score_map.get(item_id, 0.0),
+                "dense_rank": result.get("dense_rank", result.get("rank")),
+                "dense_score": float(result.get("dense_score", result.get("score", 0.0)) or 0.0),
+                "bm25_rank": result.get("bm25_rank"),
+                "bm25_score": result.get("bm25_score", bm25_score_map.get(item_id, 0.0)),
                 "combined_score": (
                     dense_weight * normalized_dense.get(item_id, 0.0)
                     + bm25_weight * normalized_bm25.get(item_id, 0.0)
@@ -768,9 +892,16 @@ def retrieve_for_query(
                 level_priority(item.get("level")),
             )
         )
+        merged_candidates = merge_candidate_results(
+            dense_results=all_dense_results[:dense_top_k],
+            bm25_results=all_bm25_results[:candidate_k],
+            rrf_k=rrf_k,
+            dense_weight=1.0,
+            bm25_weight=1.0,
+        )
         reranked = diversity_rerank(
             query=query,
-            dense_candidates=all_dense_results[:dense_top_k],
+            dense_candidates=merged_candidates,
             candidate_k=candidate_k,
             target=target,
             dense_weight=dense_rerank_dense_weight,
