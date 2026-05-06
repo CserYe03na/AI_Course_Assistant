@@ -1,0 +1,306 @@
+[
+  {
+    "id": 1,
+    "question": "How is Recall@k defined in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p13_b2_text",
+      "adl_lecture_11_p13_b3_formula",
+      "adl_lecture_11_p13_b4_text"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "What key weakness of recall is highlighted in the slides?",
+    "gold_chunk_id": "adl_lecture_11_p12_b4_text"
+  },
+  {
+    "id": 3,
+    "question": "How is Precision@k defined in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p14_b3_text",
+      "adl_lecture_11_p14_b9_text",
+      "adl_lecture_11_p14_b10_text"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "What limitation of Precision@5 is discussed when only a few items can be relevant?",
+    "gold_chunk_id": "adl_lecture_11_p16_b6_text"
+  },
+  {
+    "id": 5,
+    "question": "How is AP@k defined in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p17_b4_text",
+      "adl_lecture_11_p17_b5_text_inline_math",
+      "adl_lecture_11_p17_b6_formula"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "What does Average Precision reward according to the slides?",
+    "gold_chunk_id": "adl_lecture_11_p18_b6_text"
+  },
+  {
+    "id": 7,
+    "question": "How do the slides define Mean Average Precision (mAP)?",
+    "gold_chunk_id": "adl_lecture_11_p22_b4_text"
+  },
+  {
+    "id": 8,
+    "question": "When do the slides say MRR should be used?",
+    "gold_chunk_id": "adl_lecture_11_p23_b3_text"
+  },
+  {
+    "id": 9,
+    "question": "How is MRR@k defined in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p24_b2_figure",
+      "adl_lecture_11_p24_b5_formula",
+      "adl_lecture_11_p24_b6_text"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "What important limitation of MRR is pointed out in the slides?",
+    "gold_chunk_id": "adl_lecture_11_p25_b6_text"
+  },
+  {
+    "id": 11,
+    "question": "In what situation do the slides motivate using nDCG instead of binary-relevance metrics?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p27_b2_text",
+      "adl_lecture_11_p27_b3_text",
+      "adl_lecture_11_p27_b4_text"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "How is DCG@k defined in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p27_b2_text",
+      "adl_lecture_11_p28_b3_formula",
+      "adl_lecture_11_p28_b5_text"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "How is nDCG defined in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p29_b7_text",
+      "adl_lecture_11_p29_b11_formula",
+      "adl_lecture_11_p29_b12_text_inline_math"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "What is the CTR formula given in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p31_b6_text",
+      "adl_lecture_11_p32_b4_formula"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "What is the CVR formula given in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p32_b6_text",
+      "adl_lecture_11_p32_b7_formula"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "According to the YouTube search system design slide, what is emphasized at the retrieval stage and what is emphasized at the ranking stage?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p54_b3_text",
+      "adl_lecture_11_p54_b4_text",
+      "adl_lecture_11_p54_b5_text"
+    ]
+  },
+  {
+    "id": 17,
+    "question": "Why do the slides say a BiEncoder two-tower architecture is useful for retrieval?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p55_b3_text_inline_math",
+      "adl_lecture_11_p55_b4_text",
+      "adl_lecture_11_p55_b5_text_inline_math"
+    ]
+  },
+  {
+    "id": 18,
+    "question": "What three steps of RAG are described in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_12_p44_b4_text",
+      "adl_lecture_12_p44_b11_text",
+      "adl_lecture_12_p44_b12_text"
+    ]
+  },
+  {
+    "id": 19,
+    "question": "What two benefits of RAG are explicitly listed in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_12_p44_b13_text",
+      "adl_lecture_12_p44_b14_text"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "What loss scaling law example is given in the slides for estimating a mean from N samples?",
+    "gold_chunk_id": [
+      "adl_lecture_12_p51_b2_text",
+      "adl_lecture_12_p51_b7_formula",
+      "adl_lecture_12_p51_b9_formula",
+      "adl_lecture_12_p51_b10_text"
+    ]
+  },
+  {
+    "id": 21,
+    "question": "In the slides' AUC formulation, what event makes the indicator equal 1?",
+    "gold_chunk_id": [
+      "adl_lecture_1_p40_b7_text_inline_math",
+      "adl_lecture_1_p40_b9_formula",
+      "adl_lecture_1_p41_b5_text"
+    ]
+  },
+  {
+    "id": 22,
+    "question": "According to the AUC intuition slide, what AUC value is considered bad and why?",
+    "gold_chunk_id": [
+      "adl_lecture_1_p41_b2_formula",
+      "adl_lecture_1_p41_b7_text",
+      "adl_lecture_1_p41_b8_text"
+    ]
+  },
+  {
+    "id": 23,
+    "question": "What kind of training data does DPO assume, and what quantity does it optimize on that data?",
+    "gold_chunk_id": [
+      "adl_lecture_12_p35_b2_text_inline_math",
+      "adl_lecture_12_p35_b3_formula",
+      "adl_lecture_12_p35_b5_formula"
+    ]
+  },
+  {
+    "id": 24,
+    "question": "What is the scaling law for the MSE of the sample mean in the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_12_p51_b7_formula",
+      "adl_lecture_12_p51_b9_formula"
+    ]
+  },
+  {
+    "id": 25,
+    "question": "What is the approximate FLOPs cost of computing an inner product a^T b for vectors of dimension d?",
+    "gold_chunk_id": [
+      "adl_lecture_12_p55_b4_text_inline_math",
+      "adl_lecture_12_p55_b7_text_inline_math"
+    ]
+  },
+  {
+    "id": 26,
+    "question": "What is the approximate FLOPs cost of multiplying an m×d matrix by a d×n matrix according to the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_12_p55_b8_text_inline_math",
+      "adl_lecture_12_p55_b11_text_inline_math",
+      "adl_lecture_12_p55_b13_text_inline_math"
+    ]
+  },
+  {
+    "id": 27,
+    "question": "How is the output of multi-head attention combined according to the slides?",
+    "gold_chunk_id": [
+      "adl_lecture_8_p31_b3_text_inline_math",
+      "adl_lecture_8_p31_b8_text_inline_math",
+      "adl_lecture_8_p31_b10_text_inline_math"
+    ]
+  },
+  {
+    "id": 28,
+    "question": "Why do the slides add positional embeddings in the Transformer encoder, and what form do they take?",
+    "gold_chunk_id": [
+      "adl_lecture_8_p35_b4_text",
+      "adl_lecture_8_p35_b5_text",
+      "adl_lecture_8_p35_b6_text_inline_math"
+    ]
+  },
+  {
+    "id": 29,
+    "question": "In the candidate generator slide, how are videos scored against the query and what retrieval complexity is given for finding the top k?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p56_b3_text_inline_math",
+      "adl_lecture_11_p56_b4_text",
+      "adl_lecture_11_p56_b7_text_inline_math"
+    ]
+  },
+  {
+    "id": 30,
+    "question": "How do the self-attention slides express representing an entity using other entities?",
+    "gold_chunk_id": [
+      "adl_lecture_8_p25_b3_text_inline_math",
+      "adl_lecture_8_p25_b5_text_inline_math",
+      "adl_lecture_8_p25_b6_text_inline_math"
+    ]
+  },
+  {
+    "id": 31,
+    "question": "What retrieval behavior do the AP figures reward?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p17_b3_figure",
+      "adl_lecture_11_p18_b2_figure"
+    ]
+  },
+  {
+    "id": 32,
+    "question": "What do the MRR figures assume about how many relevant items there are per query, and what aspect of ranking matters?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p23_b2_figure",
+      "adl_lecture_11_p24_b2_figure"
+    ]
+  },
+  {
+    "id": 33,
+    "question": "What common ranking problem is illustrated by both the recall-issue figure and the precision-issue figure?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p12_b2_figure",
+      "adl_lecture_11_p16_b2_figure"
+    ]
+  },
+  {
+    "id": 34,
+    "question": "According to the LSH figure, what portion of the embedding space is searched at runtime?",
+    "gold_chunk_id": "adl_lecture_11_p57_b7_figure"
+  },
+  {
+    "id": 35,
+    "question": "According to the Transformer model figure, which side of the architecture uses masked multi-head attention?",
+    "gold_chunk_id": "adl_lecture_8_p21_b11_figure"
+  },
+  {
+    "id": 36,
+    "question": "What is added to embeddings before the stacked encoder or decoder blocks in the Transformer slides?",
+    "gold_chunk_id": "adl_lecture_8_p35_b6_text_inline_math"
+  },
+  {
+    "id": 37,
+    "question": "How do the slides explain that LSH reduces runtime cost for nearest-neighbor search?",
+    "gold_chunk_id": [
+      "adl_lecture_11_p57_b5_text",
+      "adl_lecture_11_p57_b6_text"
+    ]
+  },
+  {
+    "id": 38,
+    "question": "In the RAG architecture slide, what happens after the closest semantic chunks are retrieved?",
+    "gold_chunk_id": "adl_lecture_12_p44_b12_text"
+  },
+  {
+    "id": 39,
+    "question": "For the nDCG example, what is IDCG for the ideal ranking shown in the slides?",
+    "gold_chunk_id": "adl_lecture_11_p29_b9_text"
+  },
+  {
+    "id": 40,
+    "question": "How does the mAP slide say full system health across multiple queries should be aggregated?",
+    "gold_chunk_id": "adl_lecture_11_p22_b4_text"
+  }
+]

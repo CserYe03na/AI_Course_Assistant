@@ -24,6 +24,9 @@ except ImportError as exc:
     raise ImportError("openai is not installed. Install it with: pip install openai") from exc
 
 
+DEFAULT_DENSE_POOL_MULTIPLIER = 4
+
+
 def load_json(path: Path) -> Dict[str, Any]:
     return json.loads(path.read_text())
 
@@ -188,6 +191,30 @@ def bm25_search(
     return scored[:top_k]
 
 
+def bm25_scores_for_items(
+    *,
+    query: str,
+    items: List[Dict[str, Any]],
+) -> Dict[str, float]:
+    stats = build_bm25_stats(items)
+    query_tokens = tokenize(query)
+    scores: Dict[str, float] = {}
+
+    for row_id, item in enumerate(items):
+        item_id = item.get("id")
+        if not item_id:
+            continue
+        scores[str(item_id)] = bm25_score(
+            query_tokens,
+            stats["tokenized_docs"][row_id],
+            doc_freq=stats["doc_freq"],
+            doc_count=stats["doc_count"],
+            avg_doc_len=stats["avg_doc_len"],
+        )
+
+    return scores
+
+
 def add_result(
     results: Dict[str, Dict[str, Any]],
     *,
@@ -265,9 +292,9 @@ def format_output_result(result: Dict[str, Any]) -> Dict[str, Any]:
 
     return {
         "level": result.get("level"),
-        "combined_score": result.get("combined_score"),
-        "faiss_rank": result.get("faiss_rank"),
-        "faiss_score": result.get("faiss_score"),
+        "combined_score": result.get("combined_score", result.get("score")),
+        "faiss_rank": result.get("faiss_rank", result.get("rank")),
+        "faiss_score": result.get("faiss_score", result.get("score")),
         "bm25_rank": result.get("bm25_rank"),
         "bm25_score": result.get("bm25_score"),
         "id": item.get("id"),
@@ -280,6 +307,258 @@ def format_output_result(result: Dict[str, Any]) -> Dict[str, Any]:
         "metadata": metadata,
         "content_for_generation": document.get("content_for_generation"),
     }
+
+
+def level_priority(level: str | None) -> int:
+    return 0 if level == "semantic" else 1
+
+
+def normalize_score_map(score_map: Dict[str, float]) -> Dict[str, float]:
+    if not score_map:
+        return {}
+    values = list(score_map.values())
+    max_value = max(values)
+    min_value = min(values)
+    if math.isclose(max_value, min_value):
+        return {key: 1.0 for key in score_map}
+    return {
+        key: (value - min_value) / (max_value - min_value)
+        for key, value in score_map.items()
+    }
+
+
+def query_preferences(query: str) -> Dict[str, bool]:
+    normalized = query.lower()
+    formula_tokens = {
+        "formula",
+        "equation",
+        "objective",
+        "loss",
+        "cost",
+        "compute",
+        "complexity",
+        "defined",
+        "definition",
+        "mse",
+        "auc",
+        "dcg",
+        "ndcg",
+        "mrr",
+        "precision",
+        "recall",
+        "flops",
+    }
+    figure_tokens = {
+        "figure",
+        "diagram",
+        "architecture",
+        "illustrated",
+        "shown",
+        "visual",
+        "pipeline",
+        "left part",
+        "right part",
+    }
+    return {
+        "prefer_formula": any(token in normalized for token in formula_tokens),
+        "prefer_figure": any(token in normalized for token in figure_tokens),
+    }
+
+
+def page_signature(result: Dict[str, Any]) -> tuple[Any, Any, Any]:
+    return (
+        result.get("doc_id"),
+        result.get("page_no") if result.get("level") == "atomic" else result.get("page_start"),
+        result.get("level"),
+    )
+
+
+def diversity_rerank(
+    *,
+    query: str,
+    dense_candidates: List[Dict[str, Any]],
+    top_k: int,
+    target: str,
+    dense_weight: float,
+    bm25_weight: float,
+) -> List[Dict[str, Any]]:
+    dense_score_map = {
+        str(result["item"].get("id")): float(result.get("score", 0.0))
+        for result in dense_candidates
+        if result.get("item", {}).get("id")
+    }
+    bm25_score_map = bm25_scores_for_items(
+        query=query,
+        items=[result["item"] for result in dense_candidates],
+    )
+    normalized_dense = normalize_score_map(dense_score_map)
+    normalized_bm25 = normalize_score_map(bm25_score_map)
+    prefs = query_preferences(query)
+
+    remaining = list(dense_candidates)
+    selected: List[Dict[str, Any]] = []
+    seen_pages: set[tuple[Any, Any, Any]] = set()
+    seen_levels: set[str] = set()
+
+    while remaining and len(selected) < top_k:
+        best_idx = 0
+        best_score = float("-inf")
+
+        for idx, result in enumerate(remaining):
+            item = result["item"]
+            item_id = str(item.get("id"))
+            metadata = item.get("metadata") or {}
+            chunk_type = str(metadata.get("chunk_type") or result.get("level") or "")
+            level = str(result.get("level") or "")
+            score = dense_weight * normalized_dense.get(item_id, 0.0) + bm25_weight * normalized_bm25.get(item_id, 0.0)
+
+            if target == "both":
+                if "semantic" not in seen_levels and level == "semantic":
+                    score += 0.18
+                if "atomic" not in seen_levels and level == "atomic":
+                    score += 0.15
+
+            if prefs["prefer_formula"] and chunk_type in {"formula", "text_inline_math"}:
+                score += 0.12
+            if prefs["prefer_figure"] and chunk_type == "figure":
+                score += 0.12
+
+            if chunk_type == "text":
+                score += 0.01
+            if level == "semantic":
+                score += 0.02
+
+            signature = page_signature(format_output_result(result))
+            if signature in seen_pages:
+                score -= 0.10
+
+            if score > best_score:
+                best_score = score
+                best_idx = idx
+
+        chosen = remaining.pop(best_idx)
+        selected.append(chosen)
+        chosen_formatted = format_output_result(chosen)
+        seen_pages.add(page_signature(chosen_formatted))
+        seen_levels.add(str(chosen.get("level") or ""))
+
+    reranked: List[Dict[str, Any]] = []
+    for rank, result in enumerate(selected, start=1):
+        item_id = str(result["item"].get("id"))
+        reranked.append(
+            {
+                "level": result["level"],
+                "item": result["item"],
+                "rank": rank,
+                "score": float(result.get("score", 0.0)),
+                "faiss_rank": result.get("rank"),
+                "faiss_score": float(result.get("score", 0.0)),
+                "bm25_rank": None,
+                "bm25_score": bm25_score_map.get(item_id, 0.0),
+                "combined_score": (
+                    dense_weight * normalized_dense.get(item_id, 0.0)
+                    + bm25_weight * normalized_bm25.get(item_id, 0.0)
+                ),
+            }
+        )
+
+    return reranked
+
+
+def retrieve_results(
+    *,
+    course_id: str,
+    index_dir: Path,
+    query: str,
+    target: str,
+    top_k: int,
+    candidate_k: int,
+    embedding_model: str,
+    method: str,
+    rrf_k: int,
+    faiss_weight: float,
+    bm25_weight: float,
+    dense_pool_multiplier: int,
+    dense_rerank_dense_weight: float,
+    dense_rerank_bm25_weight: float,
+) -> List[Dict[str, Any]]:
+    query_vector: np.ndarray | None = None
+    if method in {"dense", "hybrid", "dense_rerank"}:
+        query_vector = embed_query(query, embedding_model)
+    levels = ["atomic", "semantic"] if target == "both" else [target]
+
+    all_faiss_results: List[Dict[str, Any]] = []
+    all_bm25_results: List[Dict[str, Any]] = []
+
+    faiss_top_k = candidate_k
+    if method == "dense_rerank":
+        faiss_top_k = max(candidate_k * max(dense_pool_multiplier, 1), candidate_k)
+
+    for level in levels:
+        index, metadata = load_index(index_dir, course_id, level)
+
+        if method in {"dense", "hybrid", "dense_rerank"}:
+            if query_vector is None:
+                raise RuntimeError("query_vector is required for dense retrieval methods")
+            all_faiss_results.extend(
+                faiss_search(
+                    query_vector=query_vector,
+                    index=index,
+                    metadata=metadata,
+                    level=level,
+                    top_k=faiss_top_k,
+                )
+            )
+
+        if method in {"bm25", "hybrid"}:
+            all_bm25_results.extend(
+                bm25_search(
+                    query=query,
+                    metadata=metadata,
+                    level=level,
+                    top_k=candidate_k,
+                )
+            )
+
+    if method == "bm25":
+        all_bm25_results.sort(key=lambda result: result["score"], reverse=True)
+        return [format_output_result(result) for result in all_bm25_results[:top_k]]
+
+    if method == "dense":
+        all_faiss_results.sort(
+            key=lambda result: (
+                -result["score"],
+                level_priority(result.get("level")),
+            )
+        )
+        return [format_output_result(result) for result in all_faiss_results[:top_k]]
+
+    if method == "dense_rerank":
+        all_faiss_results.sort(
+            key=lambda result: (
+                -result["score"],
+                level_priority(result.get("level")),
+            )
+        )
+        reranked = diversity_rerank(
+            query=query,
+            dense_candidates=all_faiss_results[:faiss_top_k],
+            top_k=top_k,
+            target=target,
+            dense_weight=dense_rerank_dense_weight,
+            bm25_weight=dense_rerank_bm25_weight,
+        )
+        return [format_output_result(result) for result in reranked]
+
+    combined = combine_results(
+        faiss_results=all_faiss_results,
+        bm25_results=all_bm25_results,
+        top_k=top_k,
+        rrf_k=rrf_k,
+        faiss_weight=faiss_weight,
+        bm25_weight=bm25_weight,
+    )
+    return [format_output_result(result) for result in combined]
 
 
 def compact_text(text: str | None, limit: int = 260) -> str:
@@ -311,12 +590,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--index-dir", default="data/retrieval")
     parser.add_argument("--query", required=True)
     parser.add_argument("--target", choices=["atomic", "semantic", "both"], default="both")
-    parser.add_argument("--top-k", type=int, default=5)
-    parser.add_argument("--candidate-k", type=int, default=20)
+    parser.add_argument("--top-k", type=int, default=4)
+    parser.add_argument("--candidate-k", type=int, default=4)
     parser.add_argument("--embedding-model", default="text-embedding-3-small")
+    parser.add_argument(
+        "--method",
+        choices=["bm25", "dense", "hybrid", "dense_rerank"],
+        default="dense_rerank",
+    )
     parser.add_argument("--rrf-k", type=int, default=60)
     parser.add_argument("--faiss-weight", type=float, default=1.0)
     parser.add_argument("--bm25-weight", type=float, default=1.0)
+    parser.add_argument("--dense-rerank-dense-weight", type=float, default=0.65)
+    parser.add_argument("--dense-rerank-bm25-weight", type=float, default=0.35)
+    parser.add_argument("--dense-pool-multiplier", type=int, default=DEFAULT_DENSE_POOL_MULTIPLIER)
     parser.add_argument("--output-json", help="Optional path to save retrieval results")
     return parser.parse_args()
 
@@ -329,44 +616,22 @@ def main() -> None:
         raise ValueError("--candidate-k must be >= --top-k")
 
     index_dir = Path(args.index_dir)
-    query_vector = embed_query(args.query, args.embedding_model)
-    levels = ["atomic", "semantic"] if args.target == "both" else [args.target]
-
-    all_faiss_results: List[Dict[str, Any]] = []
-    all_bm25_results: List[Dict[str, Any]] = []
-
-    for level in levels:
-        index, metadata = load_index(index_dir, args.course_id, level)
-
-        all_faiss_results.extend(
-            faiss_search(
-                query_vector=query_vector,
-                index=index,
-                metadata=metadata,
-                level=level,
-                top_k=args.candidate_k,
-            )
-        )
-
-        all_bm25_results.extend(
-            bm25_search(
-                query=args.query,
-                metadata=metadata,
-                level=level,
-                top_k=args.candidate_k,
-            )
-        )
-
-    combined = combine_results(
-        faiss_results=all_faiss_results,
-        bm25_results=all_bm25_results,
+    output_results = retrieve_results(
+        course_id=args.course_id,
+        index_dir=index_dir,
+        query=args.query,
+        target=args.target,
         top_k=args.top_k,
+        candidate_k=args.candidate_k,
+        embedding_model=args.embedding_model,
+        method=args.method,
         rrf_k=args.rrf_k,
         faiss_weight=args.faiss_weight,
         bm25_weight=args.bm25_weight,
+        dense_pool_multiplier=args.dense_pool_multiplier,
+        dense_rerank_dense_weight=args.dense_rerank_dense_weight,
+        dense_rerank_bm25_weight=args.dense_rerank_bm25_weight,
     )
-
-    output_results = [format_output_result(result) for result in combined]
 
     print(f"Query: {args.query}")
     print_results(output_results)
@@ -378,13 +643,14 @@ def main() -> None:
                 "course_id": args.course_id,
                 "query": args.query,
                 "target": args.target,
+                "method": args.method,
                 "top_k": args.top_k,
                 "candidate_k": args.candidate_k,
-                "method": "hybrid_faiss_bm25_rrf",
+                "dense_pool_multiplier": args.dense_pool_multiplier,
                 "results": output_results,
             },
         )
-        print(f"Wrote hybrid retrieval results to {args.output_json}")
+        print(f"Wrote retrieval results to {args.output_json}")
 
 
 if __name__ == "__main__":

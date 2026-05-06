@@ -15,6 +15,7 @@ import retrieve_faiss_bm25 as retrieval
 
 DEFAULT_GENERATION_MODEL = "gpt-5.4-mini"
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
+DEFAULT_RETRIEVAL_METHOD = "dense_rerank"
 
 
 def clean_text(text: Optional[str]) -> Optional[str]:
@@ -172,45 +173,30 @@ def retrieve_results(
     top_k: int,
     candidate_k: int,
     embedding_model: str,
+    method: str,
     rrf_k: int,
     faiss_weight: float,
     bm25_weight: float,
+    dense_pool_multiplier: int,
+    dense_rerank_dense_weight: float,
+    dense_rerank_bm25_weight: float,
 ) -> List[Dict[str, Any]]:
-    query_vector = retrieval.embed_query(query, embedding_model)
-    levels = ["atomic", "semantic"] if target == "both" else [target]
-
-    all_faiss_results: List[Dict[str, Any]] = []
-    all_bm25_results: List[Dict[str, Any]] = []
-
-    for level in levels:
-        index, metadata = retrieval.load_index(index_dir, course_id, level)
-        all_faiss_results.extend(
-            retrieval.faiss_search(
-                query_vector=query_vector,
-                index=index,
-                metadata=metadata,
-                level=level,
-                top_k=candidate_k,
-            )
-        )
-        all_bm25_results.extend(
-            retrieval.bm25_search(
-                query=query,
-                metadata=metadata,
-                level=level,
-                top_k=candidate_k,
-            )
-        )
-
-    combined = retrieval.combine_results(
-        faiss_results=all_faiss_results,
-        bm25_results=all_bm25_results,
+    return retrieval.retrieve_results(
+        course_id=course_id,
+        index_dir=index_dir,
+        query=query,
+        target=target,
         top_k=top_k,
+        candidate_k=candidate_k,
+        embedding_model=embedding_model,
+        method=method,
         rrf_k=rrf_k,
         faiss_weight=faiss_weight,
         bm25_weight=bm25_weight,
+        dense_pool_multiplier=dense_pool_multiplier,
+        dense_rerank_dense_weight=dense_rerank_dense_weight,
+        dense_rerank_bm25_weight=dense_rerank_bm25_weight,
     )
-    return [retrieval.format_output_result(result) for result in combined]
 
 
 def build_context_block(results: List[Dict[str, Any]]) -> str:
@@ -231,15 +217,70 @@ def build_context_block(results: List[Dict[str, Any]]) -> str:
     return "\n\n".join(blocks)
 
 
-def build_prompt(query: str, context_block: str) -> str:
+def build_conversation_block(
+    conversation_summary: Optional[str],
+    recent_turns: Optional[List[Dict[str, str]]],
+) -> str:
+    parts: List[str] = []
+
+    summary = clean_text(conversation_summary)
+    if summary:
+        parts.append("Earlier conversation summary:\n" + summary)
+
+    rendered_turns: List[str] = []
+    for turn in recent_turns or []:
+        if not isinstance(turn, dict):
+            continue
+        role = clean_text(turn.get("role")) or "unknown"
+        content = clean_text(turn.get("content"))
+        if content:
+            rendered_turns.append(f"{role.title()}: {content}")
+
+    if rendered_turns:
+        parts.append("Recent conversation turns:\n" + "\n".join(rendered_turns))
+
+    return "\n\n".join(parts)
+
+
+def build_prompt(
+    query: str,
+    context_block: str,
+    conversation_summary: Optional[str] = None,
+    recent_turns: Optional[List[Dict[str, str]]] = None,
+    current_topic: Optional[str] = None,
+) -> str:
+    conversation_block = build_conversation_block(conversation_summary, recent_turns)
     return f"""Answer the student question using only the course context below.
 
 Rules:
 - If the context is not enough, say what is missing instead of guessing.
 - Cite the source labels inline, for example [S1] or [S2].
-- End with a short "Sources" list containing the cited labels and page locations.
+- End with a short "Sources" section containing the cited labels and page locations.
 - Prefer clear, student-friendly explanations over copying slide text.
 - Ignore obvious OCR fragments when better context is available.
+- Write in clean, student-friendly English.
+- Use plain readable text formatting, not Markdown heading markers like #, ##, or ###.
+- Use only these section labels when helpful:
+  Short answer:
+  Examples:
+  Intuition:
+  Sources:
+- Put each section label on its own line.
+- Use normal paragraphs and simple bullet lines starting with "- ".
+- Only use **bold** for a few key terms, not for whole sentences or whole paragraphs.
+- Do not use LaTeX notation such as \\( ... \\), \\[ ... \\], subscripts, or escaped symbols.
+- If you need a symbol like H0, write it in plain text as H0.
+- Keep the answer visually scannable, not just one long block of text.
+- Use the conversation history only to resolve follow-up references.
+- Still ground the answer in the course context below, not in earlier assistant claims.
+- If the student asks a vague follow-up like "give examples", "why", "how", or "explain more", interpret it as referring to the most recent topic in the conversation, unless the user clearly switches topics.
+- Do not print stray standalone symbols like ## or ### anywhere in the answer.
+
+Conversation history:
+{conversation_block or "No earlier conversation."}
+
+Current topic:
+{clean_text(current_topic) or "No fixed topic yet."}
 
 Student question:
 {query}
@@ -249,7 +290,16 @@ Course context:
 """
 
 
-def generate_answer(*, client: OpenAI, model: str, query: str, context_results: List[Dict[str, Any]]) -> str:
+def generate_answer(
+    *,
+    client: OpenAI,
+    model: str,
+    query: str,
+    context_results: List[Dict[str, Any]],
+    conversation_summary: Optional[str] = None,
+    recent_turns: Optional[List[Dict[str, str]]] = None,
+    current_topic: Optional[str] = None,
+) -> str:
     context_block = build_context_block(context_results)
     response = client.responses.create(
         model=model,
@@ -263,7 +313,7 @@ def generate_answer(*, client: OpenAI, model: str, query: str, context_results: 
             },
             {
                 "role": "user",
-                "content": build_prompt(query, context_block),
+                "content": build_prompt(query, context_block, conversation_summary, recent_turns, current_topic),
             },
         ],
     )
@@ -279,14 +329,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--index-dir", default="data/retrieval")
     parser.add_argument("--query", required=True)
     parser.add_argument("--target", choices=["atomic", "semantic", "both"], default="both")
-    parser.add_argument("--top-k", type=int, default=8, help="Retrieved results to consider before context filtering.")
+    parser.add_argument("--top-k", type=int, default=4, help="Retrieved results to consider before context filtering.")
     parser.add_argument("--context-k", type=int, default=6, help="Sources to pass to the generation model.")
-    parser.add_argument("--candidate-k", type=int, default=30)
+    parser.add_argument("--candidate-k", type=int, default=4)
     parser.add_argument("--embedding-model", default=DEFAULT_EMBEDDING_MODEL)
     parser.add_argument("--generation-model", default=DEFAULT_GENERATION_MODEL)
+    parser.add_argument(
+        "--retrieval-method",
+        choices=["bm25", "dense", "hybrid", "dense_rerank"],
+        default=DEFAULT_RETRIEVAL_METHOD,
+    )
     parser.add_argument("--rrf-k", type=int, default=60)
     parser.add_argument("--faiss-weight", type=float, default=1.0)
     parser.add_argument("--bm25-weight", type=float, default=1.0)
+    parser.add_argument("--dense-rerank-dense-weight", type=float, default=0.65)
+    parser.add_argument("--dense-rerank-bm25-weight", type=float, default=0.35)
+    parser.add_argument("--dense-pool-multiplier", type=int, default=4)
     parser.add_argument("--output-json", help="Optional path to save the answer, sources, and raw retrieval results.")
     return parser.parse_args()
 
@@ -308,9 +366,13 @@ def main() -> None:
         top_k=args.top_k,
         candidate_k=args.candidate_k,
         embedding_model=args.embedding_model,
+        method=args.retrieval_method,
         rrf_k=args.rrf_k,
         faiss_weight=args.faiss_weight,
         bm25_weight=args.bm25_weight,
+        dense_pool_multiplier=args.dense_pool_multiplier,
+        dense_rerank_dense_weight=args.dense_rerank_dense_weight,
+        dense_rerank_bm25_weight=args.dense_rerank_bm25_weight,
     )
     context_results = select_context_results(retrieved_results, args.context_k)
     answer = generate_answer(
@@ -336,6 +398,10 @@ def main() -> None:
                 "top_k": args.top_k,
                 "context_k": args.context_k,
                 "candidate_k": args.candidate_k,
+                "retrieval_method": args.retrieval_method,
+                "dense_pool_multiplier": args.dense_pool_multiplier,
+                "dense_rerank_dense_weight": args.dense_rerank_dense_weight,
+                "dense_rerank_bm25_weight": args.dense_rerank_bm25_weight,
                 "embedding_model": args.embedding_model,
                 "generation_model": args.generation_model,
                 "answer": answer,

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Course Assistant Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="control-panel">
+        <div class="panel-header">
+          <h1>AI Course Assistant</h1>
+          <button id="clearChat" type="button" class="secondary panel-action">New Chat</button>
+        </div>
+
+        <form id="qa-form" class="control-form">
+          <section class="sidebar-section ask-section">
+            <div class="section-topline">
+              <div class="section-heading">
+                <p class="section-kicker">Ask In This Course</p>
+              </div>
+
+              <div class="course-switcher">
+                <select id="courseId" name="courseId" class="course-switcher-select"></select>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Question</span>
+              <textarea
+                id="query"
+                name="query"
+                rows="4"
+                placeholder="For example: What is the difference between confidence intervals and hypothesis testing?"
+              ></textarea>
+            </label>
+
+            <div class="actions">
+              <button id="submitButton" type="submit">Generate Answer</button>
+            </div>
+
+            <details class="advanced-panel">
+              <summary>Advanced Settings</summary>
+              <div class="field-grid advanced-grid">
+                <label class="field">
+                  <span>Memory Window</span>
+                  <input id="memoryWindow" name="memoryWindow" type="number" min="1" max="8" />
+                </label>
+
+                <label class="field">
+                  <span>Generation Model</span>
+                  <input id="generationModel" name="generationModel" type="text" />
+                </label>
+
+                <label class="field">
+                  <span>RRF K</span>
+                  <input id="rrfK" name="rrfK" type="number" min="1" />
+                </label>
+
+                <label class="field">
+                  <span>FAISS Weight</span>
+                  <input id="faissWeight" name="faissWeight" type="number" min="0" step="0.1" />
+                </label>
+
+                <label class="field">
+                  <span>BM25 Weight</span>
+                  <input id="bm25Weight" name="bm25Weight" type="number" min="0" step="0.1" />
+                </label>
+              </div>
+            </details>
+          </section>
+
+          <section class="ingest-card sidebar-section">
+            <div class="section-heading">
+              <p class="section-kicker">Add Course / Doc</p>
+            </div>
+
+            <div class="ingest-body">
+              <div class="ingest-mode-switch" role="tablist" aria-label="Add course mode">
+                <button id="modeNewButton" type="button" class="ingest-mode-button active" data-mode="new" aria-pressed="true">
+                  Create New Course
+                </button>
+                <button id="modeExistingButton" type="button" class="ingest-mode-button" data-mode="existing" aria-pressed="false">
+                  Add Files To Existing Course
+                </button>
+              </div>
+
+              <input id="ingestMode" name="ingestMode" type="hidden" value="new" />
+
+              <section id="ingestNewPanel" class="ingest-mode-panel">
+                <label id="ingestCourseIdField" class="field">
+                  <span>Course ID</span>
+                  <input
+                    id="ingestCourseId"
+                    name="ingestCourseId"
+                    type="text"
+                    placeholder="For example: nlp_fall_2026"
+                  />
+                </label>
+
+                <label id="ingestCourseNameField" class="field">
+                  <span>Course Name</span>
+                  <input
+                    id="ingestCourseName"
+                    name="ingestCourseName"
+                    type="text"
+                    placeholder="For example: Natural Language Processing"
+                  />
+                </label>
+
+                <label class="field">
+                  <span>PDF Documents</span>
+                  <input id="ingestFilesNew" name="ingestFilesNew" type="file" accept=".pdf,application/pdf" multiple hidden />
+                  <div class="file-picker">
+                    <button id="pickFilesButtonNew" type="button" class="secondary file-picker-button">Choose PDFs</button>
+                    <span id="filePickerTextNew" class="file-picker-text">No files selected</span>
+                  </div>
+                </label>
+
+                <div class="actions">
+                  <button id="uploadButtonNew" type="button" class="secondary">Parse And Index</button>
+                </div>
+              </section>
+
+              <section id="ingestExistingPanel" class="ingest-mode-panel" hidden>
+                <label id="ingestExistingCourseField" class="field">
+                  <span>Existing Course</span>
+                  <select id="ingestExistingCourse" name="ingestExistingCourse"></select>
+                </label>
+
+                <label class="field">
+                  <span>PDF Documents</span>
+                  <input id="ingestFilesExisting" name="ingestFilesExisting" type="file" accept=".pdf,application/pdf" multiple hidden />
+                  <div class="file-picker">
+                    <button id="pickFilesButtonExisting" type="button" class="secondary file-picker-button">Choose PDFs</button>
+                    <span id="filePickerTextExisting" class="file-picker-text">No files selected</span>
+                  </div>
+                </label>
+
+                <div class="actions">
+                  <button id="uploadButtonExisting" type="button" class="secondary">Parse And Index</button>
+                </div>
+              </section>
+            </div>
+
+            <div id="ingestStatus" class="ingest-status empty-state">
+              No ingestion job running.
+            </div>
+          </section>
+        </form>
+      </aside>
+
+      <main class="result-panel">
+        <section class="answer-card">
+          <div class="section-title">
+            <h3>Conversation</h3>
+            <div class="conversation-meta">
+              <p id="memoryText">No conversation memory yet</p>
+              <div id="statusBadge" class="status-badge">Waiting for a question</div>
+            </div>
+          </div>
+          <div id="conversationOutput" class="conversation-output empty-state">
+            Start a conversation to see recent turns and rolling memory.
+          </div>
+        </section>
+
+        <section class="sources-card">
+          <div class="section-title">
+            <h3>Sources</h3>
+            <p id="retrievalText">Context snippets used for generation</p>
+          </div>
+          <div id="sourcesOutput" class="sources-list empty-state">
+            No source results yet.
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
