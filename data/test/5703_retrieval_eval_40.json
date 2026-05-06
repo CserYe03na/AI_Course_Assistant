@@ -1,0 +1,247 @@
+[
+  {
+    "id": 1,
+    "question": "What is the sample average in the estimation slides?",
+    "gold_chunk_id": "5703_02_estimation_p5_b2_text"
+  },
+  {
+    "id": 2,
+    "question": "What property says the sample mean gets close to the true mean as n grows?",
+    "gold_chunk_id": "5703_02_estimation_p9_b4_text"
+  },
+  {
+    "id": 3,
+    "question": "What controls the width of a confidence interval?",
+    "gold_chunk_id": "5703_05_confidenceintervals_p13_b2_text"
+  },
+  {
+    "id": 4,
+    "question": "How is the significance level used to choose the rejection cutoff?",
+    "gold_chunk_id": "5703_07_hypothesistests_p10_b7_text"
+  },
+  {
+    "id": 5,
+    "question": "What does the power function measure in hypothesis testing?",
+    "gold_chunk_id": "5703_07_hypothesistests_p11_b4_text"
+  },
+  {
+    "id": 6,
+    "question": "What conclusion is made when the p-value is less than alpha?",
+    "gold_chunk_id": "5703_08_hypothesistests_part2_p21_b6_text"
+  },
+  {
+    "id": 7,
+    "question": "What is the likelihood ratio test definition in the slides?",
+    "gold_chunk_id": "5703_09_likelihoodratiotests_p9_b2_text"
+  },
+  {
+    "id": 8,
+    "question": "What is bootstrap used for in the resampling slides?",
+    "gold_chunk_id": "5703_06_resampling_p38_b2_text"
+  },
+  {
+    "id": 9,
+    "question": "After producing B bootstrap datasets, what calculation is repeated?",
+    "gold_chunk_id": "5703_06_resampling_p40_b4_text"
+  },
+  {
+    "id": 10,
+    "question": "When is a distribution called bivariate normal?",
+    "gold_chunk_id": "5703_10_normal_p12_b4_text"
+  },
+  {
+    "id": 11,
+    "question": "Where do the slides introduce the multivariate normal density?",
+    "gold_chunk_id": [
+      "5703_10_normal_p20_b5_text",
+      "5703_10_normal_p20_b6_formula"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "How is the least squares estimator set up in regression?",
+    "gold_chunk_id": [
+      "5703_11_regression1_p3_b2_text",
+      "5703_11_regression1_p3_b3_formula"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "How does polynomial regression extend a linear model?",
+    "gold_chunk_id": "5703_12_regression2_p28_b34_text"
+  },
+  {
+    "id": 14,
+    "question": "Why is linear regression problematic for probability outcomes?",
+    "gold_chunk_id": "5703_15_glm_p18_b2_text"
+  },
+  {
+    "id": 15,
+    "question": "Why does logistic regression need numerical optimization?",
+    "gold_chunk_id": "5703_15_glm_p31_b4_text"
+  },
+  {
+    "id": 16,
+    "question": "What problem in Poisson regression suggests using alternatives?",
+    "gold_chunk_id": "5703_16_glm2_p8_b6_text"
+  },
+  {
+    "id": 17,
+    "question": "What information should a sufficient statistic contain?",
+    "gold_chunk_id": "5703_15_glm_p4_b6_text"
+  },
+  {
+    "id": 18,
+    "question": "What kind of outcome does survival analysis study?",
+    "gold_chunk_id": "5703_17_survivalanalysis_p3_b2_text"
+  },
+  {
+    "id": 19,
+    "question": "What is the Kaplan-Meier estimator used for?",
+    "gold_chunk_id": [
+      "5703_17_survivalanalysis_p40_b2_text",
+      "5703_17_survivalanalysis_p34_b6_formula"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "What model is the log-rank test closely related to?",
+    "gold_chunk_id": "5703_17_survivalanalysis_p57_b4_text"
+  },
+  {
+    "id": 21,
+    "question": "How is the likelihood function written under independent observations?",
+    "gold_chunk_id": [
+      "5703_03_estimation_part2_p23_b3_formula",
+      "5703_03_estimation_part2_p23_b6_text_inline_math"
+    ]
+  },
+  {
+    "id": 22,
+    "question": "How is the score function defined from the log likelihood?",
+    "gold_chunk_id": "5703_03_estimation_part2_p25_b7_formula"
+  },
+  {
+    "id": 23,
+    "question": "What is the maximum likelihood estimate for lambda in the exponential example?",
+    "gold_chunk_id": "5703_03_estimation_part2_p29_b3_formula"
+  },
+  {
+    "id": 24,
+    "question": "What is the Wald confidence interval formula?",
+    "gold_chunk_id": "5703_05_confidenceintervals_p20_b6_formula"
+  },
+  {
+    "id": 25,
+    "question": "What formula gives the Wald confidence interval for a population proportion?",
+    "gold_chunk_id": "5703_05_confidenceintervals_p22_b4_formula"
+  },
+  {
+    "id": 26,
+    "question": "How do the slides write the likelihood-ratio statistic and rejection rule?",
+    "gold_chunk_id": [
+      "5703_09_likelihoodratiotests_p9_b3_formula",
+      "5703_09_likelihoodratiotests_p9_b7_formula"
+    ]
+  },
+  {
+    "id": 27,
+    "question": "How is the power function written as a probability of rejection?",
+    "gold_chunk_id": [
+      "5703_07_hypothesistests_p11_b3_formula",
+      "5703_07_hypothesistests_p11_b4_text"
+    ]
+  },
+  {
+    "id": 28,
+    "question": "What is the Wald test statistic formula?",
+    "gold_chunk_id": "5703_08_hypothesistests_part2_p10_b6_formula"
+  },
+  {
+    "id": 29,
+    "question": "How is the exponential family written in canonical form?",
+    "gold_chunk_id": [
+      "5703_15_glm_p3_b5_formula",
+      "5703_15_glm_p7_b2_text_inline_math"
+    ]
+  },
+  {
+    "id": 30,
+    "question": "What logistic function maps real values into probabilities between 0 and 1?",
+    "gold_chunk_id": [
+      "5703_15_glm_p19_b7_formula",
+      "5703_15_glm_p19_b6_text_inline_math"
+    ]
+  },
+  {
+    "id": 31,
+    "question": "What does the maize height boxplot compare?",
+    "gold_chunk_id": "5703_01_introduction_p14_b11_figure"
+  },
+  {
+    "id": 32,
+    "question": "What is the Poisson probability mass function formula?",
+    "gold_chunk_id": "5703_03_estimation_part2_p31_b3_formula"
+  },
+  {
+    "id": 33,
+    "question": "What is the univariate normal density formula?",
+    "gold_chunk_id": "5703_10_normal_p2_b6_formula"
+  },
+  {
+    "id": 34,
+    "question": "What is the multivariate normal density formula?",
+    "gold_chunk_id": [
+      "5703_10_normal_p20_b5_text",
+      "5703_10_normal_p20_b6_formula"
+    ]
+  },
+  {
+    "id": 35,
+    "question": "How is the sample variance formula written?",
+    "gold_chunk_id": [
+      "5703_02_estimation_p6_b3_formula",
+      "5703_02_estimation_p5_b2_text"
+    ]
+  },
+  {
+    "id": 36,
+    "question": "What normal equation is used for the least squares estimator?",
+    "gold_chunk_id": [
+      "5703_11_regression1_p3_b3_formula",
+      "5703_11_regression1_p3_b8_formula"
+    ]
+  },
+  {
+    "id": 37,
+    "question": "What likelihood is used for logistic regression with binary outcomes?",
+    "gold_chunk_id": [
+      "5703_03_estimation_part2_p32_b7_formula",
+      "5703_15_glm_p17_b2_text_inline_math"
+    ]
+  },
+  {
+    "id": 38,
+    "question": "What is the proportional hazards model formula in Cox regression?",
+    "gold_chunk_id": [
+      "5703_17_survivalanalysis_p63_b4_text_inline_math",
+      "5703_17_survivalanalysis_p75_b3_formula"
+    ]
+  },
+  {
+    "id": 39,
+    "question": "How is the survival function defined?",
+    "gold_chunk_id": [
+      "5703_17_survivalanalysis_p23_b3_formula",
+      "5703_17_survivalanalysis_p25_b6_text_inline_math"
+    ]
+  },
+  {
+    "id": 40,
+    "question": "What is the Kaplan-Meier survival product formula?",
+    "gold_chunk_id": [
+      "5703_17_survivalanalysis_p34_b6_formula",
+      "5703_17_survivalanalysis_p34_b7_text_inline_math"
+    ]
+  }
+]
