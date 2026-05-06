@@ -1,0 +1,183 @@
+[
+  {
+    "id": 1,
+    "question": "What tools are included in the Python data science stack, and why do we use Anaconda?",
+    "gold_chunk_id": [
+      "eods_week01_data_science_tools_p4_b3_text",
+      "eods_week01_data_science_tools_p10_b2_text",
+      "eods_week01_data_science_tools_p10_b3_text"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "What makes a Python tuple different from a list?",
+    "gold_chunk_id": [
+      "eods_week02_python_and_numpy_p58_b2_text",
+      "eods_week02_python_and_numpy_p59_b2_text",
+      "eods_week02_python_and_numpy_p60_b2_text"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "How does a Python dictionary store data?",
+    "gold_chunk_id": [
+      "eods_week02_python_and_numpy_p46_b2_text",
+      "eods_week02_python_and_numpy_p47_b2_text",
+      
+      "eods_week02_python_and_numpy_p48_b2_text"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "How do I select rows and columns in a pandas DataFrame using loc and iloc?",
+    "gold_chunk_id": [
+      "eods_week03_pandas_visualization_dataexploration_p46_b5_text",
+      "eods_week03_pandas_visualization_dataexploration_p50_b3_text",
+      "eods_week03_pandas_visualization_dataexploration_p100_b2_text",
+      "eods_week03_pandas_visualization_dataexploration_p100_b3_text"
+    ]
+  },
+  {
+    "id": 5,
+    "question": "How can pandas slicing use labels to select rows or columns?",
+    "gold_chunk_id": [
+      "eods_week03_pandas_visualization_dataexploration_p62_b2_text",
+      "eods_week03_pandas_visualization_dataexploration_p63_b2_text",
+      "eods_week03_pandas_visualization_dataexploration_p65_b5_text"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "What are quartiles and IQR used for when exploring numeric spread?",
+    "gold_chunk_id": [
+      "eods_week03_pandas_visualization_dataexploration_p165_b2_text",
+      "eods_week03_pandas_visualization_dataexploration_p167_b6_text_inline_math",
+      "eods_week03_pandas_visualization_dataexploration_p167_b7_text"
+    ]
+  },
+  {
+    "id": 7,
+    "question": "What does correlation measure in exploratory data analysis?",
+    "gold_chunk_id": [
+      "eods_week03_pandas_visualization_dataexploration_p178_b4_text",
+      "eods_week03_pandas_visualization_dataexploration_p178_b8_text",
+      "eods_week03_pandas_visualization_dataexploration_p178_b10_text"
+    ]
+  },
+  {
+    "id": 8,
+    "question": "How should we interpret a confidence interval, and what does it not mean?",
+    "gold_chunk_id": [
+      "eods_week04_confidence_intervals_and_hypothesis_testing_p50_b2_text",
+      "eods_week04_confidence_intervals_and_hypothesis_testing_p50_b3_text",
+      "eods_week04_confidence_intervals_and_hypothesis_testing_p50_b4_text"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "What does a p-value mean in hypothesis testing?",
+    "gold_chunk_id": [
+      "eods_week04_confidence_intervals_and_hypothesis_testing_p116_b3_text",
+      "eods_week04_confidence_intervals_and_hypothesis_testing_p116_b4_text_inline_math",
+      "eods_week04_confidence_intervals_and_hypothesis_testing_p117_b4_text_inline_math"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "How does simple linear regression model a target using a slope and intercept?",
+    "gold_chunk_id": [
+      "eods_week05_intro_to_machine_learning_models_p40_b2_formula",
+      "eods_week05_intro_to_machine_learning_models_p40_b5_text",
+      "eods_week05_intro_to_machine_learning_models_p40_b6_text"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "How does ordinary least squares fit a linear regression line?",
+    "gold_chunk_id": [
+      "eods_week05_intro_to_machine_learning_models_p42_b3_text_inline_math",
+      "eods_week05_intro_to_machine_learning_models_p42_b6_text"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "What is logistic regression used for?",
+    "gold_chunk_id": [
+      "eods_week06_intro_to_machine_learning_models_continued_p68_b5_text",
+      "eods_week06_intro_to_machine_learning_models_continued_p68_b9_text",
+      "eods_week05_intro_to_machine_learning_models_p100_b10_formula"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "How do train test splits help evaluate model generalization?",
+    "gold_chunk_id": [
+      "eods_week07_model_evaluation_and_hyperparameter_tuning_p20_b8_text",
+      "eods_week07_model_evaluation_and_hyperparameter_tuning_p21_b4_text",
+      "eods_week07_model_evaluation_and_hyperparameter_tuning_p21_b5_text"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "How does k-fold cross-validation train and test models?",
+    "gold_chunk_id": [
+      "eods_week07_model_evaluation_and_hyperparameter_tuning_p42_b2_text",
+      "eods_week07_model_evaluation_and_hyperparameter_tuning_p42_b4_text",
+      "eods_week07_model_evaluation_and_hyperparameter_tuning_p42_b5_text"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "How can LASSO regularization help avoid overfitting?",
+    "gold_chunk_id": [
+      "eods_week07_model_evaluation_and_hyperparameter_tuning_p98_b3_text",
+      "eods_week07_model_evaluation_and_hyperparameter_tuning_p98_b5_text_inline_math",
+      "eods_week09_joining_data_and_dimensionality_reduction_p55_b2_text"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "How can missing values be filled or imputed during data cleaning?",
+    "gold_chunk_id": [
+      "eods_week08_data_cleaning_and_feature_engineering_p49_b3_text",
+      "eods_week08_data_cleaning_and_feature_engineering_p54_b7_text",
+      "eods_week08_data_cleaning_and_feature_engineering_p70_b2_text"
+    ]
+  },
+  {
+    "id": 17,
+    "question": "What is feature engineering and what are examples like binning or derived features?",
+    "gold_chunk_id": [
+      "eods_week08_data_cleaning_and_feature_engineering_p105_b2_text",
+      "eods_week08_data_cleaning_and_feature_engineering_p105_b4_text",
+      "eods_week08_data_cleaning_and_feature_engineering_p128_b2_text"
+    ]
+  },
+  {
+    "id": 18,
+    "question": "How do joins combine pandas DataFrames on row index labels?",
+    "gold_chunk_id": [
+      "eods_week09_joining_data_and_dimensionality_reduction_p10_b2_text",
+      "eods_week09_joining_data_and_dimensionality_reduction_p16_b6_text"
+    ]
+  },
+  {
+    "id": 19,
+    "question": "Why might dimensionality reduction improve model performance or speed?",
+    "gold_chunk_id": [
+      "eods_week09_joining_data_and_dimensionality_reduction_p42_b2_text",
+      "eods_week09_joining_data_and_dimensionality_reduction_p42_b3_text",
+      "eods_week09_joining_data_and_dimensionality_reduction_p42_b4_text"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "How does PCA reduce dimensionality while preserving variance?",
+    "gold_chunk_id": [
+      "eods_week09_joining_data_and_dimensionality_reduction_p95_b6_text",
+      "eods_week09_joining_data_and_dimensionality_reduction_p96_b6_text",
+      "eods_week09_joining_data_and_dimensionality_reduction_p107_b1_text",
+      "eods_week09_joining_data_and_dimensionality_reduction_p126_b1_text"
+    ]
+  }
+]
