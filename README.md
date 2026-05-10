@@ -34,6 +34,8 @@ scripts/
   retrieval/            FAISS index building, retrieval, generation, evaluation
   run_before_chunk.py   Prepares cleaned blocks before chunking
   demo_server.py        Local backend server for the UI
+  evaluate_three_datasets.ipynb
+                        Notebook for running retrieval evaluation across EODS, ADL, and 5703
 
 demo_ui/
   index.html            Demo frontend
@@ -105,7 +107,7 @@ export OPENAI_API_KEY="your_api_key_here"
 If you are using a different Python environment, install the core dependencies:
 
 ```bash
-pip install openai faiss-cpu docling pillow paddleocr paddlepaddle
+pip install openai faiss-cpu docling pillow paddleocr paddlepaddle pix2tex numpy pandas ipykernel jupyterlab
 ```
 
 ### 2. Build or Rebuild a Course Knowledge Base
@@ -182,23 +184,25 @@ Example:
 ```bash
 python scripts/retrieval/test_retrieval.py \
   --course-id eods \
-  --eval-json data/test/eods_retrieval_eval_40.json \
-  --target both \
-  --method dense_rerank \
-  --candidate-k 4
+  --eval-json data/test/eods_retrieval_eval_40.json
 ```
 
-The evaluator reports standard retrieval metrics, including recall, precision, MRR, and nDCG.
+Common options:
 
-An EODS evaluation run on 40 manually selected question-evidence examples with `target=both` and `method=dense_rerank` produced:
+- `--course-id`: choose which course index to evaluate, such as `eods`, `adl`, or `5703`.
+- `--eval-json`: choose the gold evaluation file, such as `data/test/eods_retrieval_eval_20.json` or `data/test/eods_retrieval_eval_40.json`.
+- `--target`: choose the retrieval corpus: `atomic`, `semantic`, or `both`. The default is `both`.
+- `--method`: choose the retrieval strategy: `bm25`, `dense`, `hybrid`, or `dense_rerank`. The default is `dense_rerank`.
+- `--candidate-k`: choose how many candidate chunks are retrieved before evaluation. The default is `4`; larger values usually improve recall but may reduce precision.
+- `--verbose`: print top retrieved chunks for each query, which is useful for debugging retrieval failures.
 
-| k | Recall | Precision | MRR | nDCG |
-|---|---:|---:|---:|---:|
-| 2 | 0.4771 | 0.4875 | 0.6875 | 0.5699 |
-| 3 | 0.5604 | 0.3833 | 0.7042 | 0.5505 |
-| 4 | 0.6104 | 0.3187 | 0.7104 | 0.5769 |
+To evaluate all three course datasets in one place, open:
 
-Increasing `k` improves recall by retrieving more gold evidence, while precision usually drops because the result set includes more non-gold chunks.
+```text
+scripts/evaluate_three_datasets.ipynb
+```
+
+The notebook directly calls `scripts/retrieval/test_retrieval.py` for EODS, ADL, and 5703, then summarizes recall, precision, MRR, and nDCG in pandas tables.
 
 ### 6. Reproducibility Checklist
 
@@ -240,6 +244,8 @@ This project is motivated by work in dense retrieval, RAG, corrective RAG, conte
   Models. https://arxiv.org/abs/2407.01449
 
 ## Demo Usage
+
+Demo recording link: https://drive.google.com/file/d/1mv3pHohkSE9gQuw3Ky1dJ18SRuKCIdCh/view?usp=drive_link
 
 Start the local demo server from the repository root:
 

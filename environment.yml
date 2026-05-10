@@ -5,9 +5,14 @@ dependencies:
   - python=3.11
   - pip
   - faiss-cpu
+  - ipykernel
+  - jupyterlab
+  - numpy
+  - pandas
   - pip:
       - docling
       - pillow
       - openai
       - paddleocr
       - paddlepaddle
+      - pix2tex
