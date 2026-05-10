@@ -1,4 +1,4 @@
-# Course RAG: A Course Knowledge Assistant
+# Course RAG: A Transferable Course Knowledge Assistant
 
 This project is a course-specific Retrieval-Augmented Generation system for answering student questions from structured course materials. Instead of relying on a general-purpose chatbot's internal memory, the system converts lecture slides and course PDFs into a searchable knowledge base, retrieves relevant course chunks, and generates answers grounded in those chunks with source citations.
 
@@ -11,7 +11,7 @@ The system currently supports multiple indexed courses, including Elements of Da
 - **Ask questions across courses**: Select an indexed course and ask natural-language questions about its lectures, notes, quizzes, or homework materials.
 - **Get cited answers**: Receive answers grounded in retrieved course content, with inline citations such as `[S1]`.
 - **Inspect source evidence**: Review the retrieved text, formula, figure, and semantic chunks behind each citation, including document/page references and figure previews when available.
-- **Continue the conversation**: Ask follow-up questions such as "Can you give an example?" while the assistant uses recent conversation context to interpret the request.
+- **Short-term Memory**: Ask follow-up questions such as "Can you give an example?" while the assistant uses recent conversation context to interpret the request.
 - **Tune the QA behavior**: Adjust retrieval and generation settings from the UI, including FAISS/BM25 weights, candidate count, memory window, and model choices.
 - **Create new course assistants**: Add a new course ID/name, upload PDFs, and run the ingestion/indexing pipeline from the demo interface.
 - **Update existing courses**: Add more PDFs to an existing course and rebuild the searchable knowledge base without leaving the UI.
@@ -246,6 +246,8 @@ This project is motivated by work in dense retrieval, RAG, corrective RAG, conte
 ## Demo Usage
 
 Demo recording link: https://drive.google.com/file/d/1mv3pHohkSE9gQuw3Ky1dJ18SRuKCIdCh/view?usp=drive_link
+<img width="2048" height="1158" alt="7b91163e26c984cf7741ba3c81af2359" src="https://github.com/user-attachments/assets/cb173ca4-39a7-4d98-8afc-51bbfb1e30b7" />
+
 
 Start the local demo server from the repository root:
 
