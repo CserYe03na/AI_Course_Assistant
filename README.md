@@ -1,84 +1,22 @@
-# AI Course Assistant
+# Course RAG: A Course Knowledge Assistant
 
-AI Course Assistant is a course-specific Retrieval-Augmented Generation (RAG)
-system for answering student questions from structured course materials. Instead
-of relying on a general-purpose chatbot's internal memory, the system converts
-lecture slides and other course PDFs into a searchable knowledge base, retrieves
-relevant course chunks, and generates answers grounded in those chunks with
-source citations.
+This project is a course-specific Retrieval-Augmented Generation system for answering student questions from structured course materials. Instead of relying on a general-purpose chatbot's internal memory, the system converts lecture slides and course PDFs into a searchable knowledge base, retrieves relevant course chunks, and generates answers grounded in those chunks with source citations.
 
-The project was developed for a GenAI final project by Serena Cheng, Fei Xue,
-and Yining Tao.
+The project was developed for the STATS-G5293 Generative AI course final project by Serena Cheng, Fei Xue, and Yining Tao.
 
-## Project Objective
+The system currently supports multiple indexed courses, including Elements of Data Science (EODS), Applied Deep Learning (ADL), and Statistical Inference (5703).
 
-The goal is to build a transferable course knowledge assistant that can:
+## Key Features
 
-- ingest heterogeneous course materials such as slides, notes, quizzes, and
-  homework PDFs;
-- clean and organize them into a reusable course knowledge base;
-- retrieve relevant evidence for student questions;
-- generate answers that are grounded in the retrieved materials;
-- cite the supporting lecture document and page numbers;
-- evaluate retrieval quality using standard information retrieval metrics; and
-- adapt the same pipeline to multiple courses with limited manual changes.
-
-The system currently supports multiple indexed courses, including Elements of
-Data Science (EODS), Applied Deep Learning (ADL), and Statistical Inference.
-
-## Key Ideas
-
-This project is not an open-domain chatbot. It is a course-bound RAG system.
-That design choice is important because educational answers need to be
-verifiable, aligned with course materials, and traceable to source documents.
-
-The main technical ideas are:
-
-- **Document conversion**: PDF slides are parsed into structured page/block JSON
-  using Docling.
-- **Course-specific cleaning**: Each course has a custom post-processing script to
-  handle notebook screenshots, OCR noise, formulas, and code-like slide content.
-- **Structured chunking**: The system builds both atomic chunks and semantic
-  chunks.
-- **Separated retrieval and generation fields**: Chunks store both
-  `content_for_embedding` and `content_for_generation`.
-- **Hybrid retrieval**: FAISS dense retrieval can be combined with BM25 keyword
-  retrieval and reranking.
-- **Grounded generation**: The answer generator receives only retrieved course
-  context and is instructed to cite source labels.
-- **Evaluation**: Retrieval is evaluated with gold question-evidence sets using
-  recall, precision, MRR, and nDCG.
-- **Transferability**: The pipeline is modular, so a new course can be added by
-  placing PDFs in `data/raw/<course_id>/` and running the ingestion/indexing
-  pipeline.
-
-## System Pipeline
-
-The end-to-end pipeline is:
-
-```text
-PDF course materials
-→ scripts/extraction/extract_course_documents.py
-→ data/processed/<course>/<course>_document.json
-→ course-specific or generic post-processing
-→ data/processed/<course>/<course>_processed.json
-→ scripts/run_before_chunk.py
-→ data/processed/<course>/<course>_merged.json
-→ scripts/chunk/atomic_chunk.py
-→ data/chunk/<course>_atomic_chunks.json
-→ scripts/chunk/atomic_embedding.py
-→ data/chunk/<course>_atomic_embeddings.json
-→ scripts/chunk/semantic_chunk.py
-→ data/chunk/<course>_semantic_chunks.json
-→ scripts/chunk/semantic_embedding.py
-→ data/chunk/<course>_semantic_embeddings.json
-→ scripts/retrieval/build_faiss_index.py
-→ data/retrieval/<course>_atomic.faiss
-→ data/retrieval/<course>_semantic.faiss
-→ scripts/retrieval/retrieve_faiss_bm25.py
-→ scripts/retrieval/generate_answer.py
-→ scripts/demo_server.py + demo_ui/
-```
+- **Ask questions across courses**: Select an indexed course and ask natural-language questions about its lectures, notes, quizzes, or homework materials.
+- **Get cited answers**: Receive answers grounded in retrieved course content, with inline citations such as `[S1]`.
+- **Inspect source evidence**: Review the retrieved text, formula, figure, and semantic chunks behind each citation, including document/page references and figure previews when available.
+- **Continue the conversation**: Ask follow-up questions such as "Can you give an example?" while the assistant uses recent conversation context to interpret the request.
+- **Tune the QA behavior**: Adjust retrieval and generation settings from the UI, including FAISS/BM25 weights, candidate count, memory window, and model choices.
+- **Create new course assistants**: Add a new course ID/name, upload PDFs, and run the ingestion/indexing pipeline from the demo interface.
+- **Update existing courses**: Add more PDFs to an existing course and rebuild the searchable knowledge base without leaving the UI.
+- **Track processing progress**: Monitor ingestion stages while course documents are extracted, cleaned, chunked, embedded, and indexed.
+- **Support multimodal course content**: Work with course materials containing prose, formulas, figures, code examples, notebook screenshots, and slide images.
 
 ## Repository Structure
 
@@ -86,7 +24,7 @@ PDF course materials
 data/
   raw/                  Raw course PDFs
   processed/            Extracted and cleaned document JSON
-  chunk/                Atomic/semantic chunks and local embedding JSON files
+  chunk/                Atomic/semantic chunks; large embedding JSON files are stored externally
   retrieval/            FAISS indexes and metadata
   test/                 Retrieval evaluation datasets
 
@@ -94,8 +32,8 @@ scripts/
   extraction/           PDF extraction and document post-processing
   chunk/                Atomic chunking, semantic chunking, embeddings
   retrieval/            FAISS index building, retrieval, generation, evaluation
-  demo_server.py        Local backend server for the UI
   run_before_chunk.py   Prepares cleaned blocks before chunking
+  demo_server.py        Local backend server for the UI
 
 demo_ui/
   index.html            Demo frontend
@@ -103,306 +41,55 @@ demo_ui/
   styles.css            UI styles
 ```
 
-## Core Components
+## Architecture
 
-### 1. PDF Extraction
+### 1. Data Preprocessing
 
-Main script:
+- `scripts/extraction/extract_course_documents.py` parses PDFs from `data/raw/<course_id>/` into normalized document JSON at `data/processed/<course_id>/<course_id>_document.json`.
+- Course-specific post-processors, such as `post_process_document_eods.py`, `post_process_document_adl.py`, and `post_process_document_5703.py`, clean extracted blocks and handle artifacts such as OCR noise, code screenshots, figure text, and malformed formulas.
+- `scripts/extraction/post_process_document_generic.py` provides a reusable fallback for courses without custom cleaning logic.
 
-```text
-scripts/extraction/extract_course_documents.py
-```
+### 2. Pre-Chunk Enrichment
 
-This script reads PDFs from:
+- `scripts/run_before_chunk.py` coordinates the follwing text, formula, and figure preparation before chunking.
+- `scripts/extraction/text_before_chunk.py`, `formula_before_chunk.py`, and `figure_before_chunk.py` enrich blocks with fields such as `section_title`, `nearby_text_before`, `nearby_text_after`, `formula_focus`, `formula_explanation`, `visual_description`, and `math_spans`.
+- The merged output is written to `data/processed/<course_id>/<course_id>_merged.json`.
 
-```text
-data/raw/<course_id>/*.pdf
-```
+### 3. Chunking
 
-and writes:
+- `scripts/chunk/atomic_chunk.py` creates small retrieval units for text, formulas, figures, and inline-math content.
+- `scripts/chunk/semantic_chunk.py` merges adjacent atomic chunks using embedding similarity, section continuity, document/page order, token limits, and auxiliary figure context.
+- Atomic chunks maximize retrieval precision; semantic chunks provide broader context for generation.
 
-```text
-data/processed/<course_id>/<course_id>_document.json
-```
+### 4. Embedding
 
-It uses Docling to parse slides into a normalized schema:
+- `scripts/chunk/atomic_embedding.py` embeds atomic chunks.
+- `scripts/chunk/semantic_embedding.py` embeds semantic chunks.
+- Embedding records are stored under `data/chunk/` and keep retrieval-optimized text separate from generation-ready content.
 
-- `DocumentData`
-- `PageData`
-- `Block`
+### 5. Indexing
 
-Each block stores text, type, page location, bounding box, reading order, and
-optional image paths for figures or formulas. The extraction step maps Docling
-items into simplified internal block types such as `title`, `text`, `figure`,
-`table`, and `formula`.
+- `scripts/retrieval/build_faiss_index.py` builds local FAISS indexes for atomic and semantic embeddings.
+- Vectors are L2-normalized, and FAISS inner-product search is used as cosine-similarity search.
+- Index files and metadata are written to `data/retrieval/`.
 
-Bounding boxes are important because later cleaning logic can identify whether
-OCR text came from inside a figure or notebook screenshot.
+### 6. Retrieval
 
-### 2. Example of Post-Processing for EODS
+- `scripts/retrieval/retrieve_faiss_bm25.py` supports `bm25`, `dense`, `hybrid`, and `dense_rerank` retrieval.
+- Hybrid retrieval combines FAISS and BM25 rankings with Reciprocal Rank Fusion.
+- Dense reranking combines dense scores, BM25 scores, diversity controls, formula/figure preferences, low-information penalties, and same-page repetition penalties.
 
-Main script:
+### 7. Generation
 
-```text
-scripts/extraction/post_process_document_eods.py
-```
+- `scripts/retrieval/generate_answer.py` retrieves candidate chunks, selects source-grounded context, renders source labels, and calls the OpenAI Responses API.
+- The generation prompt asks the model to answer only from retrieved course context, cite sources inline, and include a short Sources section.
+- The demo server adds short conversation memory through recent turns, a rolling summary, and the current topic while keeping final answers grounded in retrieved chunks.
 
-Input:
+## Reproducible Workflow
 
-```text
-data/processed/eods/eods_document.json
-```
+### 1. Environment Setup
 
-Output:
-
-```text
-data/processed/eods/eods_processed.json
-```
-
-This script is a custom cleaning layer for Elements of Data Science. EODS slides
-contain many Jupyter notebook screenshots. Docling may extract those screenshots
-both as figure crops and as OCR text. Some of that OCR text is useful code, while
-some of it is noise such as axis labels, chart ticks, or fragmented table text.
-
-The EODS post-processing script:
-
-- detects whether text blocks are inside figure bounding boxes;
-- identifies useful Python, shell, and notebook-style code;
-- converts detected code blocks into `type = "code"`;
-- splits code-like text into `code_segments`;
-- removes figure OCR noise such as chart labels and short numeric fragments;
-- cleans formula text;
-- classifies formula quality as `good`, `noisy`, or `truncated`; and
-- rewrites reading order after filtering blocks.
-
-This step is important because it preserves useful notebook examples while
-removing low-value OCR artifacts before chunking.
-
-### 3. Pre-Chunk Processing
-
-Main scripts:
-
-```text
-scripts/run_before_chunk.py
-scripts/extraction/text_before_chunk.py
-scripts/extraction/formula_before_chunk.py
-scripts/extraction/figure_before_chunk.py
-```
-
-These scripts prepare cleaned blocks for retrieval-aware chunking. They add
-fields such as:
-
-- `section_title`
-- `nearby_text_before`
-- `nearby_text_after`
-- `formula_focus`
-- `formula_explanation`
-- `visual_description`
-- `math_spans`
-
-The output is:
-
-```text
-data/processed/<course_id>/<course_id>_merged.json
-```
-
-### 4. Atomic Chunks
-
-Main script:
-
-```text
-scripts/chunk/atomic_chunk.py
-```
-
-Atomic chunks are small, precise retrieval units. The system builds different
-chunk types:
-
-- `text`
-- `formula`
-- `figure`
-- `text_inline_math`
-
-Each chunk stores:
-
-- `content_for_embedding`: concise text optimized for retrieval;
-- `content_for_generation`: richer structured content for the LLM;
-- `metadata`: document id, page number, block id, bounding box, and other source
-  information; and
-- `raw_fields`: additional source fields for debugging or future processing.
-
-The separation between embedding and generation content is central to the
-system. Retrieval benefits from concise, normalized text, while generation
-benefits from richer structured context.
-
-### 5. Semantic Chunks
-
-Main script:
-
-```text
-scripts/chunk/semantic_chunk.py
-```
-
-Semantic chunks are built from atomic chunks. Instead of using a fixed window
-size, the script uses adjacent embedding similarity and section information to
-decide when to merge neighboring atomic chunks.
-
-The semantic chunking logic considers:
-
-- document id;
-- page and block order;
-- cosine similarity between chunk embeddings;
-- section title continuity;
-- token limits; and
-- auxiliary non-indexable figure chunks.
-
-Atomic chunks are precise, while semantic chunks provide broader context for
-generation.
-
-### 6. Embeddings and FAISS Indexes
-
-Main scripts:
-
-```text
-scripts/chunk/atomic_embedding.py
-scripts/chunk/semantic_embedding.py
-scripts/retrieval/build_faiss_index.py
-```
-
-The embedding scripts use OpenAI embeddings to encode atomic and semantic
-chunks. The FAISS builder reads embedding JSON files, normalizes vectors, and
-stores local vector indexes:
-
-```python
-faiss.normalize_L2(matrix)
-index = faiss.IndexFlatIP(matrix.shape[1])
-index.add(matrix)
-```
-
-Because vectors are L2-normalized, inner product search behaves like cosine
-similarity.
-
-Embedding JSON files can be large and are ignored by Git:
-
-```text
-data/chunk/*_embeddings.json
-```
-
-### 7. Retrieval
-
-Main script:
-
-```text
-scripts/retrieval/retrieve_faiss_bm25.py
-```
-
-The retrieval module supports four methods:
-
-- `bm25`: keyword-based retrieval;
-- `dense`: FAISS vector search;
-- `hybrid`: FAISS + BM25 with Reciprocal Rank Fusion (RRF);
-- `dense_rerank`: dense candidate retrieval followed by reranking with dense
-  score, BM25 score, and heuristic bonuses/penalties.
-
-Dense retrieval embeds the user query, normalizes it, and searches against the
-stored FAISS index.
-
-BM25 retrieval tokenizes the query and chunk text, then scores exact keyword
-matches.
-
-Hybrid retrieval combines rankings using RRF:
-
-```text
-combined_score += weight / (rrf_k + rank)
-```
-
-`dense_rerank` is the default retrieval method. It retrieves a larger dense
-candidate pool, computes BM25 scores over those candidates, normalizes both
-signals, and reranks with additional logic for:
-
-- semantic/atomic diversity;
-- formula preference;
-- figure preference;
-- low-information text penalties;
-- query mismatch penalties; and
-- same-page repetition penalties.
-
-### 8. Grounded Answer Generation
-
-Main script:
-
-```text
-scripts/retrieval/generate_answer.py
-```
-
-Generation happens after retrieval. The script:
-
-1. receives the student query;
-2. calls the retrieval module;
-3. selects context chunks;
-4. renders `content_for_generation` into a source-labeled context block;
-5. builds a prompt containing the question, context, and optional conversation
-   memory; and
-6. calls the OpenAI Responses API to generate an answer.
-
-The prompt instructs the model to:
-
-- answer only from retrieved course context;
-- say what is missing if the context is insufficient;
-- cite source labels inline, such as `[S1]`;
-- end with a short Sources section;
-- avoid raw LaTeX notation in final answers; and
-- use readable Unicode-style math when formulas are needed.
-
-The system preserves formula fields such as `formula_latex`,
-`formula_explanation`, and `math_spans` during retrieval, but final formula
-formatting is controlled by the generation prompt rather than by a deterministic
-LaTeX-to-Unicode converter.
-
-### 9. Conversation Memory
-
-The demo supports short conversational memory with:
-
-- `recent_turns`
-- `conversation_summary`
-- `current_topic`
-
-Recent turns help with follow-up questions such as "Can you give an example?"
-or "Why?" Older context can be compressed into a rolling summary. The current
-topic helps resolve vague follow-up references.
-
-Memory is used only to interpret follow-up questions. The answer is still
-grounded in retrieved course chunks.
-
-### 10. Demo UI
-
-Frontend:
-
-```text
-demo_ui/index.html
-demo_ui/app.js
-demo_ui/styles.css
-```
-
-Backend:
-
-```text
-scripts/demo_server.py
-```
-
-The UI supports:
-
-- selecting an indexed course;
-- asking questions;
-- adjusting retrieval/generation settings;
-- viewing generated answers;
-- viewing cited sources;
-- creating a new course;
-- adding PDFs to an existing course; and
-- running ingestion and indexing from the interface.
-
-## Setup
-
-Create the environment:
+Create and activate the conda environment:
 
 ```bash
 conda env create -f environment.yml
@@ -415,79 +102,56 @@ Set your OpenAI API key:
 export OPENAI_API_KEY="your_api_key_here"
 ```
 
-If you are using the base conda environment instead of the named environment,
-make sure the required packages are installed:
+If you are using a different Python environment, install the core dependencies:
 
 ```bash
 pip install openai faiss-cpu docling pillow paddleocr paddlepaddle
 ```
 
-## Running the Demo UI
+### 2. Build or Rebuild a Course Knowledge Base
 
-From the repository root:
-
-```bash
-python scripts/demo_server.py
-```
-
-If your shell does not resolve the correct Python, use the conda Python directly:
-
-```bash
-/opt/miniconda3/bin/python scripts/demo_server.py
-```
-
-Open:
-
-```text
-http://127.0.0.1:8000
-```
-
-If port 8000 is already in use:
-
-```bash
-python scripts/demo_server.py --port 8001
-```
-
-## Rebuilding a Course Index Manually
-
-Place PDFs under:
+Place course PDFs under:
 
 ```text
 data/raw/<course_id>/
 ```
 
-For EODS:
+The examples below use `Elements of Data Science` as the sample course.
+
+Run extraction:
 
 ```bash
 python scripts/extraction/extract_course_documents.py \
   --course-id eods \
   --course-name "Elements of Data Science"
-
-python scripts/extraction/post_process_document_eods.py
-
-python scripts/run_before_chunk.py --course-id eods
-
-python scripts/chunk/atomic_chunk.py --course-id eods
-
-python scripts/chunk/atomic_embedding.py --course-id eods
-
-python scripts/chunk/semantic_chunk.py --course-id eods
-
-python scripts/chunk/semantic_embedding.py --course-id eods
-
-python scripts/retrieval/build_faiss_index.py --course-id eods --target both
 ```
 
-For a course without a custom post-processing script, use the generic
-post-processor:
+Run course-specific or generic post-processing:
+
+```bash
+python scripts/extraction/post_process_document_eods.py
+```
+
+For a course without a custom processor:
 
 ```bash
 python scripts/extraction/post_process_document_generic.py --course-id <course_id>
 ```
 
-## Running Retrieval
+Run the full chunking and indexing pipeline:
 
-Example:
+```bash
+python scripts/run_before_chunk.py --course-id eods
+python scripts/chunk/atomic_chunk.py --course-id eods
+python scripts/chunk/atomic_embedding.py --course-id eods
+python scripts/chunk/semantic_chunk.py --course-id eods
+python scripts/chunk/semantic_embedding.py --course-id eods
+python scripts/retrieval/build_faiss_index.py --course-id eods --target both
+```
+
+The embedding outputs, such as `<course_id>_atomic_embeddings.json` and `<course_id>_semantic_embeddings.json`, are too large to keep in the repository. Precomputed embedding JSON files are stored in [Google Drive](https://drive.google.com/drive/u/1/folders/1CFyPW-eOTLl8XfMbOfz1_KgifovqX-c4). To reuse them, download the files into `data/chunk/` before running `scripts/retrieval/build_faiss_index.py`.
+
+### 3. Run Retrieval
 
 ```bash
 python scripts/retrieval/retrieve_faiss_bm25.py \
@@ -499,9 +163,7 @@ python scripts/retrieval/retrieve_faiss_bm25.py \
   --candidate-k 30
 ```
 
-## Running Generation
-
-Example:
+### 4. Run Generation
 
 ```bash
 python scripts/retrieval/generate_answer.py \
@@ -509,27 +171,13 @@ python scripts/retrieval/generate_answer.py \
   --query "How does PCA reduce dimensionality while preserving variance?"
 ```
 
-The answer should include source citations such as `[S1]` and a Sources section
-with document/page references.
+The generated answer should include inline source citations such as `[S1]` and a Sources section with document/page references.
 
-## Retrieval Evaluation
+### 5. Evaluate Retrieval
 
-Gold retrieval evaluation files are stored in:
+Gold retrieval evaluation files are stored in `data/test/`.
 
-```text
-data/test/
-```
-
-Examples:
-
-```text
-data/test/eods_retrieval_eval_20.json
-data/test/eods_retrieval_eval_40.json
-data/test/adl_retrieval_eval_20.json
-data/test/adl_retrieval_eval_40.json
-```
-
-Run EODS evaluation:
+Example:
 
 ```bash
 python scripts/retrieval/test_retrieval.py \
@@ -540,22 +188,9 @@ python scripts/retrieval/test_retrieval.py \
   --candidate-k 4
 ```
 
-The evaluator reports:
+The evaluator reports standard retrieval metrics, including recall, precision, MRR, and nDCG.
 
-- `recall@k`: how many gold chunks are retrieved in the top k;
-- `precision@k`: how many retrieved chunks are relevant;
-- `MRR`: how early the first relevant chunk appears;
-- `nDCG`: how well relevant chunks are ranked near the top.
-
-## Results
-
-The table below shows an EODS retrieval evaluation run on 40 manually selected
-question-evidence examples using both atomic and semantic chunks with
-`dense_rerank` retrieval:
-
-```text
-Evaluated 40 queries | target=both | method=dense_rerank
-```
+An EODS evaluation run on 40 manually selected question-evidence examples with `target=both` and `method=dense_rerank` produced:
 
 | k | Recall | Precision | MRR | nDCG |
 |---|---:|---:|---:|---:|
@@ -563,118 +198,33 @@ Evaluated 40 queries | target=both | method=dense_rerank
 | 3 | 0.5604 | 0.3833 | 0.7042 | 0.5505 |
 | 4 | 0.6104 | 0.3187 | 0.7104 | 0.5769 |
 
-These results show the expected retrieval tradeoff: increasing `k` improves
-recall because more gold evidence chunks are retrieved, while precision becomes
-lower because the result set includes more non-gold chunks. MRR and nDCG measure
-whether relevant chunks appear near the top of the ranked list.
+Increasing `k` improves recall by retrieving more gold evidence, while precision usually drops because the result set includes more non-gold chunks.
 
-There is also an older EODS sanity test:
+### 6. Reproducibility Checklist
 
-```bash
-python scripts/chunk/test_retrieval_eods.py --targets both --top-k 5
-```
+- `environment.yml` defines the Python environment.
+- Raw course materials are stored under `data/raw/`.
+- Processed documents, chunks, FAISS indexes, and retrieval metadata are stored under `data/processed/`, `data/chunk/`, and `data/retrieval/`.
+- Large embedding JSON files are stored externally in [Google Drive](https://drive.google.com/drive/u/1/folders/1CFyPW-eOTLl8XfMbOfz1_KgifovqX-c4) and should be placed under `data/chunk/` when reproducing precomputed indexes.
+- Retrieval evaluation datasets are stored under `data/test/`.
+- Rebuild commands cover extraction, post-processing, pre-chunk enrichment, chunking, embedding, indexing, retrieval, generation, and evaluation.
+- OpenAI-dependent steps require `OPENAI_API_KEY` and the same embedding/generation model names for comparable results.
 
-This checks representative EODS queries against expected keywords and chunk
-types.
+### 7. Evaluation Scope
 
-## Example Questions
+The project focuses on retrieval quality, answer grounding, citation accuracy, source traceability, and transferability across courses. Large-scale model pretraining, production deployment, video/audio processing, and complex personalization are outside the current scope.
 
-EODS examples:
+### 8. Troubleshooting Notes
 
-```text
-What does a p-value mean in hypothesis testing?
-How does PCA reduce dimensionality while preserving variance?
-How do train-test split and cross-validation help evaluate machine learning models?
-What are the exam traps and key checks to remember when joining datasets?
-```
+- If the UI returns `Error`, check the terminal running `scripts/demo_server.py`; backend exceptions are printed there.
+- If `OPENAI_API_KEY is not set`, export the key before starting the server.
+- If no sources are returned, confirm that the course has FAISS index and metadata files in `data/retrieval/`, such as `eods_atomic.faiss`, `eods_atomic_metadata.json`, `eods_semantic.faiss`, and `eods_semantic_metadata.json`.
+- If uploaded PDFs appear stuck during extraction, check server logs; large PDFs or duplicate uploads can take longer because ingestion scans unprocessed PDFs for that course.
+- If retrieval is too broad, increase BM25 weight for exact keyword/code questions or FAISS weight for conceptual questions.
 
-Quiz-specific example:
+### 9. Related Work
 
-```text
-In the Week 8 Quiz housing data, why do we create a SqFtLot_missing column before filling SqFtLot with its mean?
-```
-
-## Evaluation Scope
-
-The system is designed to evaluate:
-
-- retrieval quality;
-- answer grounding;
-- citation accuracy;
-- source traceability; and
-- transferability across courses.
-
-The current implementation focuses on RAG and prompt-based grounded generation.
-Large-scale model pretraining, production deployment, video/audio processing,
-and complex personalization are out of scope.
-
-## Reproducibility Checklist
-
-This repository includes the following items to support reproducible setup and
-experiments:
-
-- `environment.yml` for creating a consistent Python environment.
-- Raw course material folders under `data/raw/`.
-- Processed course JSON, chunk JSON, FAISS indexes, and retrieval metadata under
-  `data/processed/`, `data/chunk/`, and `data/retrieval/`.
-- Retrieval evaluation datasets under `data/test/`.
-- End-to-end rebuild commands in this README for extraction, post-processing,
-  chunking, embedding, and FAISS indexing.
-- Evaluation commands using `scripts/retrieval/test_retrieval.py`.
-- A local demo server and frontend for interactive testing.
-
-To reproduce the EODS retrieval experiment, use:
-
-```bash
-python scripts/retrieval/test_retrieval.py \
-  --course-id eods \
-  --eval-json data/test/eods_retrieval_eval_40.json \
-  --target both \
-  --method dense_rerank \
-  --candidate-k 4
-```
-
-Because dense retrieval and generation use OpenAI APIs, reproducibility requires
-setting `OPENAI_API_KEY` and using the same embedding and generation model names
-listed in the command-line defaults.
-
-## Troubleshooting
-
-- If the UI shows `Error`, first check the terminal running
-  `scripts/demo_server.py`; the backend returns the detailed exception there.
-- If the error says `OPENAI_API_KEY is not set`, export the key before starting
-  the server:
-
-  ```bash
-  export OPENAI_API_KEY="your_api_key_here"
-  python scripts/demo_server.py
-  ```
-
-- If the model is unavailable, change the generation model in the UI advanced
-  settings or pass a model name your API key can access.
-- If no sources are returned, confirm that the course has FAISS index and
-  metadata files in `data/retrieval/`, for example:
-
-  ```text
-  data/retrieval/eods_atomic.faiss
-  data/retrieval/eods_atomic_metadata.json
-  data/retrieval/eods_semantic.faiss
-  data/retrieval/eods_semantic_metadata.json
-  ```
-
-- If uploaded PDFs appear stuck on `extract`, check the server terminal logs.
-  Large PDFs or duplicate uploads may take longer because the ingestion pipeline
-  scans all unprocessed PDFs for that course.
-- If `python` is not found, activate the conda environment or call the conda
-  Python executable directly.
-- If retrieval quality looks too broad, increase `BM25 Weight` for exact
-  keyword, code, or variable-name questions. Increase `FAISS Weight` for more
-  conceptual questions where semantic similarity matters more than exact words.
-
-## Related Work
-
-This project is motivated by work in dense retrieval, RAG, corrective RAG,
-document conversion, contextual chunking, and visual document understanding:
+This project is motivated by work in dense retrieval, RAG, corrective RAG, contextual chunking, document conversion, and visual document understanding, including Dense Passage Retrieval, Retrieval-Augmented Generation, Corrective RAG, Late Chunking, Docling, and ColPali.
 
 - Karpukhin et al. Dense Passage Retrieval for Open-Domain Question Answering.
   https://arxiv.org/abs/2004.04906
@@ -689,11 +239,50 @@ document conversion, contextual chunking, and visual document understanding:
 - Faysse et al. ColPali: Efficient Document Retrieval with Vision Language
   Models. https://arxiv.org/abs/2407.01449
 
-## Notes
+## Demo Usage
 
-- `OPENAI_API_KEY` is required for embedding, dense retrieval, and generation.
-- Embedding JSON files are large and ignored by Git.
-- `.DS_Store` files are local macOS artifacts and should not be committed.
-- If the UI shows `No conversation memory yet`, that is normal before a
-  successful conversation. If it also shows `Error`, check the server terminal
-  for API key, model, or index-file errors.
+Start the local demo server from the repository root:
+
+```bash
+python scripts/demo_server.py
+```
+
+If your shell does not resolve the expected Python environment, run it with the conda Python directly:
+
+```bash
+/opt/miniconda3/bin/python scripts/demo_server.py
+```
+
+Open the demo at:
+
+```text
+http://127.0.0.1:8000
+```
+
+If port 8000 is already in use:
+
+```bash
+python scripts/demo_server.py --port 8001
+```
+
+In the demo UI, you can:
+
+- select an indexed course;
+- ask course-specific questions;
+- adjust retrieval and generation settings;
+- inspect generated answers and cited sources;
+- view figure/image sources when available;
+- create a new course;
+- upload PDFs to an existing course; and
+- run ingestion and indexing from the interface.
+
+Example questions:
+
+```text
+adl: Show me the logistic regression computational graph
+adl: How is Recall@k defined?
+adl: What is logistic regression class probabilities formula?
+5703: What does a p-value mean in hypothesis testing?
+eods: How does PCA reduce dimensionality while preserving variance?
+follow-up: Can you give an example?
+```
